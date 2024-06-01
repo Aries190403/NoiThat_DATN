@@ -1,0 +1,29 @@
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.btn-save {
+    background-color: #4CAF50; /* Màu nền */
+    border: none; /* Loại bỏ viền */
+    color: white; /* Màu chữ */
+    padding: 10px 20px; /* Khoảng cách bên trong */
+    text-align: center; /* Căn giữa văn bản */
+    text-decoration: none; /* Loại bỏ gạch chân */
+    display: inline-block; /* Hiển thị dưới dạng khối nội tuyến */
+    font-size: 16px; /* Kích thước chữ */
+    margin: 4px 2px; /* Khoảng cách ngoài */
+    cursor: pointer; /* Thay đổi con trỏ chuột khi hover */
+    border-radius: 8px; /* Bo góc */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
+    display: none; /* Ẩn nút */
+}
+
+.btn-save:hover {
+    background-color: #45a049; /* Màu nền khi hover */
+}
+
+.btn-save .ti-save {
+    margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+}
