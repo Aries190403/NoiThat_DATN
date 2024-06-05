@@ -210,7 +210,7 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-dashboard') }}" class="dropdown-toggle no-arrow">
+                    <a href="{{ route('admin-category-index') }}" class="dropdown-toggle no-arrow">
                         <span class="micon bi bi-menu-app"></span
                         ><span class="mtext">Categories</span>
                     </a>

@@ -27,3 +27,57 @@
 .btn-save .ti-save {
     margin-right: 8px; /* Khoảng cách giữa icon và chữ */
 }
+
+.f-icon {
+    font-size: 100px;
+    vertical-align: middle;
+}
+
+.icon-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.icon-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.icon-cell:hover {
+    background-color: #f0f0f0;
+}
+
+.icon-cell.selected {
+    background-color: #7b0000;
+    color: white;
+}
+
+.icon-cell.selected .f-icon {
+    color: white;
+}
+
+#selected-icon-display .f-icon {
+    font-size: 100px;
+}
+
+#icon-grid {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.select-icon-container {
+    display: flex;
+    align-items: center;
+}
+
+#show-icon-grid {
+    background-color: rgb(241, 54, 85);
+    border-color: rgb(241, 54, 85);
+}
