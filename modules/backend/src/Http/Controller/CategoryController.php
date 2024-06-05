@@ -5,6 +5,8 @@ namespace Modules\Backend\Http\Controller;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Modules\Backend\Http\Data\DataCategoryType;
 use Modules\Backend\Http\Service\CategoryService;
 
 class CategoryController extends Controller
@@ -17,38 +19,59 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::all();
-        return view('backend::category.index', compact('categories'));
+        $title = "Categoties";
+        $categories = Category::where('status', DataCategoryType::LOCK_CATEGOTY_NORMAL)->get();
+        $path = base_path('modules/backend/resources/configs/icon.json');
+        $icons = json_decode(File::get($path), true);
+        $types = config('backendconfig.types');
+        return view('backend::category.index', ['title' => $title, 'categories' => $categories, 'icons' => $icons, 'types' => $types]);
     }
 
-    public function create()
+    public function Create(Request $request)
     {
-        return view('backend::category.create');
-    }
+        $icon = $request->input('icon');
+        $contentData = [
+            'icon' => $icon
+        ];
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'nullable'
-        ]);
+        $category = new Category();
+        $category->name = $request->input('name');
+        $category->type = $request->input('type');
+        $category->content = json_encode($contentData);
+        $category->status = DataCategoryType::LOCK_CATEGOTY_NORMAL;
+        // $category->save();
 
-        Category::create($request->all());
+        return redirect()->route('admin-category-index')->with('success', 'Category updated successfully');
 
-        return redirect()->route('category-index')->with('success', 'Category created successfully.');
     }
 
     public function edit($id)
     {
-        return view('backend::category.edit',['category'=>$this->category->getId($id)]);
+        $category = Category::find($id);
+        return response()->json($category);
     }
 
     public function update(Request $request, $id)
     {
         $category = Category::find($id);
-        $category->name = (string)$request->input('name');
-        $category->description= (string)$request->input('description');
+        $content = json_decode($category->content, true);
+        $content['icon'] = $request->input('icon');
+        
+        $category->name = $request->input('name');
+        $category->type = $request->input('type');
+        $category->content = json_encode($content);
         $category->save();
-        return redirect()->route('category-index')->with('success', 'Category updated successfully.');
+
+        return redirect()->route('admin-category-index')->with('success', 'Category updated successfully');
     }
+
+
+    // public function update(Request $request, $id)
+    // {
+    //     $category = Category::find($id);
+    //     $category->name = (string)$request->input('name');
+    //     $category->description= (string)$request->input('description');
+    //     $category->save();
+    //     return redirect()->route('category-index')->with('success', 'Category updated successfully.');
+    // }
 }

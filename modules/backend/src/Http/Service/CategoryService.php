@@ -16,7 +16,7 @@ class CategoryService
     public function getProduct($menu, $request)
     {
         $query = $menu->product()
-            ->select('id', 'name', 'description');
+            ->select('id', 'name', 'description', );
         return $query
             ->orderByDesc('id')
             ->paginate(12)

@@ -106,5 +106,10 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 <link rel="stylesheet" media="all" href="{{ asset('backend/src/styles/customize.css')}}" />
+<link rel="stylesheet" media="all" href="{{ asset('frontend/css/furniture-icons.css')}}" />
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
+
 
 <!-- End Google Tag Manager -->
