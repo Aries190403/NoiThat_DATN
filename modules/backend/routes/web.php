@@ -5,16 +5,8 @@ use Modules\Backend\Http\Controller\AddressController;
 use Modules\Backend\Http\Controller\CategoryController;
 use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
+use Modules\Backend\Http\Controller\ProductController;
 use Modules\Backend\Http\Controller\UserController;
-
-// Route::get('/categories', [CategoryController::class, 'index'])->name('category-index');
-
-// Route::get('/categories/add', [CategoryController::class, 'create'])->name('category-create');
-// Route::post('/categories/add', [CategoryController::class, 'store'])->name('category-store');
-
-// Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('category-edit');
-// Route::put('/categories/update/{id}', [CategoryController::class, 'update'])->name('category-update');
-
 
 Route::middleware(['web'])->prefix('admin')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('admin-login');
@@ -28,6 +20,7 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
     Route::middleware(['role:ROLE_SUPER_ADMIN'])->group(function () {
         Route::get('/dashboard', [MainAdminController::class, 'index'])->name('admin-dashboard');
         Route::get('/users', [UserController::class, 'index'])->name('admin-user');
+        Route::get('/products', [ProductController::class, 'index'])->name('admin-product-index');
         
         Route::prefix('user')->group(function () {
             Route::post('/create', [UserController::class, 'create'])->name('admin-user-create');
@@ -44,6 +37,10 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('admin-category-edit');
             Route::post('/update/{id}', [CategoryController::class, 'update'])->name('admin-category-update');
 
+        });
+
+        Route::prefix('products')->group(function () {
+            // Route::get('/products', [ProductController::class, 'index'])->name('admin-product-index');
         });
     });
 });

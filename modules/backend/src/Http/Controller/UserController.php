@@ -4,7 +4,7 @@ namespace Modules\Backend\Http\Controller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address as ModelsAddress;
-use App\Models\pictures;
+use App\Models\picture;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -198,10 +198,10 @@ class UserController extends Controller
                 return response()->json(['success' => false, 'message' => 'Không tìm thấy người dùng.']);
             }
     
-            $image = $user->avatar ? pictures::find($user->avatar) : new pictures();
+            $image = $user->avatar ? picture::find($user->avatar) : new picture();
     
             if (!$image) {
-                $image = new pictures();
+                $image = new picture();
             }
     
             $image->image = $filePath;

@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Modules\Backend\Http\Data\DataCategoryType;
+use Modules\Backend\Http\Data\DataType;
 use Modules\Backend\Http\Service\CategoryService;
 
 class CategoryController extends Controller
@@ -20,7 +21,7 @@ class CategoryController extends Controller
     public function index()
     {
         $title = "Categoties";
-        $categories = Category::where('status', DataCategoryType::LOCK_CATEGOTY_NORMAL)->get();
+        $categories = Category::where('status', DataType::NORMAL_DATA_TYPE)->get();
         $path = base_path('modules/backend/resources/configs/icon.json');
         $icons = json_decode(File::get($path), true);
         $types = config('backendconfig.types');
@@ -38,7 +39,7 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->type = $request->input('type');
         $category->content = json_encode($contentData);
-        $category->status = DataCategoryType::LOCK_CATEGOTY_NORMAL;
+        $category->status = DataType::NORMAL_DATA_TYPE;
         // $category->save();
 
         return redirect()->route('admin-category-index')->with('success', 'Category updated successfully');
