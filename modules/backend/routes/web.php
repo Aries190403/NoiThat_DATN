@@ -40,7 +40,12 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
         });
 
         Route::prefix('products')->group(function () {
-            // Route::get('/products', [ProductController::class, 'index'])->name('admin-product-index');
+            Route::post('/create', [ProductController::class, 'create'])->name('admin-product-create');
+            Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('admin-product-edit');
+            Route::post('/imgThumnail/{id}', [ProductController::class, 'upThumbnail'])->name('admin-product-imgThumbnail');
+            Route::post('/update/{id}', [ProductController::class, 'update'])->name('admin-product-update');
+
+            
         });
     });
 });

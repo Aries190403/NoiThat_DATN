@@ -21,12 +21,11 @@
             @include('backend::product.modal.modal-add')
         </div>
     </div>
-    {{-- @include('backend::Category.modal.modal-edit') --}}
     <table id="dataTableUsers" class="data-table table nowrap">
         <thead>
             <tr style="text-align: center">
                 <th></th>
-                <th class="table-plus">Name</th>
+                <th>Name</th>
                 <th>Type</th>
                 <th>sale</th>
                 <th>Status</th>
@@ -35,36 +34,36 @@
         </thead>
         <tbody>
             @foreach ($products as $product)
-            <tr style="text-align: center">
+            <tr>
+                <td></td>
+                <td>{{$product->name}}</td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    {{-- @if ($category->status == 'normal')
+                <td style="text-align: center">
+                    @if ($product->status == 'normal')
                         <span class="badge badge-success">
-                            {{$category->status}}
+                            {{$product->status}}
                         </span>
                     @else
                         <span class="badge badge-secondary">
-                            {{$category->status}}
+                            {{$product->status}}
                         </span>
                         
-                    @endif --}}
+                    @endif
                 </td>
-                <td>
-                    <a href="{{route('admin-user-edit', ['id' => $user->id])}}" style="color: #265ed7;">
+                <td style="text-align: center">
+                    <a href="{{route('admin-product-edit', ['id' => $product->id])}}" style="color: #265ed7;">
                         <i class="icon-copy dw dw-edit2" style="color: inherit;"></i>
                     </a>
-                    <a href="{{route('admin-user-delete', ['id' => $user->id])}}" id="delete-user" style="color: #ff0000;">
+                    {{-- <a href="{{route('admin-product-delete', ['id' => $product->id])}}" id="delete-product" style="color: #ff0000;">
                         <i class="icon-copy dw dw-delete-3" style="color: inherit;"></i>
                     </a>
-                    {{-- @if ($user->locked == 'normal')
-                        <a href="{{route('admin-user-state', ['id' => $user->id])}}" id="lock-user" style="color: #ff0000;">
+                    @if ($product->locked == 'normal')
+                        <a href="{{route('admin-product-state', ['id' => $product->id])}}" id="lock-product" style="color: #ff0000;">
                             <i class="icon-copy dw dw-padlock1" style="color: inherit;"></i>
                         </a>
                     @else
-                        <a href="{{route('admin-user-state', ['id' => $user->id])}}" id="lock-user" style="color: #00ff3381;">
+                        <a href="{{route('admin-product-state', ['id' => $product->id])}}" id="lock-product" style="color: #00ff3381;">
                             <i class="icon-copy dw dw-open-padlock" style="color: inherit;"></i>
                         </a>
                     @endif --}}
