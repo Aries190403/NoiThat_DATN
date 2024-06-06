@@ -7,7 +7,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         </div>
         <div class="modal-body">
-            <form id="kt_modal_product_form" action="#" method="post">
+            <form id="kt_modal_product_form" action="{{route('admin-product-create')}}" method="post">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -22,7 +22,7 @@
                         <select class="form-control" name="type" required>
                             <option value="" disabled selected>Select type</option>
                             @foreach($types as $type)
-                                <option value="{{ $type->name }}">{{ $type->name }}</option>
+                                <option value="{{ $type->id }}">{{ $type->name }}</option>
                             @endforeach
                         </select>
                     </div>
