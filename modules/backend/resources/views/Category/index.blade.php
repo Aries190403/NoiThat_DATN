@@ -1,6 +1,6 @@
 @extends('backend::base')
 @section('content')
-<div id="list-table-user">
+<div id="list-table-category">
     <div class="mobile-menu-overlay"></div>
     <div class="main-container">
         <div class="xs-pd-20-10 pd-ltr-20">

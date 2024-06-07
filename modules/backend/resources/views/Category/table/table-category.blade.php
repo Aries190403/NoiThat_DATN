@@ -22,7 +22,7 @@
         </div>
     </div>
     @include('backend::Category.modal.modal-edit')
-    <table id="dataTableUsers" class="data-table table nowrap">
+    <table id="dataTableCategory" class="data-table table nowrap">
         <thead>
             <tr style="text-align: center">
                 <th></th>

@@ -204,10 +204,14 @@
                     </ul> --}}
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-product-index') }}" class="dropdown-toggle no-arrow">
+                    <a href="javascript:;" class="dropdown-toggle">
                         <span class="micon dw dw-folder1"></span
                         ><span class="mtext">Products</span>
                     </a>
+                    <ul class="submenu">
+                        <li><a href="{{ route('admin-product-index') }}">Product List</a></li>
+                        <li><a href="#">Materials</a></li>
+                    </ul>
                 </li>
                 <li class="dropdown">
                     <a href="{{ route('admin-category-index') }}" class="dropdown-toggle no-arrow">

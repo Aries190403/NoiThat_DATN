@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Backend\Http\Controller\AddressController;
 use Modules\Backend\Http\Controller\CategoryController;
-use Modules\Backend\Http\Controller\LoginController;
+use Modules\Backend\Http\Controller\LoginController;    
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\ProductController;
 use Modules\Backend\Http\Controller\UserController;
@@ -44,9 +44,8 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('admin-product-edit');
             Route::post('/imgThumnail/{id}', [ProductController::class, 'upThumbnail'])->name('admin-product-imgThumbnail');
             Route::post('/update/{id}', [ProductController::class, 'update'])->name('admin-product-update');
-
-            
         });
+
     });
 });
 
