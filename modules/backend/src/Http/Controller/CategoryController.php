@@ -40,7 +40,7 @@ class CategoryController extends Controller
         $category->type = $request->input('type');
         $category->content = json_encode($contentData);
         $category->status = DataType::NORMAL_DATA_TYPE;
-        // $category->save();
+        $category->save();
 
         return redirect()->route('admin-category-index')->with('success', 'Category updated successfully');
 

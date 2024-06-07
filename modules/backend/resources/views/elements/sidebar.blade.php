@@ -210,7 +210,7 @@
                     </a>
                     <ul class="submenu">
                         <li><a href="{{ route('admin-product-index') }}">Product List</a></li>
-                        <li><a href="#">Materials</a></li>
+                        <li><a href="{{ route('admin-material-index') }}">Materials</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
