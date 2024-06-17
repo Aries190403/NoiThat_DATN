@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('district', 255)->nullable();
             $table->string('city', 255)->nullable();
             $table->char('status', 50)->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

@@ -24,7 +24,9 @@ return new class extends Migration
             $table->unsignedBigInteger('avatar')->nullable();
             $table->char('locked', 50)->nullable();
             $table->char('status', 50)->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
             $table->foreign('avatar')->references('id')->on('pictures')->onDelete('cascade');
@@ -53,4 +55,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-

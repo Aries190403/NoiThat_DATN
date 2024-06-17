@@ -18,6 +18,11 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label for="price" style="font-weight: bold;">Price (USD) <span style="color: red;">*</span></label>
+                        <input type="number" step="0.01" class="form-control" name="price" placeholder="Enter price" required />
+                    </div>
+
+                    <div class="col-md-4">
                         <label for="type" style="font-weight: bold;">Type <span style="color: red;">*</span></label>
                         <select class="form-control" name="type" required>
                             <option value="" disabled selected>Select type</option>
@@ -26,16 +31,38 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="col-md-4">
+                        <label for="material" style="font-weight: bold;">Material</label>
+                        <select class="form-control" name="material">
+                            <option value="">Select material</option>
+                            @foreach($materials as $material)
+                                <option value="{{ $material->id }}">{{ $material->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="stock" style="font-weight: bold;">Stock <span style="color: red;">*</span></label>
+                        <input type="number" class="form-control" name="stock" placeholder="Enter stock quantity" required />
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label for="height" style="font-weight: bold;">Height (cm)</label>
+                        <input type="number" step="0.01" class="form-control" name="height" placeholder="Enter height" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="length" style="font-weight: bold;">Length (cm)</label>
+                        <input type="number" step="0.01" class="form-control" name="length" placeholder="Enter length" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="width" style="font-weight: bold;">Width (cm)</label>
+                        <input type="number" step="0.01" class="form-control" name="width" placeholder="Enter width" />
+                    </div>
 
                     <div class="col-md-12">
                         <div class="form-group" style="margin-bottom: 15px;">
                             <label for="description" style="font-weight: bold;">Description</label>
                             <textarea class="form-control" name="description" placeholder="Enter description" style="margin-bottom: 15px;"></textarea>
                         </div>
-                    </div>
-
-                    <div class="col-md-12 mt-3">
-
                     </div>
                 </div>
 

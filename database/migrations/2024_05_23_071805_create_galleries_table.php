@@ -16,7 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('parent')->nullable();
             $table->text('description')->nullable();
             $table->char('status', 50)->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('parent')->references('id')->on('galleries')->onDelete('cascade');
         });

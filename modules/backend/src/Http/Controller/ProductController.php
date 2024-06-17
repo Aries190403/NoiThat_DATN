@@ -7,9 +7,8 @@ use App\Models\Category;
 use App\Models\material;
 use App\Models\picture;
 use App\Models\product;
-use App\Models\product_detail;
-use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -24,18 +23,31 @@ class ProductController extends Controller
         $title = "Products";
         $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->get();
         $Products = product::where('status', DataType::NORMAL_DATA_TYPE)->get();
-        return view('backend::product.index', ['title' => $title, 'products' => $Products, 'types' => $types]);
+        $materials = material::where('status', DataType::NORMAL_DATA_TYPE)->get();
+        return view('backend::product.index', ['title' => $title, 'products' => $Products, 'types' => $types, 'materials' => $materials]);
     }
 
     public function create(Request $request)
     {
-        $product = new product();
+        $product = new Product();
         $product->name = $request->input('name');
         $product->category_id = $request->input('type');
+        $product->price = $request->input('price');
+        $product->material_id = $request->input('material');
+        $product->stock = $request->input('stock');
         $product->status = DataType::NORMAL_DATA_TYPE;
+        
+        $size = [
+            'height' => $request->input('height') ?? 0,
+            'length' => $request->input('length') ?? 0,
+            'width' => $request->input('width') ?? 0,
+        ];
+        $product->content = json_encode(['size' => $size]);
+        $product->description = $request->input('description');
+    
         $product->save();
-
-        return redirect()->route('admin-product-edit',['id' => $product->id])->with('success');
+    
+        return redirect()->route('admin-product-edit', ['id' => $product->id])->with('success');
     }
 
     public function edit($id)
@@ -45,13 +57,11 @@ class ProductController extends Controller
             throw new NotFoundHttpException();
         }
         $materials = material::where('status', DataType::NORMAL_DATA_TYPE)->get();
-
-        $productDetails = product_detail::where('product_id', $id)->get();
         $images = picture::where('product_id', $id)->where('status', DataType::NORMAL_DATA_TYPE)->get();
 
         $title = "Edit Product";
         $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->get();
-        return view('backend::product.edit', ['title' => $title, 'product' => $product, 'types' => $types, 'materials' => $materials, 'productDetails' => $productDetails, 'images' => $images]);
+        return view('backend::product.edit', ['title' => $title, 'product' => $product, 'types' => $types, 'materials' => $materials, 'images' => $images]);
     }
 
     public function update(Request $request, $id)
@@ -61,10 +71,21 @@ class ProductController extends Controller
             if (!$product || $product->status === DataType::DELETED_DATA_TYPE) {
                 return response()->json(['error' => 'Product not found or deleted'], 404);
             }
-            
-            $product->name = $request->name;
-            $product->description = $request->description;
-            $product->category_id = $request->type;
+    
+            $product->name = $request->input('name');
+            $product->description = $request->input('description');
+            $product->category_id = $request->input('type');
+            $product->price = $request->input('price');
+            $product->material_id = $request->input('material');
+            $product->stock = $request->input('stock');
+            $product->sale_percentage = $request->input('sale');
+            $content = json_decode($product->content, true);
+            $content['size'] = [
+                'height' => $request->input('height') ?? ($content['size']['height'] ?? 0),
+                'length' => $request->input('length') ?? ($content['size']['length'] ?? 0),
+                'width' => $request->input('width') ?? ($content['size']['width'] ?? 0),
+            ];
+            $product->content = json_encode($content);
             $product->save();
     
             return response()->json(['success' => 'Product updated successfully']);
@@ -141,14 +162,12 @@ class ProductController extends Controller
             $images = Picture::where('product_id', $image->product_id)->where('status', DataType::NORMAL_DATA_TYPE)->get();
             $product = Product::find($image->product_id);
             $materials = Material::where('status', DataType::NORMAL_DATA_TYPE)->get();
-            $productDetails = product_detail::where('product_id', $image->product_id)->get();
 
             $html = view('backend::product.table.imagelist', [
                 'images' => $images,
                 'product' => $product,
                 'types' => $types,
-                'materials' => $materials,
-                'product_detail' => $productDetails
+                'materials' => $materials
             ])->render();
 
             return response()->json(['success' => true, 'html' => $html]);
@@ -186,11 +205,18 @@ class ProductController extends Controller
     {
         try {
             $product = Product::findOrFail($id);
+            
+            if ($product->stock != 0) {
+                return response()->json(['error' => 'Product cannot be deleted as it still has stock'], 400);
+            }
+    
             $product->status = DataType::DELETED_DATA_TYPE;
-            // $product->save();
-            return redirect()->route('admin-product-index')->with('success', 'Product updated successfully');
+            $product->deleted_at = Carbon::now();
+            $product->save();
+    
+            return redirect()->route('admin-product-index')->with('success', 'Product deleted successfully');
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while updating the product'], 500);
+            return response()->json(['error' => 'An error occurred while deleting the product'], 500);
         }
     }
 }

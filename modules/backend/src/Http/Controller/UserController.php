@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -64,6 +65,7 @@ class UserController extends Controller
             throw new NotFoundHttpException();
         }
         $user->status = DataUserType::STATUS_USER_DELETED;
+        $user->deleted_at = Carbon::now();
         $user->save();
 
         $title = "Users";
