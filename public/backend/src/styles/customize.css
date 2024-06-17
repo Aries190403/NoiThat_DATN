@@ -81,3 +81,35 @@
     background-color: rgb(241, 54, 85);
     border-color: rgb(241, 54, 85);
 }
+
+.dropzone .dz-preview .dz-image img {
+    width: 100%;
+}
+.image-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.image-list .image-item {
+    display: inline-block;
+    position: relative;
+    margin: 10px; /* Add margin to space out the images */
+}
+.image-list img {
+    width: 100px;
+    height: auto;
+}
+.image-list .image-item .delete-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    text-decoration: none; /* Ensure the link has no underline */
+}

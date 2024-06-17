@@ -66,6 +66,12 @@
 />
 <link rel="stylesheet" type="text/css" href="{{ asset('backend/vendors/styles/style.css') }}" />
 
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('backend/src/plugins/dropzone/src/dropzone.css')}}"
+/>
+
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script
     async
