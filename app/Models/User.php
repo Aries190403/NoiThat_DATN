@@ -24,7 +24,7 @@ class User extends Model implements Authenticatable
 
     public function picture()
     {
-        return $this->belongsTo(pictures::class, 'avatar');
+        return $this->belongsTo(picture::class, 'avatar');
     }
 
     public function hasRole($role)

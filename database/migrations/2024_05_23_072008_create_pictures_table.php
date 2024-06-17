@@ -18,7 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('gallery_id')->nullable();
             $table->text('description')->nullable();
             $table->char('status', 50)->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
             $table->foreign('gallery_id')->references('id')->on('galleries')->onDelete('set null');

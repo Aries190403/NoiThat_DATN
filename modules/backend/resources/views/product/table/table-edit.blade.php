@@ -8,9 +8,6 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#listImage" role="tab" aria-selected="false">Image</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#contact2" role="tab" aria-selected="false">Detail</a>
-            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="home" role="tabpanel">
@@ -69,8 +66,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    <label for="price" style="font-weight: bold;">Price (USD)</label>
+                                    <input type="number" step="0.01" class="form-control" name="price" placeholder="Enter price" value="{{ isset($product->price) ? $product->price : '' }}" style="margin-bottom: 15px;" required />
+                                </div>
+                                <div class="col-md-6">
                                     <label for="type" style="font-weight: bold;">Type</label>
-                                    <select class="form-control" name="type">
+                                    <select class="form-control" name="type" style="margin-bottom: 15px;">
                                         @if (isset($product->category_id))
                                             <option value="" disabled selected>{{$product->category->name}}</option>
                                         @else
@@ -80,6 +81,39 @@
                                             <option value="{{ $type->id }}">{{ $type->name }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="material" style="font-weight: bold;">Material</label>
+                                    <select class="form-control" name="material" style="margin-bottom: 15px;" >
+                                        @if (isset($product->material_id))
+                                            <option value="" disabled selected>{{$product->material->name}}</option>
+                                        @else
+                                            <option value="" disabled selected>select material</option>
+                                        @endif
+                                        @foreach($materials as $material)
+                                            <option value="{{ $material->id }}">{{ $material->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="stock" style="font-weight: bold;">Stock</label>
+                                    <input type="number" class="form-control" name="stock" placeholder="Enter stock quantity"  value="{{ isset($product->stock) ? $product->stock : '' }}" style="margin-bottom: 15px;" required min="0" />
+                                </div>                   
+                                <div class="col-md-6">
+                                    <label for="stock" style="font-weight: bold;">Sale (%)</label>
+                                    <input type="number" class="form-control" name="sale" placeholder="Enter sale percentage" value="{{ isset($product->sale_percentage) ? $product->sale_percentage : '' }}" style="margin-bottom: 15px;" min="0" max="100" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="height" style="font-weight: bold;">Height (cm)</label>
+                                    <input type="number" step="0.01" class="form-control" name="height" placeholder="Enter height" value="{{ isset($content->size->height) ? $content->size->height : '' }}" style="margin-bottom: 15px;" min="0" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="length" style="font-weight: bold;">Length (cm)</label>
+                                    <input type="number" step="0.01" class="form-control" name="length" placeholder="Enter length" value="{{ isset($content->size->length) ? $content->size->length : '' }}" style="margin-bottom: 15px;" min="0" />
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="width" style="font-weight: bold;">Width (cm)</label>
+                                    <input type="number" step="0.01" class="form-control" name="width" placeholder="Enter width" value="{{ isset($content->size->width) ? $content->size->width : '' }}" style="margin-bottom: 15px;" min="0" />
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group" style="margin-bottom: 15px;">
@@ -98,8 +132,6 @@
                     </div>
                 </div>
             </div>
-            @include('backend::product.modal.modal-detail-add')
-            @include('backend::product.table.detail')
             @include('backend::product.table.ImageList')
         </div>
     </div>

@@ -402,11 +402,19 @@
                                     window.location.href = "{{ route('admin-product-index') }}";
                                 },
                                 error: function(xhr, status, error) {
-                                    Swal.fire(
-                                        'Error!',
-                                        'An error occurred while processing your request.',
-                                        'error'
-                                    );
+                                    if (xhr.status === 400) {
+                                        Swal.fire(
+                                            'Cannot Delete!',
+                                            xhr.responseJSON.error,
+                                            'error'
+                                        );
+                                    } else {
+                                        Swal.fire(
+                                            'Error!',
+                                            'An error occurred while processing your request.',
+                                            'error'
+                                        );
+                                    }
                                 }
                             });
                         }
