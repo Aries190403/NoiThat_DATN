@@ -6,7 +6,7 @@
                 <a class="nav-link active" data-toggle="tab" href="#home" role="tab" aria-selected="true">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#profile2" role="tab" aria-selected="false">Image</a>
+                <a class="nav-link" data-toggle="tab" href="#listImage" role="tab" aria-selected="false">Image</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#contact2" role="tab" aria-selected="false">Detail</a>
@@ -36,22 +36,22 @@
 
                         <div class="row" style="text-align: center;">
                             <div class="col-6" style="margin-bottom: 10px;">
-                                <a href="#" id="delete-product" style="color: #ff0000;" title="Delete this product">
+                                <a href="{{ route('admin-product-del', ['id' => $product->id]) }}" id="delete-product" style="color: #ff0000;" title="Delete this product">
                                     <i class="icon-copy dw dw-delete-3" style="color: inherit; font-size: 50px"></i>
                                 </a>
                             </div>
                             <div class="col-6" style="margin-bottom: 10px;">
                                 @if ($product->locked == 'normal')
-                                    <a href="#" id="lock-product" style="color: #ff0000;" title="Lock this product">
+                                    <a href="{{ route('admin-product-state', ['id' => $product->id]) }}" id="lock-product" style="color: #ff0000;" title="Lock this product">
                                         <i class="icon-copy dw dw-padlock1" style="color: inherit; font-size: 50px"></i>
                                     </a>
                                 @else
-                                    <a href="#" id="lock-product" style="color: #00ff3381;" title="Unlock this product">
+                                    <a href="{{ route('admin-product-state', ['id' => $product->id]) }}" id="lock-product" style="color: #00ff3381;" title="Unlock this product">
                                         <i class="icon-copy dw dw-open-padlock" style="color: inherit; font-size: 50px"></i>
                                     </a>
                                 @endif
                             </div>
-                        </div>
+                        </div>                        
                     </div>
 
                     <form action="{{ route('admin-product-imgThumbnail', ['id' => $product->id]) }}" id="uploadForm" enctype="multipart/form-data" style="display: none;">
@@ -70,9 +70,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="type" style="font-weight: bold;">Type</label>
-                                    <select class="form-control" name="type" required>
-                                        @if (isset($product->categories))
-                                            <option value="" disabled selected>{{$product->categories->name}}</option>
+                                    <select class="form-control" name="type">
+                                        @if (isset($product->category_id))
+                                            <option value="" disabled selected>{{$product->category->name}}</option>
                                         @else
                                             <option value="" disabled selected>select type</option>
                                         @endif
@@ -98,6 +98,7 @@
                     </div>
                 </div>
             </div>
+            @include('backend::product.modal.modal-detail-add')
             @include('backend::product.table.detail')
             @include('backend::product.table.ImageList')
         </div>

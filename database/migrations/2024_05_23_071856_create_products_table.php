@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('content')->nullable();
             $table->char('status', 50)->nullable();
+            
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

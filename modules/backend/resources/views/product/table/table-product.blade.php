@@ -63,7 +63,7 @@
                 </td>
     
                 <td style="text-align: center">
-                    {{$product->type->name ?? 'N/A'}}
+                    {{$product->category->name ?? 'N/A'}}
                 </td>
                 <td style="text-align: center">
                     {{$product->sale ?? 'N/A'}}

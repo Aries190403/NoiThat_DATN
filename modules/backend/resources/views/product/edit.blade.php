@@ -187,4 +187,235 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#add_product_detail_form').submit(function(e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var url = form.attr('action');
+                var formData = form.serialize();
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        $('#modalAddProductDetail').modal('hide');
+                        form[0].reset();
+                        alert('Product detail added successfully!');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error adding product detail:', error);
+                        $('#errorMessages').text('An error occurred while adding the product detail. Please try again.');
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    {{-- js img --}}
+    <script>
+        Dropzone.autoDiscover = false;
+        $(".dropzone").dropzone({
+            addRemoveLinks: true,
+            removedfile: function (file) {
+                var name = file.name;
+                var _ref;
+                return (_ref = file.previewElement) != null
+                    ? _ref.parentNode.removeChild(file.previewElement)
+                    : void 0;
+            },
+        });
+    </script>
+
+    {{-- js imgs --}}
+    <script>
+        Dropzone.autoDiscover = false;
+        var myDropzone = new Dropzone("#my-awesome-dropzone", {
+            url: document.querySelector("#my-awesome-dropzone").getAttribute("action"),
+            addRemoveLinks: true,
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            },
+            success: function (file, response) {
+                console.log("Successfully uploaded:", response);
+            },
+            error: function (file, response) {
+                console.error("Upload error:", response);
+            },
+        });
+    </script>
+
+    {{-- js del img  --}}
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.delete-image', function(e) {
+                e.preventDefault();
+    
+                var url = $(this).data('url');
+                var imageId = $(this).data('id');
+                var imageItem = $(this).closest('.image-item');
+    
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            type: 'POST',
+                            url: url,
+                            data: { id: imageId },
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Image deleted successfully',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    imageItem.remove();
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'Failed to delete the image.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while processing your request.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- lock product --}}
+    <script>
+        jQuery(document).ready(function () {
+            lockProduct();
+            function lockProduct() {
+                $(document).on('click', '#lock-product', function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+                    var iconClass = $(this).find('i').attr('class');
+
+                    var action = (iconClass.includes('dw-padlock1')) ? 'lock' : 'unlock';
+                    var titleText = (action == 'lock') ? 'Lock' : 'Unlock';
+                    var confirmationText = (action == 'lock') ? 'This product will be locked!' : 'This product will be unlocked!';
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: confirmationText,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, ' + titleText + ' it!',
+                        cancelButtonText: 'No, cancel!',
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: url,
+                                type: 'GET',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function (response) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'product ' + titleText.toLowerCase() + 'ed successfully',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    location.reload();
+                                },
+                                error: function(xhr, status, error) {
+                                    Swal.fire(
+                                        'Error!',
+                                        'An error occurred while processing your request.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+
+            deletedProduct();
+            function deletedProduct() {
+                $(document).on('click', '#delete-product', function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel',
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: url,
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function (response) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'Product deleted successfully',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    window.location.href = "{{ route('admin-product-index') }}";
+                                },
+                                error: function(xhr, status, error) {
+                                    Swal.fire(
+                                        'Error!',
+                                        'An error occurred while processing your request.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+            initializeEventListeners();
+        });
+    </script>
+
+
 @endsection
