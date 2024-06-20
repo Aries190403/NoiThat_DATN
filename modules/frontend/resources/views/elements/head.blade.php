@@ -14,9 +14,9 @@
 
     <!--Title-->
     @if (isset($title))
-        <title>{{ $title }}</title>
+    <title>{{ $title }}</title>
     @else
-        <title>Mobel</title>
+    <title>Mobel</title>
     @endif
 
     <!--CSS styles-->
@@ -33,6 +33,7 @@
     <!--Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&amp;subset=latin-ext" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" />
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
