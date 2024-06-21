@@ -16,7 +16,7 @@
 
                         <!--Currency selector-->
 
-                        <li class="nav-settings">
+                        <!-- <li class="nav-settings">
                             <a href="javascript:void(0);" class="nav-settings-value"> USD $</a>
                             <ul class="nav-settings-list">
                                 <li>USD $</li>
@@ -24,11 +24,11 @@
                                 <li>CHF Fr.</li>
                                 <li>GBP £</li>
                             </ul>
-                        </li>
+                        </li> -->
 
                         <!--Language selector-->
 
-                        <li class="nav-settings">
+                        <!-- <li class="nav-settings">
                             <a href="javascript:void(0);" class="nav-settings-value"> ENG</a>
                             <ul class="nav-settings-list">
                                 <li>ENG</li>
@@ -36,10 +36,16 @@
                                 <li>لعربية</li>
                                 <li>עִבְרִית</li>
                             </ul>
-                        </li>
-                        <li><a href="javascript:void(0);" class="open-login"><i class="icon icon-user"></i></a></li>
+                        </li> -->
+                        <li><a href="javascript:void(0);" class="open-login">
+                                @if(Auth::check())
+                                <i>Hi, {{Auth::user()->name}} !</i>
+                                @else
+                                <i class="icon icon-user"></i>
+                                @endif
+                            </a></li>
                         <li><a href="javascript:void(0);" class="open-search"><i class="icon icon-magnifier"></i></a></li>
-                        <li><a href="javascript:void(0);" class="open-cart"><i class="icon icon-cart"></i> <span>3</span></a></li>
+                        <li><a href="javascript:void(0);" class="open-cart"><i class="icon icon-cart"></i> <span>{{count((array)Session('cart'))}}</span></a></li>
                     </ul>
                 </div> <!--/navigation-top-->
 
@@ -49,7 +55,7 @@
 
                     <!-- Setup your logo here-->
 
-                    <a href="index.html" class="logo"><img src="{{ asset('frontend/assets/images/logo.png')}}" alt="" /></a>
+                    <a href="/" class="logo"><img src="{{ asset('frontend/assets/images/logo.png')}}" alt="" /></a>
 
                     <!-- Mobile toggle menu -->
 
@@ -66,117 +72,18 @@
                         </div>
 
                         <ul>
-                            <li><a href="index.html">Home</a></li>
-                            
-                            <!-- Multi-content dropdown -->
-
-                            <li>
-                                <a href="index.html">Pages <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
-                                <div class="navbar-dropdown">
-                                    <div class="navbar-box">
-
-                                        <!-- box-1 (left-side)-->
-
-                                        <div class="box-1">
-                                            <div class="box">
-                                                <div class="h2">Find your inspiration</div>
-                                                <div class="clearfix">
-                                                    <p>Homes that differ in terms of style, concept and architectural solutions have been furnished by Furniture Factory. These spaces tell of an international lifestyle that expresses modernity, research and a creative spirit.</p>
-                                                    <a class="btn btn-clean btn-big" href="products-grid.html">Shop now</a>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- box-2 (right-side)-->
-
-                                        <div class="box-2">
-                                            <div class="box clearfix">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <ul>
-                                                            <li class="label">Homepage</li>
-                                                            <li><a href="index.html">Home - Slider</a></li>
-                                                            <li><a href="index-2.html">Home - Tabsy gallery</a></li>
-                                                            <li><a href="index-3.html">Home - Slider full screen</a></li>
-                                                            <li><a href="index-4.html">Home - Info icons</a></li>
-                                                            <li><a href="index-xmas.html">Home - Xmas</a></li>
-                                                            <li><a href="index-rtl.html">Home - RTL <span class="label label-warning">New</span></a></li>
-                                                            <li><a href="index-5.html">Onepage</a></li>
-                                                            <li><a href="index-6.html">Onepage - Filters <span class="label label-warning">Isotope</span></a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <ul>
-                                                            <li class="label">Blog</li>
-                                                            <li><a href="blog-grid.html">Blog grid</a></li>
-                                                            <li><a href="blog-list.html">Blog list</a></li>
-                                                            <li><a href="blog-grid-fullpage.html">Blog fullpage</a></li>
-                                                            <li><a href="ideas.html">Blog ideas</a></li>
-                                                            <li><a href="article.html">Blog article</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <ul>
-                                                            <li class="label">Pages</li>
-                                                            <li><a href="about.html">About us</a></li>
-                                                            <li><a href="contact.html">Contact</a></li>
-                                                            <li><a href="login.html">Login & Register <span class="label label-warning">New</span></a></li>
-                                                        </ul>
-                                                        <ul>
-                                                            <li class="label">Extras</li>
-                                                            <li><a href="shortcodes.html">Shortcodes</a></li>
-                                                            <li><a href="email-receipt.html">Email template <span class="label label-warning">New</span></a></li>
-                                                            <li><a href="404.html">Not found 404 <span class="label label-warning">New</span></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div> <!--/row-->
-                                            </div> <!--/box-->
-                                        </div> <!--/box-2-->
-                                    </div> <!--/navbar-box-->
-                                </div> <!--/navbar-dropdown-->
-                            </li>
+                            <li><a href="/">Home</a></li>
 
                             <!-- Single dropdown-->
 
                             <li>
-                                <a href="#">Shop <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
-                                <div class="navbar-dropdown navbar-dropdown-single">
-                                    <div class="navbar-box">
-
-                                        <!-- box-2 (without 'box-1', box-2 will be displayed as full width)-->
-
-                                        <div class="box-2">
-                                            <div class="box clearfix">
-                                                <ul>
-                                                    <li class="label">Shop</li>
-                                                    <li><a href="products-grid.html">Products grid</a></li>
-                                                    <li><a href="products-list.html">Products list</a></li>
-                                                    <li><a href="category.html">Products intro</a></li>
-                                                    <li><a href="products-topbar.html">Products topbar</a></li>
-                                                    <li><a href="product.html">Product overview</a></li>
-                                                </ul>
-                                                <ul>
-                                                    <li class="label">Shop Isotope</li>
-                                                    <li><a href="products-grid-isotope.html">Products filters <span class="label label-warning">New</span></a></li>
-                                                    <li><a href="products-topbar-isotope.html">Products topbar <span class="label label-warning">New</span></a></li>
-                                                </ul>
-                                                <ul>
-                                                    <li class="label">Checkout</li>
-                                                    <li><a href="checkout-1.html">Checkout - Cart items</a></li>
-                                                    <li><a href="checkout-2.html">Checkout - Delivery</a></li>
-                                                    <li><a href="checkout-3.html">Checkout - Payment</a></li>
-                                                    <li><a href="checkout-4.html">Checkout - Receipt</a></li>
-                                                </ul>
-                                            </div> <!--/box-->
-                                        </div> <!--/box-2-->
-                                    </div> <!--/navbar-box-->
-                                </div> <!--/navbar-dropdown-->
+                                <a href="/shop">Shop <span class="open-dropdown"></span></a>
                             </li>
 
                             <!-- Furniture icons in dropdown-->
 
                             <li>
-                                <a href="category.html">Icons <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
+                                <a href="category.html"> Product Category <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown">
                                     <div class="navbar-box">
 
@@ -190,7 +97,7 @@
                                                 <div class="h2">Best ideas</div>
                                                 <div class="clearfix">
                                                     <p>Homes that differ in terms of style, concept and architectural solutions have been furnished by Furniture Factory. These spaces tell of an international lifestyle that expresses modernity, research and a creative spirit.</p>
-                                                    <a class="btn btn-clean btn-big" href="ideas.html">Explore</a>
+                                                    <a class="btn btn-clean btn-big" href="/shop">Explore</a>
                                                 </div>
                                             </div>
                                         </div> <!--/box-1-->
@@ -200,204 +107,31 @@
                                         <div class="box-2">
                                             <div class="clearfix categories">
                                                 <div class="row">
-                                                    
-                                                    <!--icon item-->                                                
 
-                                                    <div class="col-sm-3 col-xs-6">
+                                                    <!--icon item-->
+
+                                                    <!-- <div class="col-sm-3 col-xs-6">
                                                         <a href="javascript:void(0);">
                                                             <figure>
                                                                 <i class="f-icon f-icon-sofa"></i>
                                                                 <figcaption>Sofa</figcaption>
                                                             </figure>
                                                         </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
+                                                    </div> -->
+                                                    @foreach($globalCategory as $c)
                                                     <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
+                                                        <a href="/categorry/{{$c->id}}">
+                                                            @php
+                                                            $icon=json_decode($c->content, true);
+                                                            @endphp
                                                             <figure>
-                                                                <i class="f-icon f-icon-armchair"></i>
-                                                                <figcaption>Armchairs</figcaption>
+                                                                <i class="f-icon {{$icon['icon']}}"></i>
+                                                                <figcaption>{{$c->name}}</figcaption>
                                                             </figure>
                                                         </a>
                                                     </div>
-                                                    
-                                                    <!--icon item-->                                                
 
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-chair"></i>
-                                                                <figcaption>Chairs</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-dining-table"></i>
-                                                                <figcaption>Dining tables</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-media-cabinet"></i>
-                                                                <figcaption>Media storage</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-table"></i>
-                                                                <figcaption>Tables</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-bookcase"></i>
-                                                                <figcaption>Bookcase</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-bedroom"></i>
-                                                                <figcaption>Bedroom</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-nightstand"></i>
-                                                                <figcaption>Nightstand</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-children-room"></i>
-                                                                <figcaption>Children room</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-kitchen"></i>
-                                                                <figcaption>Kitchen</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-bathroom"></i>
-                                                                <figcaption>Bathroom</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-wardrobe"></i>
-                                                                <figcaption>Wardrobe</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-shoe-cabinet"></i>
-                                                                <figcaption>Shoe cabinet</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-office"></i>
-                                                                <figcaption>Office</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-bar-set"></i>
-                                                                <figcaption>Bar sets</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-lightning"></i>
-                                                                <figcaption>Lightning</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-                                                    
-                                                    <!--icon item-->                                                
-
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="javascript:void(0);">
-                                                            <figure>
-                                                                <i class="f-icon f-icon-carpet"></i>
-                                                                <figcaption>Carpet</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
+                                                    @endforeach
                                                 </div> <!--/row-->
                                             </div> <!--/categories-->
                                         </div> <!--/box-2-->
@@ -405,8 +139,99 @@
                                 </div> <!--/navbar-dropdown-->
                             </li>
 
-                            <!-- Mega menu dropdown -->
+                            <li>
+                                <a href="/">Pages <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
+                                <div class="navbar-dropdown">
+                                    <div class="navbar-box">
 
+                                        <!-- box-1 (left-side)-->
+
+                                        <div class="box-1">
+                                            <div class="box">
+                                                <div class="h2">Find your inspiration</div>
+                                                <div class="clearfix">
+                                                    <p>Homes that differ in terms of style, concept and architectural solutions have been furnished by Furniture Factory. These spaces tell of an international lifestyle that expresses modernity, research and a creative spirit.</p>
+                                                    <a class="btn btn-clean btn-big" href="/shop">Shop now</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- box-2 (right-side)-->
+
+                                        <div class="box-2">
+                                            <div class="box clearfix">
+                                                <div class="row">
+                                                    <!-- <div class="col-md-4">
+                                                        <ul>
+                                                            <li class="label">Homepage</li>
+                                                            <li><a href="index.html">Home - Slider</a></li>
+                                                            <li><a href="index-2.html">Home - Tabsy gallery</a></li>
+                                                            <li><a href="index-3.html">Home - Slider full screen</a></li>
+                                                            <li><a href="index-4.html">Home - Info icons</a></li>
+                                                            <li><a href="index-xmas.html">Home - Xmas</a></li>
+                                                            <li><a href="index-rtl.html">Home - RTL <span class="label label-warning">New</span></a></li>
+                                                            <li><a href="index-5.html">Onepage</a></li>
+                                                            <li><a href="index-6.html">Onepage - Filters <span class="label label-warning">Isotope</span></a></li>
+                                                        </ul>
+                                                    </div> -->
+                                                    <div class="col-md-6">
+                                                        <ul>
+                                                            <li class="label"><a href="/about">About us</a></li>
+                                                            <!-- <li class="label">Blog</li> -->
+                                                            <!-- <li><a href="blog-list.html">Blog list</a></li>
+                                                            <li><a href="blog-grid-fullpage.html">Blog fullpage</a></li>
+                                                            <li><a href="ideas.html">Blog ideas</a></li>
+                                                            <li><a href="article.html">Blog article</a></li> -->
+                                                        </ul>
+                                                        <br>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <ul>
+                                                            <li class="label"><a href="/blog">Blogs <span class="label label-warning">New</span></a></li>
+                                                            <!-- <li class="label">Blog</li> -->
+                                                            <!-- <li><a href="blog-list.html">Blog list</a></li>
+                                                            <li><a href="blog-grid-fullpage.html">Blog fullpage</a></li>
+                                                            <li><a href="ideas.html">Blog ideas</a></li>
+                                                            <li><a href="article.html">Blog article</a></li> -->
+                                                        </ul>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <ul>
+                                                            <!-- <li class="label">Pages</li> -->
+                                                            <li class="label"><a href="/contact">Contact us</a></li>
+                                                            <!-- <li><a href="/login">Login & Register <span class="label label-warning">New</span></a> </li> -->
+                                                        </ul>
+                                                        <br>
+                                                        <!-- <ul>
+                                                            <li class="label">Extras</li>
+                                                            <li><a href="shortcodes.html">Shortcodes</a></li>
+                                                            <li><a href="email-receipt.html">Email template <span class="label label-warning">New</span></a></li>
+                                                            <li><a href="404.html">Not found 404 <span class="label label-warning">New</span></a></li>
+                                                        </ul> -->
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <ul>
+                                                            <!-- <li class="label">Blog</li> -->
+                                                            <li class="label"><a href="/login">Login & Register
+                                                                    <!-- <span class="label label-warning">New</span> -->
+                                                                </a> </li>
+                                                            <!-- <li><a href="blog-list.html">Blog list</a></li>
+                                                            <li><a href="blog-grid-fullpage.html">Blog fullpage</a></li>
+                                                            <li><a href="ideas.html">Blog ideas</a></li>
+                                                            <li><a href="article.html">Blog article</a></li> -->
+                                                        </ul>
+                                                    </div>
+                                                </div> <!--/row-->
+                                            </div> <!--/box-->
+                                        </div> <!--/box-2-->
+                                    </div> <!--/navbar-box-->
+                                </div> <!--/navbar-dropdown-->
+                            </li>
+
+                            <!-- Mega menu dropdown -->
+                            {{--
                             <li>
                                 <a href="#">Megamenu <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown">
@@ -493,10 +318,10 @@
                                     </div> <!--/navbar-box-->
                                 </div> <!--/navbar-dropdown-->
                             </li>
-
                             <!-- Simple menu link-->
 
                             <li><a href="shortcodes.html">Shortcodes</a></li>
+                            --}}
                         </ul>
                     </div> <!--/floating-menu-->
                 </div> <!--/navigation-main-->
@@ -538,20 +363,47 @@
                 <!-- ==========  Login wrapper ========== -->
 
                 <div class="login-wrapper">
-                    <form>
+                    @auth
+                    <!-- User is authenticated, show profile section -->
+                    <div class="h4">Settings</div>
+                    <div class="form-group">
+                        <a href="/profile" class="open-popup">
+                            <h6>Your profile</h6>
+                        </a>
+                        <a href="/userorderlist" class="open-popup">
+                            <h6>Your orders</h6>
+                        </a>
+                        @if(Auth::check() && Auth::user()->role=="ROLE_SUPER_ADMIN")
+                        <a href="/dashboard" class="open-popup">
+                            <h6>Admin dashboard</h6>
+                        </a>
+                        @endif
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <button type="submit" class="btn btn-block btn-main">Log out</button>
+                        </form>
+                    </div>
+                    @endauth
+                    @guest
+                    <!-- User is not authenticated, show login form -->
+                    <form action="/login" method="POST">
+                        @csrf
                         <div class="h4">Sign in</div>
                         <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email" required>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
                         </div>
+
                         <div class="form-group">
-                            <a href="#forgotpassword" class="open-popup">Forgot password?</a>
-                            <a href="#createaccount" class="open-popup">Don't have an account?</a>
+                            <a href="/forgotpassword" class="open-popup">Forgot password?</a>
+                            <a href="/register" class="open-popup">Don't have an account?</a>
                         </div>
                         <button type="submit" class="btn btn-block btn-main">Submit</button>
                     </form>
+                    @endguest
+
                 </div>
 
                 <!-- ==========  Cart wrapper ========== -->
@@ -563,160 +415,107 @@
                             <!--cart item-->
 
                             <div class="row">
+                                @php
+                                $total = 0; // Tổng tiền hàng
+                                $taxRate = 0.02; // Tỷ lệ thuế 2%
 
-                                <div class="cart-block cart-block-item clearfix">
+                                // Tính toán tổng tiền và thuế
+                                if(Session::has('cart') && count(Session::get('cart')) > 0) {
+                                foreach(Session::get('cart') as $item) {
+                                // Tính tổng tiền cho từng sản phẩm
+                                $subtotal = $item['price'] * $item['quantity'];
+                                // Kiểm tra giảm giá
+                                if(isset($item['sale_percentage'])) {
+                                $subtotal -= $item['price'] * $item['sale_percentage'] * 0.01;
+                                }
+                                // Cộng vào tổng tiền hàng
+                                $total += $subtotal;
+                                }
+                                }
+
+                                // Tính tiền thuế và tổng tiền cuối cùng
+                                $tax = $total * $taxRate;
+                                $totalWithTax = $total + $tax;
+                                @endphp
+
+                                @if(Session::has('cart') && count(Session::get('cart')) > 0)
+                                @foreach(Session::get('cart') as $item)
+                                <div class="cart-block cart-block-item clearfix" data-id="{{$item['id']}}">
                                     <div class="image">
-                                        <a href="product.html"><img src="{{ asset('frontend/assets/images/product-1.png')}}" alt="" /></a>
+                                        <a href="/productdetail/{{$item['id']}}"><img src="{{ asset($item['image']) }}" width="640" alt="" /></a>
                                     </div>
                                     <div class="title">
-                                        <div><a href="product.html">Green corner</a></div>
-                                        <small>Green corner</small>
+                                        <div><a href="/productdetail/{{$item['id']}}">{{$item['name']}}</a></div>
                                     </div>
                                     <div class="quantity">
-                                        <input type="number" value="2" class="form-control form-quantity" />
+                                        <input type="number" value="{{$item['quantity']}}" class="form-control form-quantity" data-id="{{$item['id']}}" />
                                     </div>
                                     <div class="price">
-                                        <span class="final">$ 1.998</span>
-                                        <span class="discount">$ 2.666</span>
+                                        @if(isset($item['sale_percentage']))
+                                        <span class="discount">$ {{$item['price']}}</span>
+                                        <span class="final">$ {{$item['price'] - $item['price'] * $item['sale_percentage'] * 0.01}}</span>
+                                        @else
+                                        <br>
+                                        <span class="final">$ {{$item['price']}}</span>
+                                        @endif
                                     </div>
-                                    <!--delete-this-item-->
                                     <span class="icon icon-cross icon-delete"></span>
                                 </div>
+                                @endforeach
+                                @else
+                                <div>No items in cart</div>
+                                @endif
 
-                                <!--cart item-->
+                                <hr />
 
-                                <div class="cart-block cart-block-item clearfix">
-                                    <div class="image">
-                                        <a href="product.html"><img src="{{ asset('frontend/assets/images/product-2.png')}}" alt="" /></a>
-                                    </div>
-                                    <div class="title">
-                                        <div><a href="product.html">Green corner</a></div>
-                                        <small>Green corner</small>
-                                    </div>
-                                    <div class="quantity">
-                                        <input type="number" value="2" class="form-control form-quantity" />
-                                    </div>
-                                    <div class="price">
-                                        <span class="final">$ 1.998</span>
-                                        <span class="discount">$ 2.666</span>
-                                    </div>
-                                    <!--delete-this-item-->
-                                    <span class="icon icon-cross icon-delete"></span>
-                                </div>
+                                <!-- Cart prices -->
 
-                                <!--cart item-->
-
-                                <div class="cart-block cart-block-item clearfix">
-                                    <div class="image">
-                                        <a href="product.html"><img src="{{ asset('frontend/assets/images/product-3.png')}}" alt="" /></a>
-                                    </div>
-                                    <div class="title">
-                                        <div><a href="product.html">Green corner</a></div>
-                                        <small>Green corner</small>
-                                    </div>
-                                    <div class="quantity">
-                                        <input type="number" value="2" class="form-control form-quantity" />
-                                    </div>
-                                    <div class="price">
-                                        <span class="final">$ 1.998</span>
-                                        <span class="discount">$ 2.666</span>
-                                    </div>
-                                    <!--delete-this-item-->
-                                    <span class="icon icon-cross icon-delete"></span>
-                                </div>
-
-                                <!--cart item-->
-
-                                <div class="cart-block cart-block-item clearfix">
-                                    <div class="image">
-                                        <a href="product.html"><img src="{{ asset('frontend/assets/images/product-4.png')}}" alt="" /></a>
-                                    </div>
-                                    <div class="title">
-                                        <div><a href="product.html">Green corner</a></div>
-                                        <small>Green corner</small>
-                                    </div>
-                                    <div class="quantity">
-                                        <input type="number" value="2" class="form-control form-quantity" />
-                                    </div>
-                                    <div class="price">
-                                        <span class="final">$ 1.998</span>
-                                        <span class="discount">$ 2.666</span>
-                                    </div>
-                                    <!--delete-this-item-->
-                                    <span class="icon icon-cross icon-delete"></span>
-                                </div>
-                            </div>
-
-                            <hr />
-
-                            <!--cart prices -->
-
-                            <div class="clearfix">
-                                <div class="cart-block cart-block-footer clearfix">
-                                    <div>
-                                        <strong>Discount 15%</strong>
-                                    </div>
-                                    <div>
-                                        <span>$ 159,00</span>
+                                <div class="clearfix">
+                                    <div class="cart-block cart-block-footer clearfix">
+                                        <div>
+                                            <strong>VAT (2%)</strong>
+                                        </div>
+                                        <div class="tax-amount">
+                                            <span>$ {{ number_format($tax, 2) }}</span>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="cart-block cart-block-footer clearfix">
-                                    <div>
-                                        <strong>Shipping</strong>
-                                    </div>
-                                    <div>
-                                        <span>$ 30,00</span>
+                                <hr />
+
+                                <!-- Cart final price -->
+
+                                <div class="clearfix">
+                                    <div class="cart-block cart-block-footer clearfix">
+                                        <div>
+                                            <strong>Total</strong>
+                                        </div>
+                                        <div class="total-amount">
+                                            <div class="h4 title">$ {{ number_format($totalWithTax, 2) }}</div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="cart-block cart-block-footer clearfix">
-                                    <div>
-                                        <strong>VAT</strong>
-                                    </div>
-                                    <div>
-                                        <span>$ 59,00</span>
+                                <!-- Cart navigation -->
+
+                                <div class="cart-block-buttons clearfix">
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <a href="/shop" class="btn btn-clean-dark">Continue shopping</a>
+                                        </div>
+                                        <div class="col-xs-6 text-right">
+                                            <a href="/checkout" class="btn btn-main"><span class="icon icon-cart"></span> Checkout</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <hr />
-
-                            <!--cart final price -->
-
-                            <div class="clearfix">
-                                <div class="cart-block cart-block-footer clearfix">
-                                    <div>
-                                        <strong>Total</strong>
-                                    </div>
-                                    <div>
-                                        <div class="h4 title">$ 1259,00</div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <!--cart navigation -->
-
-                            <div class="cart-block-buttons clearfix">
-                                <div class="row">
-                                    <div class="col-xs-6">
-                                        <a href="products-grid.html" class="btn btn-clean-dark">Continue shopping</a>
-                                    </div>
-                                    <div class="col-xs-6 text-right">
-                                        <a href="checkout-1.html" class="btn btn-main"><span class="icon icon-cart"></span> Checkout</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div> <!--/checkout-->
-                </div> <!--/cart-wrapper-->
-            </div> <!--/container-->
+                        </div> <!--/checkout-->
+                    </div> <!--/cart-wrapper-->
+                </div> <!--/container-->
         </nav>
 
         <!-- ========================  Header content ======================== -->
-{{-- 
+        {{--
         <section class="header-content">
 
             <div class="owl-slider">

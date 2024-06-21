@@ -3338,3 +3338,7 @@
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp;
 }
+
+.size12345 {
+  width: 70px !important;
+}
