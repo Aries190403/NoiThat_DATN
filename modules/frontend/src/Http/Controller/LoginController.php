@@ -14,9 +14,6 @@ class LoginController extends Controller
         return view('frontend::layout.login');
     }
 
-    public function store(Request $request)
-    {
-    }
     /**
      * Handle an authentication attempt.
      */
@@ -31,7 +28,7 @@ class LoginController extends Controller
             return redirect('/')->with('ok', 'Login success !');
         }
 
-        return back()->with('no', 'Login faild !')->withErrors([
+        return back()->with('no', 'Login failed !')->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
@@ -44,6 +41,9 @@ class LoginController extends Controller
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
         return redirect('/')->with('ok', 'Logout success!');;
     }
 }

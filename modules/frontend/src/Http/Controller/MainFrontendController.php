@@ -3,7 +3,9 @@
 namespace Modules\Frontend\Http\Controller;
 
 use App\Http\Controllers\Controller;
+use App\Models\cart;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -22,6 +24,7 @@ class MainFrontendController extends Controller
                 'products.category_id',
                 'products.name as product_name',
                 'products.price as product_price',
+                'products.stock as total_stock',
                 'products.sale_percentage',
                 'products.description as product_description',
                 'products.content as product_content',
@@ -42,7 +45,6 @@ class MainFrontendController extends Controller
                 'materials.description as materials_description',
                 'materials.content as content',
                 DB::raw('GROUP_CONCAT(DISTINCT materials.name ORDER BY materials.name ASC) as materials'),
-                DB::raw('SUM(products.stock) as total_stock'),
                 DB::raw('GROUP_CONCAT(DISTINCT pictures.image ORDER BY pictures.created_at DESC) as images')
             )
             ->groupBy(
@@ -50,6 +52,7 @@ class MainFrontendController extends Controller
                 'products.category_id',
                 'products.name',
                 'products.price',
+                'products.stock',
                 'products.sale_percentage',
                 'products.description',
                 'products.content',
@@ -69,7 +72,11 @@ class MainFrontendController extends Controller
             )
             ->orderBy('products.id', 'DESC')
             ->paginate(6);
-        $category = Category::where('status', 'normal')->get();
-        return view('frontend::layout.home', ['data' => $data, 'category' => $category]);
+        if (Auth::check()) {
+            $userId = Auth::user()->id;
+            $cart = cart::where('user_id', $userId)->get();
+            return view('frontend::layout.home', ['data' => $data, 'globalCart' => $cart]);
+        }
+        return view('frontend::layout.home', ['data' => $data]);
     }
 }

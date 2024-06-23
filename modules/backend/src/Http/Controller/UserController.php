@@ -43,7 +43,7 @@ class UserController extends Controller
         $this->user->createUser($request);
 
         $roles = config('roles.roles');
-        
+
         $users = User::where('status', DataUserType::STATUS_USER_ACTIVE)->get();
         $title = "Users";
         $cities = Address::getProvinces();
@@ -92,7 +92,7 @@ class UserController extends Controller
             try {
                 $address = ModelsAddress::findOrFail($user->address_id);
 
-                if($request->District != null){
+                if ($request->District != null) {
                     $fullAddressName = Address::getFullAddressNames($request->City, $request->District, $request->Ward);
                     $address->update([
                         'city' => $fullAddressName['province_name'],
@@ -130,8 +130,8 @@ class UserController extends Controller
             DB::rollBack();
             throw $e;
         }
-    
-        $userData = User::find($id); 
+
+        $userData = User::find($id);
         $roles = config('roles.roles');
         $title = "Users";
         $cities = Address::getProvinces();
@@ -141,40 +141,40 @@ class UserController extends Controller
             'cities' => $cities,
             'user' => $userData
         ])->render();
-    
+
         return response()->json(['html' => $html]);
     }
-    
+
     public function userState(Request $request, $id)
     {
         $user = User::find($id);
         if (!$user || $user->status === DataUserType::STATUS_USER_DELETED) {
             throw new NotFoundHttpException();
         }
-        if($user->locked == DataUserType::LOCK_USER_NORMAL){
+        if ($user->locked == DataUserType::LOCK_USER_NORMAL) {
             $user->locked = DataUserType::LOCK_USER_LOCKED;
-        }
-        else{
+        } else {
             $user->locked = DataUserType::LOCK_USER_NORMAL;
         };
         $user->save();
-    
+
         $title = "Users";
         $roles = config('roles.roles');
         $cities = Address::getProvinces();
         $users = User::where('status', DataUserType::STATUS_USER_ACTIVE)->get();
-    
+
         $html = view('backend::user.index', [
             'users' => $users,
             'roles' => $roles,
             'cities' => $cities,
             'title' => $title
         ])->render();
-    
+
         return response()->json(['html' => $html]);
     }
 
-    public function editUser(Request $request, $id){
+    public function editUser(Request $request, $id)
+    {
         $cities = Address::getProvinces();
         $roles = config('roles.roles');
         $title = "Edit user";
@@ -183,7 +183,7 @@ class UserController extends Controller
         if (!$user || $user->status === DataUserType::STATUS_USER_DELETED) {
             throw new NotFoundHttpException();
         }
-        
+
         return view('backend::user.edit', ['title' => $title, 'user' => $user, 'roles' => $roles, 'cities' => $cities]);
     }
 
@@ -191,39 +191,39 @@ class UserController extends Controller
     {
         $disk = 'uploads';
         $directory = 'images/avatars';
-    
+
         if ($request->hasFile('image')) {
             $filePath = $this->storeImage($request->file('image'), $disk, $directory);
-            
+
             $user = User::find($id);
             if (!$user) {
                 return response()->json(['success' => false, 'message' => 'Không tìm thấy người dùng.']);
             }
-    
+
             $image = $user->avatar ? picture::find($user->avatar) : new picture();
-    
+
             if (!$image) {
                 $image = new picture();
             }
-    
+
             $image->image = $filePath;
             $image->save();
-    
+
             $user->avatar = $image->id;
             $user->save();
-    
+
             return response()->json(['success' => true, 'path' => $filePath]);
         }
-    
+
         return response()->json(['success' => false, 'message' => 'Không có hình ảnh nào được tải lên.']);
     }
-    
+
     private function storeImage($file, $disk, $directory)
     {
         if (!Storage::disk($disk)->exists($directory)) {
             Storage::disk($disk)->makeDirectory($directory);
         }
-    
+
         $randomFileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
         $filePath = $file->storeAs($directory, $randomFileName, $disk);
         return $disk . '/' . $filePath;
@@ -238,8 +238,7 @@ class UserController extends Controller
         }
         $user->password = Hash::make($password);
         $user->save();
-        
+
         return redirect()->back()->with('success');
     }
-    
 }
