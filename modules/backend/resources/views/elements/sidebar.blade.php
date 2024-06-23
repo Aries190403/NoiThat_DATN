@@ -211,6 +211,7 @@
                     <ul class="submenu">
                         <li><a href="{{ route('admin-product-index') }}">Product List</a></li>
                         <li><a href="{{ route('admin-material-index') }}">Materials</a></li>
+                        <li><a href="{{ route('admin-coupon-index') }}">Vouchers</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
