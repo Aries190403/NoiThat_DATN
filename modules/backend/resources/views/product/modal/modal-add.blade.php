@@ -42,20 +42,20 @@
                     </div>
                     <div class="col-md-4">
                         <label for="stock" style="font-weight: bold;">Stock <span style="color: red;">*</span></label>
-                        <input type="number" class="form-control" name="stock" placeholder="Enter stock quantity" required />
+                        <input type="number" class="form-control" name="stock" placeholder="Enter stock quantity" required min="0" max='999999' />
                     </div>
                     
                     <div class="col-md-4">
                         <label for="height" style="font-weight: bold;">Height (cm)</label>
-                        <input type="number" step="0.01" class="form-control" name="height" placeholder="Enter height" />
+                        <input type="number" step="0.01" class="form-control" name="height" placeholder="Enter height" min="0" />
                     </div>
                     <div class="col-md-4">
                         <label for="length" style="font-weight: bold;">Length (cm)</label>
-                        <input type="number" step="0.01" class="form-control" name="length" placeholder="Enter length" />
+                        <input type="number" step="0.01" class="form-control" name="length" placeholder="Enter length" min="0" />
                     </div>
                     <div class="col-md-4">
                         <label for="width" style="font-weight: bold;">Width (cm)</label>
-                        <input type="number" step="0.01" class="form-control" name="width" placeholder="Enter width" />
+                        <input type="number" step="0.01" class="form-control" name="width" placeholder="Enter width" min="0" />
                     </div>
 
                     <div class="col-md-12">
