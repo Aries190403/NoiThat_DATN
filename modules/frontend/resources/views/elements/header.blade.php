@@ -38,14 +38,21 @@
                             </ul>
                         </li> -->
                         <li><a href="javascript:void(0);" class="open-login">
-                                @if(Auth::check())
-                                <i>Hi, {{Auth::user()->name}} !</i>
+                                @if (Auth::check())
+                                    <i>Hi, {{ Auth::user()->name }} !</i>
                                 @else
-                                <i class="icon icon-user"></i>
+                                    <i class="icon icon-user"></i>
                                 @endif
                             </a></li>
-                        <li><a href="javascript:void(0);" class="open-search"><i class="icon icon-magnifier"></i></a></li>
-                        <li><a href="javascript:void(0);" class="open-cart"><i class="icon icon-cart"></i> <span>{{count((array)Session('cart'))}}</span></a></li>
+                        <li><a href="javascript:void(0);" class="open-search"><i class="icon icon-magnifier"></i></a>
+                        </li>
+                        <li><a href="javascript:void(0);" class="open-cart"><i class="icon icon-cart"></i>
+                                @if (isset($globalCart))
+                                    <span>{{ count((array) $globalCart) }}</span>
+                                @else
+                                    <span>0</span>
+                                @endif
+                            </a></li>
                     </ul>
                 </div> <!--/navigation-top-->
 
@@ -55,7 +62,8 @@
 
                     <!-- Setup your logo here-->
 
-                    <a href="/" class="logo"><img src="{{ asset('frontend/assets/images/logo.png')}}" alt="" /></a>
+                    <a href="/" class="logo"><img src="{{ asset('frontend/assets/images/logo.png') }}"
+                            alt="" /></a>
 
                     <!-- Mobile toggle menu -->
 
@@ -83,7 +91,8 @@
                             <!-- Furniture icons in dropdown-->
 
                             <li>
-                                <a href="category.html"> Product Category <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
+                                <a href="/"> Product Category <span class="open-dropdown"><i
+                                            class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown">
                                     <div class="navbar-box">
 
@@ -91,12 +100,16 @@
 
                                         <div class="box-1">
                                             <div class="image">
-                                                <img src="{{ asset('frontend/assets/images/blog-2.jpg')}}" alt="Lorem ipsum" />
+                                                <img src="{{ asset('frontend/assets/images/blog-2.jpg') }}"
+                                                    alt="Lorem ipsum" />
                                             </div>
                                             <div class="box">
                                                 <div class="h2">Best ideas</div>
                                                 <div class="clearfix">
-                                                    <p>Homes that differ in terms of style, concept and architectural solutions have been furnished by Furniture Factory. These spaces tell of an international lifestyle that expresses modernity, research and a creative spirit.</p>
+                                                    <p>Homes that differ in terms of style, concept and architectural
+                                                        solutions have been furnished by Furniture Factory. These spaces
+                                                        tell of an international lifestyle that expresses modernity,
+                                                        research and a creative spirit.</p>
                                                     <a class="btn btn-clean btn-big" href="/shop">Explore</a>
                                                 </div>
                                             </div>
@@ -118,19 +131,18 @@
                                                             </figure>
                                                         </a>
                                                     </div> -->
-                                                    @foreach($globalCategory as $c)
-                                                    <div class="col-sm-3 col-xs-6">
-                                                        <a href="/categorry/{{$c->id}}">
-                                                            @php
-                                                            $icon=json_decode($c->content, true);
-                                                            @endphp
-                                                            <figure>
-                                                                <i class="f-icon {{$icon['icon']}}"></i>
-                                                                <figcaption>{{$c->name}}</figcaption>
-                                                            </figure>
-                                                        </a>
-                                                    </div>
-
+                                                    @foreach ($globalCategory as $c)
+                                                        <div class="col-sm-3 col-xs-6">
+                                                            <a href="/categorry/{{ $c->id }}">
+                                                                @php
+                                                                    $icon = json_decode($c->content, true);
+                                                                @endphp
+                                                                <figure>
+                                                                    <i class="f-icon {{ $icon['icon'] }}"></i>
+                                                                    <figcaption>{{ $c->name }}</figcaption>
+                                                                </figure>
+                                                            </a>
+                                                        </div>
                                                     @endforeach
                                                 </div> <!--/row-->
                                             </div> <!--/categories-->
@@ -140,8 +152,8 @@
                             </li>
 
                             <li>
-                                <a href="/">Pages <span class="open-dropdown"><i class="fa fa-angle-down"></i></span></a>
-                                <div class="navbar-dropdown">
+                                <a href="/blog">Blogs</a>
+                                {{-- <div class="navbar-dropdown">
                                     <div class="navbar-box">
 
                                         <!-- box-1 (left-side)-->
@@ -150,7 +162,10 @@
                                             <div class="box">
                                                 <div class="h2">Find your inspiration</div>
                                                 <div class="clearfix">
-                                                    <p>Homes that differ in terms of style, concept and architectural solutions have been furnished by Furniture Factory. These spaces tell of an international lifestyle that expresses modernity, research and a creative spirit.</p>
+                                                    <p>Homes that differ in terms of style, concept and architectural
+                                                        solutions have been furnished by Furniture Factory. These spaces
+                                                        tell of an international lifestyle that expresses modernity,
+                                                        research and a creative spirit.</p>
                                                     <a class="btn btn-clean btn-big" href="/shop">Shop now</a>
                                                 </div>
                                             </div>
@@ -188,7 +203,8 @@
 
                                                     <div class="col-md-6">
                                                         <ul>
-                                                            <li class="label"><a href="/blog">Blogs <span class="label label-warning">New</span></a></li>
+                                                            <li class="label"><a href="/blog">Blogs <span
+                                                                        class="label label-warning">New</span></a></li>
                                                             <!-- <li class="label">Blog</li> -->
                                                             <!-- <li><a href="blog-list.html">Blog list</a></li>
                                                             <li><a href="blog-grid-fullpage.html">Blog fullpage</a></li>
@@ -227,7 +243,7 @@
                                             </div> <!--/box-->
                                         </div> <!--/box-2-->
                                     </div> <!--/navbar-box-->
-                                </div> <!--/navbar-dropdown-->
+                                </div> <!--/navbar-dropdown--> --}}
                             </li>
 
                             <!-- Mega menu dropdown -->
@@ -337,24 +353,45 @@
                     <!-- Search results - live search -->
                     <div class="search-results">
                         <div class="search-result-items">
-                            <div class="title h4">Products <a href="#" class="btn btn-clean-dark btn-xs">View all</a></div>
+                            <div class="title h4">Products <a href="#" class="btn btn-clean-dark btn-xs">View
+                                    all</a></div>
                             <ul>
-                                <li><a href="#"><span class="id">42563</span> <span class="name">Green corner</span> <span class="category">Sofa</span></a></li>
-                                <li><a href="#"><span class="id">42563</span> <span class="name">Laura</span> <span class="category">Armchairs</span></a></li>
-                                <li><a href="#"><span class="id">42563</span> <span class="name">Nude</span> <span class="category">Dining tables</span></a></li>
-                                <li><a href="#"><span class="id">42563</span> <span class="name">Aurora</span> <span class="category">Nightstands</span></a></li>
-                                <li><a href="#"><span class="id">42563</span> <span class="name">Dining set</span> <span class="category">Kitchen</span></a></li>
-                                <li><a href="#"><span class="id">42563</span> <span class="name">Seat chair</span> <span class="category">Bar sets</span></a></li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Green
+                                            corner</span> <span class="category">Sofa</span></a></li>
+                                <li><a href="#"><span class="id">42563</span> <span
+                                            class="name">Laura</span> <span class="category">Armchairs</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Nude</span>
+                                        <span class="category">Dining tables</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span
+                                            class="name">Aurora</span> <span class="category">Nightstands</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Dining
+                                            set</span> <span class="category">Kitchen</span></a></li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Seat
+                                            chair</span> <span class="category">Bar sets</span></a></li>
                             </ul>
                         </div> <!--/search-result-items-->
                         <div class="search-result-items">
-                            <div class="title h4">Blog <a href="#" class="btn btn-clean-dark btn-xs">View all</a></div>
+                            <div class="title h4">Blog <a href="#" class="btn btn-clean-dark btn-xs">View
+                                    all</a></div>
                             <ul>
-                                <li><a href="#"><span class="id">01 Jan</span> <span class="name">Creating the Perfect Gallery Wall </span> <span class="category">Interior ideas</span></a></li>
-                                <li><a href="#"><span class="id">12 Jan</span> <span class="name">Making the Most Out of Your Kids Old Bedroom</span> <span class="category">Interior ideas</span></a></li>
-                                <li><a href="#"><span class="id">28 Dec</span> <span class="name">Have a look at our new projects!</span> <span class="category">Modern design</span></a></li>
-                                <li><a href="#"><span class="id">31 Sep</span> <span class="name">Decorating When You're Starting Out or Starting Over</span> <span class="category">Best of 2017</span></a></li>
-                                <li><a href="#"><span class="id">22 Sep</span> <span class="name">The 3 Tricks that Quickly Became Rules</span> <span class="category">Tips for you</span></a></li>
+                                <li><a href="#"><span class="id">01 Jan</span> <span
+                                            class="name">Creating the Perfect Gallery Wall </span> <span
+                                            class="category">Interior ideas</span></a></li>
+                                <li><a href="#"><span class="id">12 Jan</span> <span class="name">Making
+                                            the Most Out of Your Kids Old Bedroom</span> <span
+                                            class="category">Interior ideas</span></a></li>
+                                <li><a href="#"><span class="id">28 Dec</span> <span class="name">Have a
+                                            look at our new projects!</span> <span class="category">Modern
+                                            design</span></a></li>
+                                <li><a href="#"><span class="id">31 Sep</span> <span
+                                            class="name">Decorating When You're Starting Out or Starting Over</span>
+                                        <span class="category">Best of 2017</span></a></li>
+                                <li><a href="#"><span class="id">22 Sep</span> <span class="name">The 3
+                                            Tricks that Quickly Became Rules</span> <span class="category">Tips for
+                                            you</span></a></li>
                             </ul>
                         </div> <!--/search-result-items-->
                     </div> <!--/search-results-->
@@ -364,44 +401,54 @@
 
                 <div class="login-wrapper">
                     @auth
-                    <!-- User is authenticated, show profile section -->
-                    <div class="h4">Settings</div>
-                    <div class="form-group">
-                        <a href="/profile" class="open-popup">
-                            <h6>Your profile</h6>
-                        </a>
-                        <a href="/userorderlist" class="open-popup">
-                            <h6>Your orders</h6>
-                        </a>
-                        @if(Auth::check() && Auth::user()->role=="ROLE_SUPER_ADMIN")
-                        <a href="/dashboard" class="open-popup">
-                            <h6>Admin dashboard</h6>
-                        </a>
-                        @endif
-                        <form method="POST" action="/logout">
-                            @csrf
-                            <button type="submit" class="btn btn-block btn-main">Log out</button>
-                        </form>
-                    </div>
+                        <!-- User is authenticated, show profile section -->
+                        <div class="h4">Settings</div>
+                        <div class="form-group">
+                            @if (Auth::check() && Auth::user()->role == 'USER')
+                                <a href="/profile" class="open-popup">
+                                    <h6>Your profile</h6>
+                                </a>
+                                {{-- <a href="/editpassword" class="open-popup">
+                                <h6>Editpassword</h6>
+                            </a> --}}
+                                <a href="/userfavorite" class="open-popup">
+                                    <h6>Your Favorites</h6>
+                                </a>
+                                <a href="/userorderlist" class="open-popup">
+                                    <h6>Your orders</h6>
+                                </a>
+                            @endif
+                            @if (Auth::check() && Auth::user()->role == 'ROLE_SUPER_ADMIN')
+                                <a href="/dashboard" class="open-popup">
+                                    <h6>Admin dashboard</h6>
+                                </a>
+                            @endif
+                            <form method="POST" action="/logout">
+                                @csrf
+                                <button type="submit" class="btn btn-block btn-main">Log out</button>
+                            </form>
+                        </div>
                     @endauth
                     @guest
-                    <!-- User is not authenticated, show login form -->
-                    <form action="/login" method="POST">
-                        @csrf
-                        <div class="h4">Sign in</div>
-                        <div class="form-group">
-                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
-                        </div>
+                        <!-- User is not authenticated, show login form -->
+                        <form action="/login" method="POST">
+                            @csrf
+                            <div class="h4">Sign in</div>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                                    placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" id="exampleInputPassword1"
+                                    placeholder="Password" required>
+                            </div>
 
-                        <div class="form-group">
-                            <a href="/forgotpassword" class="open-popup">Forgot password?</a>
-                            <a href="/register" class="open-popup">Don't have an account?</a>
-                        </div>
-                        <button type="submit" class="btn btn-block btn-main">Submit</button>
-                    </form>
+                            <div class="form-group">
+                                {{-- <a href="/forgotpassword" class="open-popup">Forgot password?</a> --}}
+                                <a href="/register" class="open-popup">Don't have an account?</a>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-main">Submit</button>
+                        </form>
                     @endguest
 
                 </div>
@@ -411,167 +458,165 @@
                 <div class="cart-wrapper">
                     <div class="checkout">
                         <div class="clearfix">
-
                             <!--cart item-->
-
                             <div class="row">
-                                @php
-                                $total = 0; // Tổng tiền hàng
-                                $taxRate = 0.02; // Tỷ lệ thuế 2%
+                                @if (isset($globalCart) && $globalCart)
+                                    {{-- @dump($globalCart) --}}
+                                    <div class="cart-items-container">
+                                        @foreach ($globalCart as $cartItem)
+                                            <div class="cartItem">
+                                                <div class="cart-block cart-block-item clearfix">
+                                                    <div class="image">
+                                                        @php
+                                                            // Decode the JSON string into an array
+                                                            $contentArray = json_decode($cartItem['content'], true);
+                                                            // Get the image path from the array, fallback to a default image if not set
+                                                            $imgThumbnail =
+                                                                $contentArray['imgThumbnail'] ??
+                                                                'frontend/assets/images/product-1.png';
+                                                        @endphp
+                                                        <img src="{{ asset($imgThumbnail) }}" alt=""
+                                                            width="360" />
+                                                    </div>
+                                                    <div class="title">
+                                                        <div>{{ $cartItem['name'] }}</div>
+                                                    </div>
+                                                    <div class="quantity">
+                                                        <input type="number" value="{{ $cartItem['quantity'] }}"
+                                                            class="form-control form-quantity" min="1"
+                                                            max="3" data-price="{{ $cartItem['price'] }}"
+                                                            data-sale="{{ $cartItem['sale_percentage'] ?? 0 }}"
+                                                            data-id="{{ $cartItem['id'] }}" onkeydown="return false"
+                                                            name="quantitytest" />
+                                                    </div>
 
-                                // Tính toán tổng tiền và thuế
-                                if(Session::has('cart') && count(Session::get('cart')) > 0) {
-                                foreach(Session::get('cart') as $item) {
-                                // Tính tổng tiền cho từng sản phẩm
-                                $subtotal = $item['price'] * $item['quantity'];
-                                // Kiểm tra giảm giá
-                                if(isset($item['sale_percentage'])) {
-                                $subtotal -= $item['price'] * $item['sale_percentage'] * 0.01;
-                                }
-                                // Cộng vào tổng tiền hàng
-                                $total += $subtotal;
-                                }
-                                }
 
-                                // Tính tiền thuế và tổng tiền cuối cùng
-                                $tax = $total * $taxRate;
-                                $totalWithTax = $total + $tax;
-                                @endphp
 
-                                @if(Session::has('cart') && count(Session::get('cart')) > 0)
-                                @foreach(Session::get('cart') as $item)
-                                <div class="cart-block cart-block-item clearfix" data-id="{{$item['id']}}">
-                                    <div class="image">
-                                        <a href="/productdetail/{{$item['id']}}"><img src="{{ asset($item['image']) }}" width="640" alt="" /></a>
+
+                                                    <div class="price">
+                                                        @if (isset($cartItem['sale_percentage']))
+                                                            <span class="final">$
+                                                                {{ $cartItem['price'] - $cartItem['price'] * ($cartItem['sale_percentage'] * 0.01) }}</span>
+                                                            <span class="discount">$ {{ $cartItem['price'] }}</span>
+                                                        @else
+                                                            <span class="final">$ {{ $cartItem['price'] }}</span>
+                                                        @endif
+                                                    </div>
+
+                                                    <a href="/cart/delete/{{ $cartItem->id }}"
+                                                        class="icon icon-cross icon-delete"></a>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
-                                    <div class="title">
-                                        <div><a href="/productdetail/{{$item['id']}}">{{$item['name']}}</a></div>
+                                    <hr>
+                                    <!--cart prices -->
+                                    <div class="clearfix">
+                                        <div class="cart-block cart-block-footer clearfix">
+                                            <div>
+                                                <strong>VAT</strong>
+                                            </div>
+                                            <div>
+                                                <span id="vat">$0.00</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="quantity">
-                                        <input type="number" value="{{$item['quantity']}}" class="form-control form-quantity" data-id="{{$item['id']}}" />
+                                    <hr />
+                                    <!--cart final price -->
+                                    <div class="clearfix">
+                                        <div class="cart-block cart-block-footer clearfix">
+                                            <div>
+                                                <strong>Total</strong>
+                                            </div>
+                                            <div>
+                                                <div class="h4 title" id="total-price">$0.00</div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        @if(isset($item['sale_percentage']))
-                                        <span class="discount">$ {{$item['price']}}</span>
-                                        <span class="final">$ {{$item['price'] - $item['price'] * $item['sale_percentage'] * 0.01}}</span>
-                                        @else
-                                        <br>
-                                        <span class="final">$ {{$item['price']}}</span>
-                                        @endif
+
+                                    <!--cart navigation -->
+                                    <div class="cart-block-buttons clearfix">
+                                        <div class="row">
+                                            <div class="col-xs-6 text-right">
+                                                <a href="/viewcart" class="btn btn-main"><span
+                                                        class="icon icon-cart"></span> Checkout</a>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="/shop" class="btn btn-clean-dark">Continue shopping</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <span class="icon icon-cross icon-delete"></span>
-                                </div>
-                                @endforeach
                                 @else
-                                <div>No items in cart</div>
+                                    <p>Your cart is empty.</p>
                                 @endif
-
-                                <hr />
-
-                                <!-- Cart prices -->
-
-                                <div class="clearfix">
-                                    <div class="cart-block cart-block-footer clearfix">
-                                        <div>
-                                            <strong>VAT (2%)</strong>
-                                        </div>
-                                        <div class="tax-amount">
-                                            <span>$ {{ number_format($tax, 2) }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr />
-
-                                <!-- Cart final price -->
-
-                                <div class="clearfix">
-                                    <div class="cart-block cart-block-footer clearfix">
-                                        <div>
-                                            <strong>Total</strong>
-                                        </div>
-                                        <div class="total-amount">
-                                            <div class="h4 title">$ {{ number_format($totalWithTax, 2) }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Cart navigation -->
-
-                                <div class="cart-block-buttons clearfix">
-                                    <div class="row">
-                                        <div class="col-xs-6">
-                                            <a href="/shop" class="btn btn-clean-dark">Continue shopping</a>
-                                        </div>
-                                        <div class="col-xs-6 text-right">
-                                            <a href="/checkout" class="btn btn-main"><span class="icon icon-cart"></span> Checkout</a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                        </div> <!--/checkout-->
+                            <script>
+                                $(document).ready(function() {
+                                    function updateCart() {
+                                        var total = 0;
+                                        var vatRate = 0.005; // Example VAT rate (10%)
+
+                                        $('.cartItem').each(function(index) {
+                                            // console.log("Item index:", index);
+
+                                            var quantity = parseInt($(this).find('.form-quantity').val());
+                                            var price = parseFloat($(this).find('.form-quantity').data('price'));
+                                            var salePercentage = parseFloat($(this).find('.form-quantity').data('sale'));
+
+                                            var finalPrice = price; // Start with base price
+
+                                            if (salePercentage > 0) {
+                                                finalPrice = price - (price * (salePercentage / 100));
+                                            }
+
+                                            var subtotal = finalPrice * quantity;
+                                            total += subtotal;
+
+                                            // Update displayed price
+                                            $(this).find('.price .final').text('$' + finalPrice);
+                                        });
+
+                                        // Update VAT
+                                        var vat = total * vatRate;
+                                        $('#vat').text('$' + vat.toFixed(2));
+
+                                        // Update Total
+                                        var totalPrice = total + vat;
+                                        $('#total-price').text('$' + totalPrice.toFixed(2));
+                                    }
+
+                                    // Initial calculation on page load
+                                    updateCart();
+
+                                    // Event listener for quantity change
+                                    $('.form-quantity').on('input', function() {
+                                        updateCart();
+                                    });
+                                });
+                            </script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('.form-quantity').on('change', function() {
+                                        const quantity = $(this).val();
+                                        const cartItemId = $(this).data('id');
+                                        $.ajax({
+                                            url: `/cart/update-quantity/${cartItemId}/${quantity}`,
+                                            type: 'post',
+                                            dataType: 'json',
+                                            data: {
+                                                _token: '{{ csrf_token() }}'
+                                            },
+                                            success: function(data) {
+                                                console.log("success");
+                                            },
+                                            error: function(error) {
+                                                console.error('Error:', error);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                        </div>
                     </div> <!--/cart-wrapper-->
                 </div> <!--/container-->
         </nav>
-
-        <!-- ========================  Header content ======================== -->
-        {{--
-        <section class="header-content">
-
-            <div class="owl-slider">
-
-                <!-- === slide item === -->
-
-                <div class="item" style="background-image:url(assets/images/gallery-1.jpg)">
-                    <div class="box">
-                        <div class="container">
-                            <h2 class="title animated h1" data-animation="fadeInDown">Modern furniture theme</h2>
-                            <div class="animated" data-animation="fadeInUp">
-                                Modern & powerfull template. <br /> Clean design & reponsive
-                                layout. Google fonts integration
-                            </div>
-                            <div class="animated" data-animation="fadeInUp">
-                                <a href="https://themeforest.net/item/mobel-furniture-website-template/20382155" target="_blank" class="btn btn-main" ><i class="icon icon-cart"></i> Buy this template</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- === slide item === -->
-
-                <div class="item" style="background-image:url(assets/images/gallery-2.jpg)">
-                    <div class="box">
-                        <div class="container">
-                            <h2 class="title animated h1" data-animation="fadeInDown">Mobile ready!</h2>
-                            <div class="animated" data-animation="fadeInUp">Unlimited Choices. Unbeatable Prices. Free Shipping.</div>
-                            <div class="animated" data-animation="fadeInUp">Furniture category icon fonts!</div>
-                            <div class="animated" data-animation="fadeInUp">
-                                <a href="category.html" class="btn btn-clean">Get insipred</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- === slide item === -->
-
-                <div class="item" style="background-image:url(assets/images/gallery-3.jpg)">
-                    <div class="box">
-                        <div class="container">
-                            <h2 class="title animated h1" data-animation="fadeInDown">
-                                Very Animate.css Friend.
-                            </h2>
-                            <div class="desc animated" data-animation="fadeInUp">
-                                Combine with animate.css. Or just use your own!.
-                            </div>
-                            <div class="desc animated" data-animation="fadeInUp">
-                                Bunch of typography effects.
-                            </div>
-                            <div class="animated" data-animation="fadeInUp">
-                                <a href="https://themeforest.net/item/mobel-furniture-website-template/20382155" target="_blank" class="btn btn-clean">Buy this template</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div> <!--/owl-slider-->
-        </section> --}}

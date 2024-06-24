@@ -23,6 +23,7 @@ class ShopFrontendController extends Controller
                 'products.category_id',
                 'products.name as product_name',
                 'products.price as product_price',
+                'products.stock as total_stock',
                 'products.sale_percentage',
                 'products.description as product_description',
                 'products.content as product_content',
@@ -43,7 +44,6 @@ class ShopFrontendController extends Controller
                 'materials.description as materials_description',
                 'materials.content as content',
                 DB::raw('GROUP_CONCAT(DISTINCT materials.name ORDER BY materials.name ASC) as materials'),
-                DB::raw('SUM(products.stock) as total_stock'),
                 DB::raw('GROUP_CONCAT(DISTINCT pictures.image ORDER BY pictures.created_at DESC) as images')
             )
             ->groupBy(
@@ -51,6 +51,7 @@ class ShopFrontendController extends Controller
                 'products.category_id',
                 'products.name',
                 'products.price',
+                'products.stock',
                 'products.sale_percentage',
                 'products.description',
                 'products.content',
@@ -88,6 +89,7 @@ class ShopFrontendController extends Controller
                 'products.category_id',
                 'products.name as product_name',
                 'products.price as product_price',
+                'products.stock as total_stock',
                 'products.sale_percentage',
                 'products.description as product_description',
                 'products.content as product_content',
@@ -108,7 +110,6 @@ class ShopFrontendController extends Controller
                 'materials.description as materials_description',
                 'materials.content as content',
                 DB::raw('GROUP_CONCAT(DISTINCT materials.name ORDER BY materials.name ASC) as materials'),
-                DB::raw('SUM(products.stock) as total_stock'),
                 DB::raw('GROUP_CONCAT(DISTINCT pictures.image ORDER BY pictures.created_at DESC) as images')
             )
             ->groupBy(
@@ -116,6 +117,7 @@ class ShopFrontendController extends Controller
                 'products.category_id',
                 'products.name',
                 'products.price',
+                'products.stock',
                 'products.sale_percentage',
                 'products.description',
                 'products.content',
