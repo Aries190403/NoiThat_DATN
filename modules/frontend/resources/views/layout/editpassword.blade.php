@@ -6,20 +6,13 @@
                 <h2 class="h2 title">Customer page</h2>
                 <ol class="breadcrumb breadcrumb-inverted">
                     <li><a href="/"><span class="icon icon-home"></span></a></li>
-                    <li><a class="active" href="/login">Login</a></li>
+                    <li><a class="active" href="#">Edit password</a></li>
                 </ol>
             </div>
         </header>
     </section>
-
-    <!-- ========================  Login & register ======================== -->
-
     <section class="login-wrapper login-wrapper-page">
         <div class="container">
-
-            <header class="hidden">
-                <h3 class="h3 title">Sign in</h3>
-            </header>
 
             <div class="row">
 
@@ -41,56 +34,59 @@
 
                             <div class="login-block login-block-signup">
 
-                                <div class="h4">Sign in <a href="/register"
-                                        class="btn btn-main btn-xs btn-register pull-right">create an account</a></div>
+                                <div class="h4">Edit pasword</div>
 
                                 <hr />
 
                                 <div class="row">
-                                    <form action="/login" method="post">
+                                    <form action="/editpassword" method="post">
                                         @csrf
                                         <div class="col-md-12">
                                             @if ($errors->any())
                                                 <div class="alert alert-danger">
                                                     <ul>
                                                         @foreach ($errors->all() as $error)
-                                                            <span style="color: red;">{{ $error }}</span>
+                                                            <li style="color: red;">{{ $error }}</li>
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                                 <script>
                                                     $(document).ready(function() {
                                                         setTimeout(function() {
                                                             $('.alert-danger').fadeOut();
                                                         }, 4000);
                                                     });
-                                                </script>
+                                                </script> --}}
                                             @endif
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <input type="email" value="" name="email" class="form-control"
-                                                    placeholder="Email" required="">
-                                            </div>
                                         </div>
 
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <input type="password" value="" name="password" class="form-control"
-                                                    placeholder="Password" required="">
+                                                <input type="password" class="form-control" id="old_password"
+                                                    name="old_password" placeholder="Enter old password: *" required />
+
                                             </div>
                                         </div>
-                                        <div class="col-xs-6">
-                                            {{-- <span class="checkbox">
-                                                 <input type="checkbox" id="checkBoxId3">
-                                            <label for="checkBoxId3">Remember me</label>
-                                        </span> --}}
-                                            {{-- <a class="text-right" href="/forgotpassword">Forgot password ?</a> --}}
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password" name="password"
+                                                    placeholder="Enter new password: *" required />
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="password_confirmation"
+                                                    placeholder="Confirm password: *" required>
+
+                                            </div>
                                         </div>
 
                                         <div class="col-xs-6 text-right">
-                                            <button type="submit" class="btn btn-block btn-main">Login</button>
+                                            <button type="submit" class="btn btn-block btn-main">Update pasword</button>
                                         </div>
                                     </form>
                                 </div>

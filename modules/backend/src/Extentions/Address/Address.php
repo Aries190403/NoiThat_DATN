@@ -60,11 +60,11 @@ class Address
     {
         $districts = ReadData::read(Constant::PATH_DISTRICTS);
         $district = $districts[$district_id] ?? [];
-        
+
         if (!$district) {
             return [];
         }
-        
+
         return static::output($district);
     }
 
