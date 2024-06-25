@@ -119,16 +119,17 @@
                         <div>
                             {{-- <span class="checkbox">
                                     <input type="checkbox" id="couponCodeID"> --}}
-                            <form action="/checkcoupon" method="post">
+                            <form id="couponForm" action="{{route('user-check-coupon')}}" method="get">
                                 {{-- <label for="couponCodeID">Promo code</label> --}}
-                                <input id="couponCodeID" type="text" class="form-control" value=""
-                                    placeholder="Enter your coupon code" required style="width: 150px;" />
+                                <input id="couponCodeID" type="text" class="form-control" name="code" placeholder="Enter your coupon code" required style="width: 150px;" />
                                 <button type="submit" class="form-control">Check</button>
                             </form>
                             {{-- </span> --}}
                         </div>
                         <div>
-                            <div class="h2 title" id="totalprice">$ 0.00</div>
+                            <h5 id="originalPrice" style="display: none;">giá gốc $0.00</h5>
+                            <h5 id="discountPrice" style="color: crimson; display: none;">giảm giá - $0.00</h5>
+                            <div class="h2 title" id="totalprice">$0.00</div>
                         </div>
                     </div>
                 </div>
@@ -148,51 +149,82 @@
                 </div>
             </div>
 
-            {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+            {{-- js cập nhật số tiền và add voucher --}}
             <script>
                 $(document).ready(function() {
-                    function updateCart() {
+                    function updateCart(discountAmount = 0, percentDiscount = 0) {
                         var total = 0;
-                        var vatRate = 0.005; // Example VAT rate (10%)
-
+                        var vatRate = 0; // Example VAT rate (0.5%)
+            
                         $('.cartItemCheck').each(function(index) {
-                            // console.log("Item index:", index);
-
                             var quantity = parseInt($(this).find('.form-quantity').val());
                             var price = parseFloat($(this).find('.form-quantity').data('price'));
                             var salePercentage = parseFloat($(this).find('.form-quantity').data('sale'));
-
+            
                             var finalPrice = price; // Start with base price
-
+            
                             if (salePercentage > 0) {
                                 finalPrice = price - (price * (salePercentage / 100));
                             }
-
+            
                             var subtotal = finalPrice * quantity;
                             total += subtotal;
-
-                            // Update displayed price
-                            $(this).find('.price .final').text('$' + finalPrice);
+            
+                            $(this).find('.price .final').text('$' + finalPrice.toFixed(2));
                         });
-
-                        // Update VAT
+            
                         var vat = total * vatRate;
                         $('#vatprice').text('$' + vat.toFixed(2));
 
-                        // Update Total
-                        var totalPrice = total + vat;
+                        var moneydiscount = total * (percentDiscount / 100);
+                        var totalPrice = total + vat - moneydiscount;
+                        var giamgia = moneydiscount;
+
+                        if (moneydiscount > discountAmount) {
+                            totalPrice = total - discountAmount;
+                            giamgia = discountAmount;
+                        }
+                        
+                        console.log(percentDiscount, discountAmount);
                         $('#totalprice').text('$' + totalPrice.toFixed(2));
+            
+                        if (discountAmount > 0) {
+                            $('#originalPrice').text('$' + total.toFixed(2)).show();
+                            $('#discountPrice').text('- $' + giamgia.toFixed(2)).show();
+                        }
                     }
-
-                    // Initial calculation on page load
+            
                     updateCart();
-
-                    // Event listener for quantity change
+            
+                    $('#couponForm').on('submit', function(event) {
+                        event.preventDefault();
+                        var code = $('#couponCodeID').val();
+            
+                        $.ajax({
+                            url: $(this).attr('action'),
+                            type: 'get',
+                            data: { code: code },
+                            success: function(response) {
+                                if (response.coupon) {
+                                    var discount = response.coupon.discount_money;
+                                    var percentDiscount = response.coupon.discount;
+                                    updateCart(discount, percentDiscount);
+                                } else {
+                                    alert(response.error || 'An error occurred. Please try again.');
+                                }
+                            },
+                            error: function() {
+                                alert('An error occurred. Please try again.');
+                            }
+                        });
+                    });
+            
                     $('.form-quantity').on('input', function() {
                         updateCart();
                     });
                 });
             </script>
+
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
                             // Bắt sự kiện khi người dùng nhấn vào biểu tượng xóa
