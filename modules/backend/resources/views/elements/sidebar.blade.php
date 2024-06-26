@@ -186,15 +186,13 @@
         <div class="sidebar-menu">
             <ul id="accordion-menu">
                 <li class="dropdown">
-                    <a href="{{ route('admin-dashboard') }}" class="dropdown-toggle no-arrow">
-                        <span class="micon bi bi-house"></span
-                        ><span class="mtext">Home</span>
+                    <a href="{{ route('admin-dashboard') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-dashboard') ? 'active' : '' }}">
+                        <span class="micon bi bi-house"></span><span class="mtext">Home</span>
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-user') }}" class="dropdown-toggle no-arrow">
-                        <span class="micon dw dw-user1"></span
-                        ><span class="mtext">Users</span>
+                    <a href="{{ route('admin-user') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-user') ? 'active' : '' }}">
+                        <span class="micon dw dw-user1"></span><span class="mtext">Users</span>
                     </a>
                     {{-- <ul class="submenu">
                         <li><a href="#">Users Admin</a></li>
@@ -204,24 +202,28 @@
                     </ul> --}}
                 </li>
                 <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle">
-                        <span class="micon dw dw-folder1"></span
-                        ><span class="mtext">Products</span>
+                    <a href="javascript:;" class="dropdown-toggle {{ request()->routeIs('admin-product-index') || request()->routeIs('admin-material-index') || request()->routeIs('admin-coupon-index') ? 'data-option="on"' : 'data-option="off"' }}">
+                        <span class="micon dw dw-folder1"></span><span class="mtext">Products</span>
                     </a>
                     <ul class="submenu">
-                        <li><a href="{{ route('admin-product-index') }}">Product List</a></li>
-                        <li><a href="{{ route('admin-material-index') }}">Materials</a></li>
-                        <li><a href="{{ route('admin-coupon-index') }}">Vouchers</a></li>
+                        <li><a href="{{ route('admin-product-index') }}" class="{{ request()->routeIs('admin-product-index') ? 'active' : '' }}">Product List</a></li>
+                        <li><a href="{{ route('admin-material-index') }}" class="{{ request()->routeIs('admin-material-index') ? 'active' : '' }}">Materials</a></li>
+                        <li><a href="{{ route('admin-coupon-index') }}" class="{{ request()->routeIs('admin-coupon-index') ? 'active' : '' }}">Vouchers</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-category-index') }}" class="dropdown-toggle no-arrow">
-                        <span class="micon bi bi-menu-app"></span
-                        ><span class="mtext">Categories</span>
+                    <a href="{{ route('admin-category-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-category-index') ? 'active' : '' }}">
+                        <span class="micon bi bi-menu-app"></span><span class="mtext">Categories</span>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="{{ route('admin-setting-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-setting-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-settings2"></span><span class="mtext">Settings</span>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
+    
 </div>
 <div class="mobile-menu-overlay"></div>

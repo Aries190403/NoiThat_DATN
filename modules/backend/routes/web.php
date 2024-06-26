@@ -8,6 +8,7 @@ use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\MaterialController;
 use Modules\Backend\Http\Controller\ProductController;
+use Modules\Backend\Http\Controller\SettingController;
 use Modules\Backend\Http\Controller\UserController;
 
 Route::middleware(['web'])->prefix('admin')->group(function () {
@@ -69,6 +70,10 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
 
         });
 
+        Route::prefix('setting')->group(function () {
+            Route::get('/', [SettingController::class, 'index'])->name('admin-setting-index');
+            Route::post('/change', [SettingController::class, 'change'])->name('admin-setting-change');
+        });
     });
 });
 
