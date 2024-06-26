@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class picture extends Model
+class coupon extends Model
 {
     use HasFactory;
-    protected $fillable = ['image', 'product_id', 'user_create', 'description', 'status'];
+    protected $fillable = ['user_create', 'code', 'limit','count_active', 'discount', 'discount_money','downtime', 'description', 'status'];
 
     public function user()
     {

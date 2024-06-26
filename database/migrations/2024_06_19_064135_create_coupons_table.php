@@ -11,18 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pictures', function (Blueprint $table) {
+        Schema::create('coupons', function (Blueprint $table) {
             $table->id();
-            $table->string('image', 255);
-            $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('user_create')->nullable();
+            $table->string('code', 255)->nullable();
+            $table->integer('limit')->nullable();
+            $table->integer('count_active')->nullable();
+            $table->float('discount')->nullable();
+            $table->float('discount_money');
+            $table->timestamp('downtime')->nullable();
             $table->text('description')->nullable();
             $table->char('status', 50)->nullable();
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
-            $table->timestamp('deleted_at')->nullable();
+            $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
+            $table->foreign('user_create')->references('id')->on('users')->onDelete('set null');
         });
     }
 
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pictures');
+        Schema::dropIfExists('coupons');
     }
 };

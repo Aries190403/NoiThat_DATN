@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Frontend\Http\Controller\CouponController;
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Frontend\Http\Controller\AboutController;
 use Modules\Frontend\Http\Controller\BlogController;
@@ -39,6 +40,7 @@ Route::middleware('web')->group(function () {
 
     Route::get('/userfavorite', [CartFrontendController::class, 'favorite']);
     Route::get('/addfavorite/{id}', [CartFrontendController::class, 'addfavorite']);
+    Route::get('/checkVoucher', [CouponController::class, 'check'])->name('user-check-coupon');
 
     Route::middleware(['role:ROLE_SUPER_ADMIN'])->group(function () {
         Route::get('/dashboard', [MainAdminController::class, 'index'])->name('admin-dashboard');
