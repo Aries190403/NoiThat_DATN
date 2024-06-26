@@ -7,8 +7,8 @@
             <div class="container text-center">
                 <h2 class="h2 title">Checkout</h2>
                 <ol class="breadcrumb breadcrumb-inverted">
-                    <li><a href="index.html"><span class="icon icon-home"></span></a></li>
-                    <li><a class="active" href="checkout-1.html">Cart items</a></li>
+                    <li><a href="/"><span class="icon icon-home"></span></a></li>
+                    <li><a class="active" href="/checkout">Cart items</a></li>
                     <li><a href="checkout-2.html">Delivery</a></li>
                     <li><a href="checkout-3.html">Payment</a></li>
                     <li><a href="checkout-4.html">Receipt</a></li>
@@ -106,12 +106,12 @@
                 </div>
 
                 <!--cart prices -->
-                <div class="clearfix">
+                {{-- <div class="clearfix">
                     <div class="cart-block cart-block-footer clearfix">
                         <div><strong>VAT</strong></div>
                         <div><span id="vatprice">$ 0.00</span></div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!--cart final price -->
                 <div class="clearfix">
@@ -153,7 +153,7 @@
                 $(document).ready(function() {
                     function updateCart() {
                         var total = 0;
-                        var vatRate = 0.005; // Example VAT rate (10%)
+                        var vatRate = 0; // Example VAT rate (10%)
 
                         $('.cartItemCheck').each(function(index) {
                             // console.log("Item index:", index);

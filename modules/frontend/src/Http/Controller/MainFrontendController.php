@@ -4,10 +4,12 @@ namespace Modules\Frontend\Http\Controller;
 
 use App\Http\Controllers\Controller;
 use App\Models\cart;
-use App\Models\Category;
+use App\Models\product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
+
 
 class MainFrontendController extends Controller
 {
@@ -78,5 +80,23 @@ class MainFrontendController extends Controller
             return view('frontend::layout.home', ['data' => $data, 'globalCart' => $cart]);
         }
         return view('frontend::layout.home', ['data' => $data]);
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        try {
+            // Perform the search on the 'name' and 'category' fields
+            $products = Product::where('name', 'LIKE', "%{$query}%")
+                ->get();
+
+            // Return the search results as JSON
+            return response()->json($products);
+        } catch (\Exception $e) {
+            // Log the error and return a server error response
+            // Log::error('Error searching products: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }

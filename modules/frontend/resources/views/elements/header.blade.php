@@ -347,11 +347,41 @@
                 <div class="search-wrapper">
 
                     <!-- Search form -->
-                    <input class="form-control" placeholder="Search..." />
-                    <button class="btn btn-main btn-search">Go!</button>
-
-                    <!-- Search results - live search -->
+                    <button id="btnSearch" class="btn btn-main btn-search">X</button>
+                    <input id='search' class="form-control" placeholder="Type name product..." />
                     <div class="search-results">
+                        {{-- <div class="search-result-items">
+                            <div class="title h4">Products <a href="/shop" class="btn btn-clean-dark btn-xs">View
+                                    all</a></div>
+                            <ul>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Green
+                                            corner</span> <span class="category">Sofa</span></a></li>
+                                <li><a href="#"><span class="id">42563</span> <span
+                                            class="name">Laura</span> <span class="category">Armchairs</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Nude</span>
+                                        <span class="category">Dining tables</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span
+                                            class="name">Aurora</span> <span class="category">Nightstands</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Dining
+                                            set</span> <span class="category">Kitchen</span></a></li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Seat
+                                            chair</span> <span class="category">Bar sets</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="search-results"> --}}
+                        <div class="search-result-items">
+                            <div class="title h4">Products <a href="/shop" class="btn btn-clean-dark btn-xs">View
+                                    all</a></div>
+                            <ul id="results-list">
+                                <!-- Search results will be appended here -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Search results - live search -->
+                    {{-- <div class="search-results">
                         <div class="search-result-items">
                             <div class="title h4">Products <a href="#" class="btn btn-clean-dark btn-xs">View
                                     all</a></div>
@@ -394,8 +424,72 @@
                                             you</span></a></li>
                             </ul>
                         </div> <!--/search-result-items-->
-                    </div> <!--/search-results-->
+                    </div> <!--/search-results--> --}}
                 </div>
+
+                <script>
+                    $(document).ready(function() {
+                        let timeout = null;
+
+                        $('#search').on('input', function() {
+                            clearTimeout(timeout);
+                            const query = $(this).val();
+
+                            timeout = setTimeout(function() {
+                                if (query.length > 0) {
+                                    searchProducts(query);
+                                } else {
+                                    $('#results-list').empty();
+                                }
+                            }, 3000);
+                        });
+                        $('#search').on('keypress', function(e) {
+                            if (e.which == 13) { // Enter key pressed
+                                clearTimeout(timeout);
+                                const query = $(this).val();
+                                if (query.length > 0) {
+                                    searchProducts(query);
+                                } else {
+                                    $('#results-list').empty();
+                                }
+                            }
+                        });
+
+                        $('#btnSearch').on('click', function(e) {
+                            $('#search').val('');
+                            $('#results-list').empty();
+                        });
+
+                        function searchProducts(query) {
+                            $.ajax({
+                                url: '/search',
+                                method: 'GET',
+                                data: {
+                                    query: query
+                                },
+                                success: function(data) {
+                                    $('#results-list').empty();
+                                    if (data.length > 0) {
+                                        data.forEach(function(product) {
+                                            $('#results-list').append(
+                                                `<li>
+                                <a href="/productdetail/${product.id}"><span class="id"></span> <span class="name">${product.name}</span> <span class="category">${product.name}</span></a>
+                            </li>`
+                                            );
+                                        });
+                                    } else {
+                                        $('#results-list').append('<li>No products found !</li>');
+
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Search error:', error);
+                                    $('#results-list').append('<li>No products found !</li>');
+                                }
+                            });
+                        }
+                    });
+                </script>
 
                 <!-- ==========  Login wrapper ========== -->
 
@@ -497,7 +591,8 @@
                                                         @if (isset($cartItem['sale_percentage']))
                                                             <span class="final">$
                                                                 {{ $cartItem['price'] - $cartItem['price'] * ($cartItem['sale_percentage'] * 0.01) }}</span>
-                                                            <span class="discount">$ {{ $cartItem['price'] }}</span>
+                                                            <span class="discount">$
+                                                                {{ $cartItem['price'] }}</span>
                                                         @else
                                                             <span class="final">$ {{ $cartItem['price'] }}</span>
                                                         @endif

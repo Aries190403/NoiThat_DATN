@@ -16,6 +16,7 @@ use Modules\Frontend\Http\Controller\ShopFrontendController;
 
 Route::middleware('web')->group(function () {
     Route::get('/', [MainFrontendController::class, 'index'])->name('home');
+    Route::get('/search', [MainFrontendController::class, 'search']);
     Route::get('/shop', [ShopFrontendController::class, 'index'])->name('shop');
     Route::get('/productdetail/{id}', [ShopFrontendController::class, 'detail'])->name('detail');
 
@@ -29,6 +30,8 @@ Route::middleware('web')->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile']);
     Route::post('/profile', [ProfileController::class, 'updateprofile']);
 
+    Route::post('/uploadAvatar/{id}', [ProfileController::class, 'upAvatar']);
+
     Route::get('/editpassword', [EditpasswordController::class, 'editpassword']);
     Route::post('/editpassword', [EditpasswordController::class, 'updatepassword']);
 
@@ -36,6 +39,8 @@ Route::middleware('web')->group(function () {
     Route::get('/add/{product}', [CartFrontendController::class, 'addToCart']);
     Route::get('/cart/delete/{id}', [CartFrontendController::class, 'deleteCartItem']);
     Route::post('/cart/update-quantity/{cartItemId}/{quantity}', [CartFrontendController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+    Route::get('/checkout-2', [CartFrontendController::class, 'checkout_2']);
 
     Route::get('/userfavorite', [CartFrontendController::class, 'favorite']);
     Route::get('/addfavorite/{id}', [CartFrontendController::class, 'addfavorite']);

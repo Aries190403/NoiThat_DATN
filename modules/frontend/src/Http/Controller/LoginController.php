@@ -19,12 +19,17 @@ class LoginController extends Controller
      */
     public function authenticate(Request $request)
     {
-
         if (Auth::attempt([
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ])) {
-            // dd(Auth::user());
+            if (Auth::user()->locked == null || Auth::user()->locked !== 'normal') {
+                Auth::logout();
+                $request->session()->invalidate();
+
+                $request->session()->regenerateToken();
+                return back()->with('no', 'User have been locked !');
+            }
             return redirect('/')->with('ok', 'Login success !');
         }
 
