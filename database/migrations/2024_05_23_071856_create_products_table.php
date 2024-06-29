@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('material_id')->nullable();
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->string('name', 255);
             $table->integer('sale_percentage')->nullable();
             $table->float('price')->nullable();;

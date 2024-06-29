@@ -14,6 +14,14 @@ return new class extends Migration
         Schema::table('pictures', function (Blueprint $table) {
             $table->foreign('user_create')->references('id')->on('users')->onDelete('set null');
         });
+
+        Schema::table('products', function (Blueprint $table) {
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null');
+        });
+
+        Schema::table('pictures', function (Blueprint $table) {
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null');
+        });
     }
 
     /**
