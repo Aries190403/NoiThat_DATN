@@ -221,6 +221,11 @@
                         <span class="micon dw dw-settings2"></span><span class="mtext">Settings</span>
                     </a>
                 </li>
+                <li class="dropdown">
+                    <a href="{{ route('admin-supplier-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-supplier-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-building1"></span><span class="mtext">Suppliers</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
