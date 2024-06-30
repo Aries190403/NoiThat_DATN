@@ -23,7 +23,7 @@
 
                 <!-- === product-item === -->
                 @php
-                    $data = Session::get('favorite');
+                    $data = $favorites;
                 @endphp
                 @if ($data)
                     @foreach ($data as $dt)

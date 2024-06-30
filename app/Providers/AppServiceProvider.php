@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\cart;
 use App\Models\Category;
+use App\Models\favorite;
 use App\Models\product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,14 +32,31 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view) {
             if (Auth::check()) {
-                $userId = Auth::user()->id;
-                $cartItems = Cart::where('user_id', $userId)->whereNull('deleted_at')->orderByDesc('created_at')->orderByDesc('updated_at')->get();
+                $userId = Auth::id();
+                $favorites = Favorite::where('user_id', $userId)->get();
+
+                $products = [];
+                foreach ($favorites as $item) {
+                    $product = Product::find($item->product_id);
+                    if ($product) {
+                        $products[] = $product;
+                    }
+                }
+
+
+                $view->with('favorites', $products);
+            }
+        });
+
+        view()->composer('*', function ($view) {
+            if (Auth::check()) {
+                $cartItems = Session::get('cart', []);
 
                 $products = [];
                 foreach ($cartItems as $item) {
-                    $product = Product::find($item->product_id);
+                    $product = Product::find($item['product_id']);
                     if ($product) {
-                        $product->quantity = $item->quantity;
+                        $product->quantity = $item['quantity'];
                         $products[] = $product;
                     }
                 }

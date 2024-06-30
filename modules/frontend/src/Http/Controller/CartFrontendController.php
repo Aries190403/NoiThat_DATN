@@ -5,6 +5,7 @@ namespace Modules\Frontend\Http\Controller;
 use App\Http\Controllers\Controller;
 use App\Models\cart;
 use App\Models\coupon;
+use App\Models\favorite;
 use App\Models\product;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
@@ -17,56 +18,64 @@ use PhpParser\Node\Expr\Cast\Double;
 
 class CartFrontendController extends Controller
 {
-    public function addToCart(Request $request, $id)
+    public function addToCart($id)
     {
-        if (auth()->check())
-            // Lấy thông tin user ID từ session hoặc auth (tùy thuộc vào cấu trúc của bạn)
+        if (auth()->check()) {
             $userId = auth()->id();
-        else {
-            return redirect('/login')->with('no', 'Login to continue !');
+        } else {
+            return redirect('/login')->with('no', 'Login to continue!');
         }
-        // Lấy số lượng sản phẩm từ request
-        $quantity = 1; // Mặc định là 1 nếu không có input
+
+        // Lấy số lượng sản phẩm từ request, mặc định là 1 nếu không có input
+        $quantity = 1;
+
+        // Lấy giỏ hàng từ session hoặc khởi tạo giỏ hàng mới nếu chưa tồn tại
+        $cart = session()->get('cart', []);
 
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        $cartItem = Cart::where('user_id', $userId)
-            ->where('product_id', $id)
-            ->first();
-
-        if ($cartItem) {
-            if ($cartItem->quantity < 3)
-                $cartItem->quantity += $quantity;
-            $cartItem->updated_at = now();
-            $cartItem->save();
+        if (isset($cart[$id])) {
+            // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+            if ($cart[$id]['quantity'] < 3) {
+                $cart[$id]['quantity'] += $quantity;
+            }
+            $cart[$id]['updated_at'] = now();
         } else {
             // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
-            $cartItem = new Cart();
-            $cartItem->user_id = $userId;
-            $cartItem->product_id = $id;
-            $cartItem->quantity = $quantity;
-            $cartItem->created_at = now();
-            $cartItem->updated_at = now();
-            $cartItem->save();
+            $cart[$id] = [
+                'user_id' => $userId,
+                'product_id' => $id,
+                'quantity' => $quantity,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
         }
 
+        // Lưu giỏ hàng vào session
+        session()->put('cart', $cart);
+        // dd(Session::get('cart'));
         return redirect()->back()->with('ok', 'Product added to cart!');
     }
 
     public function view(Request $request)
     {
-        // dd($request);
-        if (Auth::check()) {
-            $userId = Auth::user()->id;
-            $cartItems = Cart::where('user_id', $userId)->whereNull('deleted_at')->orderByDesc('created_at')->orderByDesc('updated_at')->get();
+        if (auth()->check()) {
+            $userId = auth()->id();
+        } else {
+            return redirect('/login')->with('no', 'Login to continue!');
+        }
 
-            $products = [];
-            foreach ($cartItems as $item) {
-                $product = Product::find($item->product_id);
-                if ($product) {
-                    $product->quantity = $item->quantity;
-                    $products[] = $product;
-                }
-            }
+        // Lấy giỏ hàng từ session
+        $cart = session()->get('cart', []);
+
+        // Lấy danh sách product_id từ giỏ hàng
+        $productIds = array_keys($cart);
+
+        // Lấy thông tin sản phẩm từ database dựa trên product_id
+        $products = Product::whereIn('id', $productIds)->get();
+
+        // Gắn thêm số lượng từ giỏ hàng vào sản phẩm
+        foreach ($products as $product) {
+            $product->quantity = $cart[$product->id]['quantity'];
         }
         // dd($products);
         return view('frontend::layout.checkout', ['cart' => $products]);
@@ -75,19 +84,45 @@ class CartFrontendController extends Controller
     public function deleteCartItem($id)
     {
 
-        $item = cart::where('product_id', $id)->where('user_id', Auth::user()->id);
-        if ($item) {
-            $item->delete();
-            return redirect('/')->with('ok', 'Deleted item successfuly !');
+        if (auth()->check()) {
+            $userId = auth()->id();
+        } else {
+            return redirect('/login')->with('no', 'Login to continue!');
         }
-        return redirect('/')->with('no', 'Deleted item failed !');
+
+        // Lấy giỏ hàng từ session
+        $cart = session()->get('cart', []);
+
+        // Kiểm tra xem sản phẩm có tồn tại trong giỏ hàng không
+        if (isset($cart[$id])) {
+            unset($cart[$id]); // Xóa sản phẩm khỏi giỏ hàng
+
+            // Lưu giỏ hàng cập nhật vào session
+            session()->put('cart', $cart);
+
+            return redirect('/')->with('ok', 'Deleted item successfully!');
+        }
+
+        return redirect('/')->with('no', 'Deleted item failed!');
     }
 
-    public function updateQuantity(Request $request, $ItemId, $quantity)
+    public function updateQuantity($ItemId, $quantity)
     {
-        $cartItem = cart::where('product_id', $ItemId)->where('user_id', Auth::user()->id)->firstOrFail();
-        $cartItem->quantity = $quantity;
-        $cartItem->save();
+        // $cartItem = cart::where('product_id', $ItemId)->where('user_id', Auth::user()->id)->firstOrFail();
+        // $cartItem->quantity = $quantity;
+        // $cartItem->save();
+
+        $cart = session()->get('cart', []);
+        if (isset($cart[$ItemId])) {
+            // Update the quantity
+            $cart[$ItemId]['quantity'] = $quantity;
+            $cart[$ItemId]['updated_at'] = now();
+
+            // Save the updated cart back into the session
+            session()->put('cart', $cart);
+
+            return response()->json(['success' => true, 'message' => 'Quantity updated successfully.']);
+        }
 
         return response()->json(['success' => true, 'message' => 'Quantity updated successfully.']);
     }
@@ -99,20 +134,27 @@ class CartFrontendController extends Controller
     public function addfavorite($id)
     {
         if (!auth()->check()) {
-            return redirect('/login')->with('no', 'Login to continue !');
+            return redirect('/login')->with('no', 'Login to continue!');
         }
+
         $product = Product::find($id);
 
         if ($product) {
-            $favorites = Session::get('favorite', []);
+            $userId = auth()->id();
 
-            if (array_key_exists($id, $favorites)) {
-                unset($favorites[$id]);
-                Session::put('favorite', $favorites);
+            // Check if the product is already in the favorites
+            $favorite = favorite::where('user_id', $userId)->where('product_id', $id)->first();
+
+            if ($favorite) {
+                // If it exists, remove it from the favorites
+                $favorite->delete();
                 return redirect()->back()->with('ok', 'Removed from favorites list!');
             } else {
-                $favorites[$id] = $product;
-                Session::put('favorite', $favorites);
+                // If it does not exist, add it to the favorites
+                Favorite::create([
+                    'user_id' => $userId,
+                    'product_id' => $id,
+                ]);
                 return redirect()->back()->with('ok', 'Added to favorites list!');
             }
         } else {
@@ -156,7 +198,8 @@ class CartFrontendController extends Controller
         $discountprecent = 0;
         $discountmoney = 0;
         //checkcode
-        $req = '123';
+        $req = $req;
+        dd($req);
         $code = coupon::where('code', $req)->where('status', 'normal')->first();
         if (isset($code)) {
             $getdate = getdate();

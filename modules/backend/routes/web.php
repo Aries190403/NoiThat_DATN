@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Backend\Http\Controller\AddressController;
 use Modules\Backend\Http\Controller\CategoryController;
+use Modules\Backend\Http\Controller\CouponController;
 use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\MaterialController;
 use Modules\Backend\Http\Controller\ProductController;
-use Modules\Backend\Http\Controller\ProductDetailController;
 use Modules\Backend\Http\Controller\UserController;
 
 Route::middleware(['web'])->prefix('admin')->group(function () {
@@ -43,12 +43,9 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
         Route::prefix('products')->group(function () {
             Route::post('/create', [ProductController::class, 'create'])->name('admin-product-create');
             Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('admin-product-edit');
-            Route::post('/imgThumnail/{id}', [ProductController::class, 'upThumbnail'])->name('admin-product-imgThumbnail');
+            Route::post('/imgThumbnail/{id}', [ProductController::class, 'upThumbnail'])->name('admin-product-imgThumbnail');
             Route::post('/update/{id}', [ProductController::class, 'update'])->name('admin-product-update');
 
-            Route::prefix('detail')->group(function () {
-                Route::post('/create', [ProductDetailController::class, 'create'])->name('admin-product-detail-create');
-            });
             Route::post('/uploadimgs/{id}', [ProductController::class, 'uploadImages'])->name('admin-product-upload-imgs');
             Route::post('/delimg/{id}', [ProductController::class, 'deleteImage'])->name('admin-product-del-img');
             Route::get('/lock/{id}', [ProductController::class, 'productState'])->name('admin-product-state');
@@ -60,6 +57,14 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/add', [MaterialController::class, 'create'])->name('admin-material-store');
             Route::get('/edit/{id}', [MaterialController::class, 'edit'])->name('admin-material-edit');
             Route::post('/update/{id}', [MaterialController::class, 'update'])->name('admin-material-update');
+        });
+
+        Route::prefix('coupon')->group(function () {
+            Route::get('/', [CouponController::class, 'index'])->name('admin-coupon-index');
+            Route::post('/create', [CouponController::class, 'create'])->name('admin-coupon-create');
+            Route::post('/state/{id}', [CouponController::class, 'couponState'])->name('admin-coupon-state');
+            Route::get('/view/{id}', [CouponController::class, 'view'])->name('admin-coupon-view');
+            Route::post('/update/{id}', [CouponController::class, 'update'])->name('admin-coupon-update');
         });
     });
 });

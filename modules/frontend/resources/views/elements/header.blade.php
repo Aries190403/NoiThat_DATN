@@ -441,7 +441,7 @@
                                 } else {
                                     $('#results-list').empty();
                                 }
-                            }, 3000);
+                            }, 1000);
                         });
                         $('#search').on('keypress', function(e) {
                             if (e.which == 13) { // Enter key pressed
@@ -554,6 +554,7 @@
                         <div class="clearfix">
                             <!--cart item-->
                             <div class="row">
+
                                 @if (isset($globalCart) && $globalCart)
                                     {{-- @dump($globalCart) --}}
                                     <div class="cart-items-container">
@@ -606,7 +607,7 @@
                                     </div>
                                     <hr>
                                     <!--cart prices -->
-                                    <div class="clearfix">
+                                    {{-- <div class="clearfix">
                                         <div class="cart-block cart-block-footer clearfix">
                                             <div>
                                                 <strong>VAT</strong>
@@ -615,8 +616,8 @@
                                                 <span id="vat">$0.00</span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <hr />
+                                    </div> --}}
+                                    {{-- <hr /> --}}
                                     <!--cart final price -->
                                     <div class="clearfix">
                                         <div class="cart-block cart-block-footer clearfix">
@@ -649,7 +650,7 @@
                                 $(document).ready(function() {
                                     function updateCart() {
                                         var total = 0;
-                                        var vatRate = 0.005; // Example VAT rate (10%)
+                                        var vatRate = 0; // Example VAT rate (10%)
 
                                         $('.cartItem').each(function(index) {
                                             // console.log("Item index:", index);

@@ -23,7 +23,7 @@ class LoginController extends Controller
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ])) {
-            if (Auth::user()->locked == null || Auth::user()->locked !== 'normal') {
+            if (Auth::user()->locked == 'locked') {
                 Auth::logout();
                 $request->session()->invalidate();
 
