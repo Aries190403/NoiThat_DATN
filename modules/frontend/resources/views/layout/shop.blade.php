@@ -26,7 +26,7 @@
 
             <div class="owl-icons">
                 @foreach ($globalCategory as $c)
-                    <a href="/categorry/{{ $c->id }}">
+                    <a href="/category/{{ $c->id }}">
                         @php
                             $icon = json_decode($c->content, true);
                         @endphp
@@ -66,41 +66,41 @@
                         </div>
                         <!--Availability-->
                         <!-- <div class="filter-box active">
-                                                                                <div class="title">
-                                                                                    Availability
-                                                                                </div>
-                                                                                <div class="filter-content">
-                                                                                    <span class="checkbox">
-                                                                                        <input type="radio" name="radiogroup-stock" id="availableId1" checked="checked">
-                                                                                        <label for="availableId1">In stock <i>(152)</i></label>
-                                                                                    </span>
-                                                                                    <span class="checkbox">
-                                                                                        <input type="radio" name="radiogroup-stock" id="availableId2">
-                                                                                        <label for="availableId2">1 Week <i>(100)</i></label>
-                                                                                    </span>
-                                                                                    <span class="checkbox">
-                                                                                        <input type="radio" name="radiogroup-stock" id="availableId3">
-                                                                                        <label for="availableId3">2 Weeks <i>(80)</i></label>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div> -->
+                                                                                            <div class="title">
+                                                                                                Availability
+                                                                                            </div>
+                                                                                            <div class="filter-content">
+                                                                                                <span class="checkbox">
+                                                                                                    <input type="radio" name="radiogroup-stock" id="availableId1" checked="checked">
+                                                                                                    <label for="availableId1">In stock <i>(152)</i></label>
+                                                                                                </span>
+                                                                                                <span class="checkbox">
+                                                                                                    <input type="radio" name="radiogroup-stock" id="availableId2">
+                                                                                                    <label for="availableId2">1 Week <i>(100)</i></label>
+                                                                                                </span>
+                                                                                                <span class="checkbox">
+                                                                                                    <input type="radio" name="radiogroup-stock" id="availableId3">
+                                                                                                    <label for="availableId3">2 Weeks <i>(80)</i></label>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div> -->
                         <!--/filter-box-->
                         <!--Discount-->
                         <!-- <div class="filter-box active">
-                                                                                <div class="title">
-                                                                                    Discount
-                                                                                </div>
-                                                                                <div class="filter-content">
-                                                                                    <span class="checkbox">
-                                                                                        <input type="radio" id="discountId1" name="discountPrice" checked="checked">
-                                                                                        <label for="discountId1">Discount price</label>
-                                                                                    </span>
-                                                                                    <span class="checkbox">
-                                                                                        <input type="radio" id="discountId2" name="discountPrice">
-                                                                                        <label for="discountId2">Regular price</label>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </div> -->
+                                                                                            <div class="title">
+                                                                                                Discount
+                                                                                            </div>
+                                                                                            <div class="filter-content">
+                                                                                                <span class="checkbox">
+                                                                                                    <input type="radio" id="discountId1" name="discountPrice" checked="checked">
+                                                                                                    <label for="discountId1">Discount price</label>
+                                                                                                </span>
+                                                                                                <span class="checkbox">
+                                                                                                    <input type="radio" id="discountId2" name="discountPrice">
+                                                                                                    <label for="discountId2">Regular price</label>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                        </div> -->
                         <!--/filter-box-->
                         <!--Type-->
                         <div class="filter-box">
@@ -266,34 +266,34 @@
 
                     <!-- <div class="col-md-6 col-xs-6">
 
-                                                                            <article>
-                                                                                <div class="info">
-                                                                                    <span class="add-favorite">
-                                                                                        <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                                                                    </span>
-                                                                                    <span>
-                                                                                        <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                                                                    </span>
-                                                                                </div>
-                                                                                <div class="btn btn-add">
-                                                                                    <i class="icon icon-cart"></i>
-                                                                                </div>
-                                                                                <div class="figure-grid">
-                                                                                    <span class="label label-info">-50%</span>
-                                                                                    <div class="image">
-                                                                                        <a href="#productid1" class="mfp-open">
-                                                                                            <img src="{{ asset('frontend/assets/images/product-1.png') }}" alt="" width="360" />
-                                                                                        </a>
-                                                                                    </div>
-                                                                                    <div class="text">
-                                                                                        <h2 class="title h4"><a href="product.html">Green corner</a></h2>
-                                                                                        <sub>$ 1499,-</sub>
-                                                                                        <sup>$ 1099,-</sup>
-                                                                                        <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </article>
-                                                                        </div> -->
+                                                                                        <article>
+                                                                                            <div class="info">
+                                                                                                <span class="add-favorite">
+                                                                                                    <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
+                                                                                                </span>
+                                                                                                <span>
+                                                                                                    <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div class="btn btn-add">
+                                                                                                <i class="icon icon-cart"></i>
+                                                                                            </div>
+                                                                                            <div class="figure-grid">
+                                                                                                <span class="label label-info">-50%</span>
+                                                                                                <div class="image">
+                                                                                                    <a href="#productid1" class="mfp-open">
+                                                                                                        <img src="{{ asset('frontend/assets/images/product-1.png') }}" alt="" width="360" />
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                                <div class="text">
+                                                                                                    <h2 class="title h4"><a href="product.html">Green corner</a></h2>
+                                                                                                    <sub>$ 1499,-</sub>
+                                                                                                    <sup>$ 1099,-</sup>
+                                                                                                    <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </article>
+                                                                                    </div> -->
                     <div class="row">
                         @php
                             if (isset($favorites)) {
@@ -419,9 +419,9 @@
 
                                                 <div class="col-sm-6">
                                                     <!-- <div class="info-box">
-                                                                                                        <strong>Maifacturer</strong>
-                                                                                                        <span>Brand name</span>
-                                                                                                    </div> -->
+                                                                                                                    <strong>Maifacturer</strong>
+                                                                                                                    <span>Brand name</span>
+                                                                                                                </div> -->
                                                     <div class="info-box">
                                                         <strong>Materials</strong>
                                                         <span>{{ $dt->materials_type }}</span>
@@ -504,8 +504,9 @@
                                                 <a href="/productdetail/{{ $dt->product_id }}"><span
                                                         class="icon icon-eye"></span> <span class="hidden-xs">View
                                                         more</span></a>
-                                                <a href="javascript:void(0);"><span class="icon icon-cart"></span> <span
-                                                        class="hidden-xs">Buy Now</span></a>
+                                                <a href="/buynow/{{ $dt->product_id }}"><span
+                                                        class="icon icon-cart"></span> <span class="hidden-xs">Buy
+                                                        Now</span></a>
                                             </div>
                                         </div>
                                     </div>
@@ -552,9 +553,9 @@
 
                                                 <div class="col-sm-6">
                                                     <!-- <div class="info-box">
-                                                                                                        <strong>Maifacturer</strong>
-                                                                                                        <span>Brand name</span>
-                                                                                                    </div> -->
+                                                                                                                    <strong>Maifacturer</strong>
+                                                                                                                    <span>Brand name</span>
+                                                                                                                </div> -->
                                                     <div class="info-box">
                                                         <strong>Materials</strong>
                                                         <span>{{ $dt->materials_type }}</span>
@@ -637,8 +638,9 @@
                                                 <a href="/add/{{ $dt->product_id }}"><span
                                                         class="icon icon-cart"></span><span class="hidden-xs">Add to
                                                         cart</span></a>
-                                                <a href="javascript:void(0);"><span class="icon icon-cart"></span><span
-                                                        class="hidden-xs">Buy Now</span></a>
+                                                <a href="/buynow/{{ $dt->product_id }}"><span
+                                                        class="icon icon-cart"></span><span class="hidden-xs">Buy
+                                                        Now</span></a>
                                             </div>
                                         </div>
                                     </div>

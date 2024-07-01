@@ -24,20 +24,21 @@ class ProfileController extends Controller
 
     public function updateprofile(Request $request)
     {
-        $rules = [
-            'phone' => 'required|string|digits:10|unique:users,phone', // Rule digits:10 để chỉ cho nhập 10 số
-        ];
-        $messages = [
-            'phone.digits' => 'Phone number does exits',
-        ];
-
+        if ($request->input('phone') != Auth::user()->phone) {
+            $rules = [
+                'phone' => 'required|string|digits:10|unique:users,phone', // Rule digits:10 để chỉ cho nhập 10 số
+            ];
+            $messages = [
+                'phone.digits' => 'Phone number does exits',
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+        }
         // Validate input data
-        $validator = Validator::make($request->all(), $rules, $messages);
 
         // Check if validation fails
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
         try {
             if ($request->District != null) {
                 $fullAddressName = Address::getFullAddressNames($request->City, $request->District, $request->Ward);

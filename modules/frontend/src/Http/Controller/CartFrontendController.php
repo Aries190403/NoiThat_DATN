@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\cart;
 use App\Models\coupon;
 use App\Models\favorite;
+use App\Models\Invoice;
+use App\Models\InvoiceDetail;
+use App\Models\Pay;
 use App\Models\product;
 use DateTime;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Modules\Backend\Extentions\Address\Address;
@@ -58,6 +61,7 @@ class CartFrontendController extends Controller
 
     public function view(Request $request)
     {
+        session()->put('code', []);
         if (auth()->check()) {
             $userId = auth()->id();
         } else {
@@ -198,9 +202,8 @@ class CartFrontendController extends Controller
         $discountprecent = 0;
         $discountmoney = 0;
         //checkcode
-        $req = $req;
-        dd($req);
-        $code = coupon::where('code', $req)->where('status', 'normal')->first();
+        // dd(session()->get('code'));
+        $code = coupon::where('code', session()->get('code'))->where('status', 'normal')->first();
         if (isset($code)) {
             $getdate = getdate();
             $currentDateTime = new DateTime();
@@ -216,20 +219,19 @@ class CartFrontendController extends Controller
             // dd($code, $discountmoney, $discountprecent, $currentDateTime, $downlineDateTime);
         }
         //loadcart
-        $items = [];
-        if (Auth::check()) {
-            $userId = Auth::user()->id;
-            $cartItems = Cart::where('user_id', $userId)->whereNull('deleted_at')->orderByDesc('created_at')->orderByDesc('updated_at')->get();
 
-            $products = [];
-            foreach ($cartItems as $item) {
-                $product = Product::find($item->product_id);
-                if ($product) {
-                    $product->quantity = $item->quantity;
-                    $products[] = $product;
-                    $items[] = $product;
-                }
-            }
+        // Lấy giỏ hàng từ session
+        $cart = session()->get('cart', []);
+
+        // Lấy danh sách product_id từ giỏ hàng
+        $productIds = array_keys($cart);
+
+        // Lấy thông tin sản phẩm từ database dựa trên product_id
+        $items = Product::whereIn('id', $productIds)->get();
+
+        // Gắn thêm số lượng từ giỏ hàng vào sản phẩm
+        foreach ($items as $product) {
+            $product->quantity = $cart[$product->id]['quantity'];
         }
         //loaduser
         $user = Auth::user();
@@ -255,5 +257,122 @@ class CartFrontendController extends Controller
         //dd('user', $user, 'items', $items, 'totalPrice', $totalPrice, 'finalPrice', $finalPrice, 'discountMoney', $discountMoney, 'discountprecent', $discountprecent);
         $cities = Address::getProvinces();
         return view('frontend::layout.checkout_2', ['user' => $user, 'items' => $items, 'totalPrice' => $totalPrice, 'finalPrice' => $finalPrice, 'discountMoney' => $discountMoney, 'discountprecent' => $discountprecent, 'cities' => $cities]);
+    }
+
+    public function checkout_3(Request $request)
+    {
+        $user = Auth::user();
+        $cart = session()->get('cart', []);
+
+        $totalPrice = $request->input('totalPrice');
+        $discountMoney = $request->input('discountMoney');
+        $finalPrice = $totalPrice - $discountMoney;
+        $address = '';
+        if ($request->District != null) {
+            $fullAddressName = Address::getFullAddressNames($request->City, $request->District, $request->Ward);
+            $address = $request->input('street') . ", " .
+                $fullAddressName['ward_name'] . ", " .
+                $fullAddressName['district_name'] . ", " .
+                $fullAddressName['province_name'];
+        } else {
+            $address = $request->input('street') . ", " .
+                $request->input('ward') . ", " .
+                $request->input('district') . ", " .
+                $request->input('City');
+        }
+        // Lấy danh sách product_id từ giỏ hàng
+        $productIds = array_keys($cart);
+
+        // Lấy thông tin sản phẩm từ database dựa trên product_id
+        $items = Product::whereIn('id', $productIds)->get();
+
+        // Gắn thêm số lượng từ giỏ hàng vào sản phẩm
+        foreach ($items as $product) {
+            $product->quantity = $cart[$product->id]['quantity'];
+        }
+        $Delivery = $request->input('Delivery');
+        $paymentOption = $request->input('paymentOption');
+
+        $code = coupon::where('code', session()->get('code'))->get('id')->first();
+        if (isset($code)) $code = $code->id;
+        else $code = null;
+
+        DB::beginTransaction();
+        try {
+            //Pay
+            $pay = Pay::create([
+                'name' => $paymentOption,
+                'description' => "Unpaid",
+                'status' => 1
+            ]);
+
+            $payId = $pay->id;
+
+            // Tạo hóa đơn
+            $invoice = Invoice::create([
+                'invoice_date' => now(),
+                'address' => $address,
+                'phone' => $request->input('phone'),
+                'name' => $request->input('name'),
+                'total' => $finalPrice,
+                'status' => 'Pending',
+                'delivery' => $Delivery,
+                'user_id' => $user->id,
+                'coupon_id' => $code,
+                'pay_id' => $payId,
+            ]);
+
+            // Tạo chi tiết hóa đơn
+            foreach ($items as $product) {
+                InvoiceDetail::create([
+                    'invoice_id' => $invoice->id,
+                    'product_id' => $product->id,
+                    'product_name' => $product->name,
+                    'quantity' => $product->quantity,
+                    'price' => $product->price,
+                ]);
+                if ($product->quantity > 0)
+                    $product->decrement('stock', $product->quantity);
+            }
+            if ($code) {
+                $coupon = Coupon::find($code);
+                if ($coupon) {
+                    $coupon->increment('count_active');
+                }
+            }
+            DB::commit();
+            // return response()->json(['message' => 'Invoice created successfully', 'invoice_id' => $invoice->id], 201);
+            // if ($paymentOption == 'VNPAY') return redirect('/pay');
+            return redirect('/receipt');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // return response()->json(['message' => 'Invoice creation failed', 'error' => $e->getMessage()], 500);
+            return redirect()->back();
+        }
+    }
+    public function receipted()
+    {
+        $user = Auth::user();
+        $latestInvoice = Invoice::where('user_id', $user->id)->latest()->first();
+        $cart = session()->get('cart', []);
+
+        // Lấy danh sách product_id từ giỏ hàng
+        $productIds = array_keys($cart);
+
+        // Lấy thông tin sản phẩm từ database dựa trên product_id
+        $items = Product::whereIn('id', $productIds)->get();
+
+        // Gắn thêm số lượng từ giỏ hàng vào sản phẩm
+        foreach ($items as $product) {
+            $product->quantity = $cart[$product->id]['quantity'];
+        }
+        // dd($product);
+        return view('frontend::layout.receipt', ['latestInvoice' => $latestInvoice, 'items' => $items]);
+    }
+
+    public function buynow($id)
+    {
+        $this->addToCart($id);
+        return redirect('/viewcart');
     }
 }

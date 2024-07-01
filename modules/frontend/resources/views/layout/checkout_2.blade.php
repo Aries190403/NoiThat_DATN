@@ -2,16 +2,16 @@
 @section('content')
     <!-- ========================  Main header ======================== -->
 
-    <section class="main-header" style="background-image:url(assets/images/gallery-2.jpg)">
+    <section class="main-header" style="background-image:url({{ asset('frontend/assets/images/gallery-2.jpg)') }}">
         <header>
             <div class="container text-center">
                 <h2 class="h2 title">Checkout</h2>
                 <ol class="breadcrumb breadcrumb-inverted">
-                    <li><a href="index.html"><span class="icon icon-home"></span></a></li>
+                    <li><a href="/"><span class="icon icon-home"></span></a></li>
                     <li><a href="/viewcart">Cart items</a></li>
                     <li><a class="active" href="/checkout-2">Delivery</a></li>
-                    <li><a href="/checkout-3">Payment</a></li>
-                    <li><a href="/checkout-4">Receipt</a></li>
+
+                    <li><a href="#">Receipt</a></li>
                 </ol>
             </div>
         </header>
@@ -24,16 +24,13 @@
 
             <div class="stepper">
                 <ul class="row">
-                    <li class="col-md-3 active">
+                    <li class="col-md-4 active">
                         <span data-text="Cart items"></span>
                     </li>
-                    <li class="col-md-3 active">
+                    <li class="col-md-4 active">
                         <span data-text="Delivery"></span>
                     </li>
-                    <li class="col-md-3">
-                        <span data-text="Payment"></span>
-                    </li>
-                    <li class="col-md-3">
+                    <li class="col-md-4">
                         <span data-text="Receipt"></span>
                     </li>
                 </ul>
@@ -45,6 +42,7 @@
 
     <section class="checkout">
         <form action="/checkout-3" method="post">
+            @csrf
             <div class="container">
 
                 <header class="hidden">
@@ -59,7 +57,7 @@
                                 Back to cart</a>
                         </div>
                         <div class="col-xs-6 text-right">
-                            <button href="/checkout-3" class="btn btn-main"><span class="icon icon-cart"></span> Go to
+                            <button type="submit" class="btn btn-main"><span class="icon icon-cart"></span> Go to
                                 payment</button>
                         </div>
                     </div>
@@ -97,6 +95,10 @@
                                                             name="name">
                                                         <input type="hidden" value="USER" class="form-control"
                                                             name="role">
+                                                        <input class="form-control" type="hidden"
+                                                            value="{{ $totalPrice }}" name="totalPrice">
+                                                        <input class="form-control" type="hidden"
+                                                            value="{{ $discountMoney }}" name="discountMoney">
                                                     </div>
                                                 </div>
 
@@ -125,48 +127,54 @@
 
                                                 </div>
                                             </div> --}}
-
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <select class="form-group cssselect" id="City" name="City"
-                                                            required>
-                                                            <option
-                                                                value="{{ isset($user->address->city) ? $user->address->city : '' }}"
-                                                                selected>
-                                                                {{ isset($user->address->city) ? $user->address->city : '' }}
-                                                            </option>
-                                                            @foreach ($cities as $city)
-                                                                <option value="{{ $city['code'] }}">
-                                                                    {{ $city['name_with_type'] }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                <div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <select class="form-group cssselect" id="City"
+                                                                name="City" required>
+                                                                <option
+                                                                    value="{{ isset($user->address->city) ? $user->address->city : '' }}"
+                                                                    selected>
+                                                                    {{ isset($user->address->city) ? $user->address->city : '' }}
+                                                                </option>
+                                                                @foreach ($cities as $city)
+                                                                    <option value="{{ $city['code'] }}">
+                                                                        {{ $city['name_with_type'] }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            {{-- <input type="hidden" name="city"
+                                                            value="{{ isset($user->address->city) ? $user->address->city : '' }}"> --}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <select class="form-group cssselect" id="District"
+                                                                name="District" required disabled>
+                                                                <option
+                                                                    value="{{ isset($user->address->district) ? $user->address->district : '' }}"
+                                                                    selected>
+                                                                    {{ isset($user->address->district) ? $user->address->district : '' }}
+                                                                </option>
+                                                            </select>
+                                                            <input type="hidden" class="form-control" name="district"
+                                                                value="{{ isset($user->address->district) ? $user->address->district : '' }}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <select class="form-group cssselect" id="Ward"
+                                                                name="Ward" required disabled>
+                                                                <option
+                                                                    value="{{ isset($user->address->ward) ? $user->address->ward : '' }}"
+                                                                    selected>
+                                                                    {{ isset($user->address->ward) ? $user->address->ward : '' }}
+                                                                </option>
+                                                            </select>
+                                                            <input type="hidden" name="ward"
+                                                                value="{{ isset($user->address->ward) ? $user->address->ward : '' }}">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <select class="form-group cssselect" id="District" name="District"
-                                                            required disabled>
-                                                            <option
-                                                                value="{{ isset($user->address->district) ? $user->address->district : '' }}"
-                                                                selected>
-                                                                {{ isset($user->address->district) ? $user->address->district : '' }}
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <select class="form-group cssselect" id="Ward" name="Ward"
-                                                            required disabled>
-                                                            <option
-                                                                value="{{ isset($user->address->ward) ? $user->address->ward : '' }}"
-                                                                selected>
-                                                                {{ isset($user->address->ward) ? $user->address->ward : '' }}
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
 
                                                 {{-- <div class="col-md-4">
                                                 <div class="form-group">
@@ -177,8 +185,9 @@
 
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" placeholder="Street: *"
-                                                            name="street" required value="{{ $user->address->street }}">
+                                                        <input type="text" class="form-control"
+                                                            placeholder="Street: *" name="street" required
+                                                            value="{{ $user->address->street }}">
 
                                                     </div>
                                                 </div>
@@ -198,13 +207,34 @@
 
                                     <hr />
                                     <span class="checkbox">
-                                        <input type="radio" id="deliveryId1" name="deliveryOption" checked>
-                                        <label for="deliveryId1">Delivery 1-3 Days - <strong>Free</strong></label>
+                                        <input type="radio" id="deliveryId1" name="Delivery" checked value="Delivery">
+                                        <label for="deliveryId1">Delivery 3-7 Days - <strong>Free</strong></label>
                                     </span>
 
                                     <span class="checkbox">
-                                        <input type="radio" id="deliveryId2" name="deliveryOption">
+                                        <input type="radio" id="deliveryId2" name="Delivery" value="Store">
                                         <label for="deliveryId2">Pick up in the store - <strong>Free</strong></label>
+                                    </span>
+
+                                    <hr />
+                                    <div class="h4">Choose payment</div>
+
+                                    <hr />
+                                    <span class="checkbox">
+                                        <input type="radio" id="paymentID1" name="paymentOption" value="COD"
+                                            checked="checked">
+                                        <label for="paymentID1">
+                                            <strong>COD</strong> <br />
+                                            <small></small>
+                                        </label>
+                                    </span>
+
+                                    <span class="checkbox">
+                                        <input type="radio" id="paymentID2" value="VNPAY" name="paymentOption">
+                                        <label for="paymentID2">
+                                            <strong>VN PAY</strong> <br />
+                                            <small></small>
+                                        </label>
                                     </span>
 
                                     <hr />
@@ -312,14 +342,14 @@
                             <div class="cart-block cart-block-footer clearfix">
                                 @if (isset($discountprecent))
                                     <div>
-                                        <strong>Discount {{ $discountprecent }}%</strong>
+                                        <strong>Discount </strong>
                                     </div>
                                     <div>
                                         <span> - $ {{ $discountMoney }}</span>
                                     </div>
                                 @else
                                     <div>
-                                        <strong>Discount 0%</strong>
+                                        <strong>Discount</strong>
                                     </div>
                                     <div>
                                         <span> 0</span>
@@ -361,7 +391,7 @@
                                     Back to cart</a>
                             </div>
                             <div class="col-xs-6 text-right">
-                                <button href="/checkout-3" class="btn btn-main"><span class="icon icon-cart"></span> Go
+                                <button type="submit" class="btn btn-main"><span class="icon icon-cart"></span> Go
                                     to
                                     payment</button>
                             </div>
@@ -372,4 +402,72 @@
                 </div> <!--/container-->
         </form>
     </section>
+    <script>
+        jQuery(document).ready(function() {
+
+            function initializeEventListeners() {
+                const citySelect = document.getElementById('City');
+                const districtSelect = document.getElementById('District');
+                const wardSelect = document.getElementById('Ward');
+
+                citySelect.addEventListener('change', handleCityChange);
+                districtSelect.addEventListener('change', handleDistrictChange);
+            }
+
+            function handleCityChange() {
+                const cityCode = this.value;
+                fetchDistricts(cityCode);
+            }
+
+            function handleDistrictChange() {
+                const districtCode = this.value;
+                fetchWards(districtCode);
+            }
+
+            function fetchDistricts(cityCode) {
+                const districtSelect = document.getElementById('District');
+                const wardSelect = document.getElementById('Ward');
+                resetDropdown(districtSelect, 'District');
+                resetDropdown(wardSelect, 'Ward');
+
+                fetch(`/admin/districts/${cityCode}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        districtSelect.disabled = false;
+                        data.forEach(district => {
+                            const option = document.createElement('option');
+                            option.value = district.code;
+                            option.textContent = district.name_with_type;
+                            districtSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching districts:', error));
+            }
+
+            function fetchWards(districtCode) {
+                const wardSelect = document.getElementById('Ward');
+                resetDropdown(wardSelect, 'Ward');
+
+                fetch(`/admin/wards/${districtCode}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        wardSelect.disabled = false;
+                        data.forEach(ward => {
+                            const option = document.createElement('option');
+                            option.value = ward.code;
+                            option.textContent = ward.name_with_type;
+                            wardSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching wards:', error));
+            }
+
+            function resetDropdown(dropdown, placeholderText) {
+                dropdown.innerHTML = `<option value="" disabled selected>${placeholderText}</option>`;
+                dropdown.disabled = true;
+            }
+
+            initializeEventListeners();
+        });
+    </script>
 @endsection

@@ -9,9 +9,8 @@
                 <ol class="breadcrumb breadcrumb-inverted">
                     <li><a href="/"><span class="icon icon-home"></span></a></li>
                     <li><a class="active" href="/checkout">Cart items</a></li>
-                    <li><a href="checkout-2.html">Delivery</a></li>
-                    <li><a href="checkout-3.html">Payment</a></li>
-                    <li><a href="checkout-4.html">Receipt</a></li>
+                    <li><a href="/checkout-2" id="checkout-coupon">Delivery</a></li>
+                    <li><a href="#">Receipt</a></li>
                 </ol>
             </div>
         </header>
@@ -24,16 +23,13 @@
 
             <div class="stepper">
                 <ul class="row">
-                    <li class="col-md-3 active">
+                    <li class="col-md-4 active">
                         <span data-text="Cart items"></span>
                     </li>
-                    <li class="col-md-3">
+                    <li class="col-md-4">
                         <span data-text="Delivery"></span>
                     </li>
-                    <li class="col-md-3">
-                        <span data-text="Payment"></span>
-                    </li>
-                    <li class="col-md-3">
+                    <li class="col-md-4">
                         <span data-text="Receipt"></span>
                     </li>
                 </ul>
@@ -143,8 +139,10 @@
                                 more</a>
                         </div>
                         <div class="col-xs-6 text-right">
+
                             <a href="/checkout-2" id="checkout-coupon" class="btn btn-main"><span
-                                    class="icon icon-cart"></span> Proceed to
+                                    class="icon icon-cart"></span>
+                                Proceed to
                                 delivery</a>
                         </div>
                     </div>
@@ -201,7 +199,9 @@
                     $('#couponForm').on('submit', function(event) {
                         event.preventDefault();
                         var code = $('#couponCodeID').val();
-
+                        $('#originalPrice').hide();
+                        $('#discountPrice').hide();
+                        updateCart();
                         $.ajax({
                             url: $(this).attr('action'),
                             type: 'get',
@@ -249,15 +249,10 @@
                     });
 
                     $('.form-quantity').on('input', function() {
+                        // session() - > put('code', []);
                         updateCart();
                     });
                 });
-            </script>
-            <script>
-                $(document).ready(function() {
-                            function send(discountAmount = 0, percentDiscount = 0) {
-
-                            });
             </script>
             <script>
                 document.addEventListener("DOMContentLoaded", function() {

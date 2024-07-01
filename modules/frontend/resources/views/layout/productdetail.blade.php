@@ -50,9 +50,9 @@
                                 <!-- === info-box === -->
 
                                 <!-- <div class="info-box">
-                                                                                                            <span><strong>Maifacturer</strong></span>
-                                                                                                            <span>Brand name</span>
-                                                                                                        </div> -->
+                                                                                                                            <span><strong>Maifacturer</strong></span>
+                                                                                                                            <span>Brand name</span>
+                                                                                                                        </div> -->
 
                                 <!-- === info-box === -->
 
@@ -114,12 +114,12 @@
                             </div> --}}
 
                                 <!-- <div class="info-box info-box-addto">
-                                                                                                            <span><strong>Collection</strong></span>
-                                                                                                            <span>
-                                                                                                                <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
-                                                                                                                <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
-                                                                                                            </span>
-                                                                                                        </div> -->
+                                                                                                                            <span><strong>Collection</strong></span>
+                                                                                                                            <span>
+                                                                                                                                <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
+                                                                                                                                <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
+                                                                                                                            </span>
+                                                                                                                        </div> -->
 
                                 <hr />
 
@@ -175,10 +175,10 @@
 
                         <!-- === add to cart === -->
 
-                        <button type="submit" class="btn btn-buy" data-text="Buy"></button>
-                        <button type="submit" class="btn btn-add" data-text="Add">
-                            <a href="/add/{{ $data->product_id }}"><span class="icon icon-cart"></span> <span
-                                    class="hidden-xs"></span></a></button>
+                        <a href="/buynow/{{ $data->product_id }}" class="btn btn-buy" data-text="Buy"></a>
+
+                        <a href="/add/{{ $data->product_id }}"class="btn btn-add"><span class="icon icon-cart"></span>
+                            <span class="hidden-xs"></span></a>
 
 
                         <!-- === product gallery === -->
@@ -220,11 +220,11 @@
                     <div class="col-md-8">
                         <ul class="nav nav-tabs" role="tablist">
                             <!-- <li role="presentation" class="active">
-                                                                                            <a href="#designer" aria-controls="designer" role="tab" data-toggle="tab">
-                                                                                                <i class="icon icon-user"></i>
-                                                                                                <span>Collection</span>
-                                                                                            </a>
-                                                                                        </li> -->
+                                                                                                            <a href="#designer" aria-controls="designer" role="tab" data-toggle="tab">
+                                                                                                                <i class="icon icon-user"></i>
+                                                                                                                <span>Collection</span>
+                                                                                                            </a>
+                                                                                                        </li> -->
                             <li role="presentation" class="active">
                                 <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
                                     <i class="icon icon-sort-alpha-asc"></i>

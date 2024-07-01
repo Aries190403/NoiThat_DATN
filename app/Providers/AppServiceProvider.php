@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view) {
             if (Auth::check()) {
-                $cartItems = Session::get('cart', []);
+                $cartItems = session()->get('cart', []);
 
                 $products = [];
                 foreach ($cartItems as $item) {
