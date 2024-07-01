@@ -11,19 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pictures', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->string('image', 255);
-            $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('user_create')->nullable();
-            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('coupon_id')->nullable();
             $table->text('description')->nullable();
             $table->char('status', 50)->nullable();
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
-            $table->timestamp('deleted_at')->nullable();
-
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pictures');
+        Schema::dropIfExists('logs');
     }
 };

@@ -8,6 +8,8 @@ use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\MaterialController;
 use Modules\Backend\Http\Controller\ProductController;
+use Modules\Backend\Http\Controller\SettingController;
+use Modules\Backend\Http\Controller\SupplierController;
 use Modules\Backend\Http\Controller\UserController;
 
 Route::middleware(['web'])->prefix('admin')->group(function () {
@@ -65,6 +67,18 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/state/{id}', [CouponController::class, 'couponState'])->name('admin-coupon-state');
             Route::get('/view/{id}', [CouponController::class, 'view'])->name('admin-coupon-view');
             Route::post('/update/{id}', [CouponController::class, 'update'])->name('admin-coupon-update');
+        });
+
+        Route::prefix('setting')->group(function () {
+            Route::get('/', [SettingController::class, 'index'])->name('admin-setting-index');
+            Route::post('/change', [SettingController::class, 'change'])->name('admin-setting-change');
+        });
+
+        Route::prefix('supplier')->group(function () {
+            Route::get('/', [SupplierController::class, 'index'])->name('admin-supplier-index');
+            Route::post('/create', [SupplierController::class, 'Create'])->name('admin-supplier-create');
+            Route::get('/information/{id}', [SupplierController::class, 'getInfor'])->name('admin-supplier-infor');
+            Route::post('/edit/{id}', [SupplierController::class, 'edit'])->name('admin-supplier-edit');
         });
     });
 });

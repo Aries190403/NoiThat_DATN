@@ -21,6 +21,7 @@
     <script src="{{ asset('backend/src/plugins/cropperjs/dist/cropper.js') }}"></script>
     <script src="{{ asset('backend/src/plugins/cropperjs/dist/cropper-init.js') }}"></script>
     <script src="{{ asset('backend/src/plugins/dropzone/src/dropzone.js')}}"></script>
+    <script src="{{ asset('backend/src/scripts/customize.js')}}"></script>
 
     <!-- Datatable Setting js -->
     {{-- <script src="{{ asset('backend/vendors/scripts/datatable-setting.js') }}"></script> --}}
