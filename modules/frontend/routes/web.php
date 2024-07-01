@@ -21,6 +21,7 @@ Route::middleware('web')->group(function () {
     Route::get('/search', [MainFrontendController::class, 'search']);
     Route::get('/shop', [ShopFrontendController::class, 'index'])->name('shop');
     Route::get('/productdetail/{id}', [ShopFrontendController::class, 'detail'])->name('detail');
+    Route::post('/filter-products', [ShopFrontendController::class, 'filterProducts']);
 
     Route::get('/category/{id}', [CategoryController::class, 'index']);
 

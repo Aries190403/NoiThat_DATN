@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\cart;
 use App\Models\Category;
 use App\Models\favorite;
+use App\Models\material;
 use App\Models\product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -29,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
         // Lấy danh mục có trạng thái 'normal'
         $categories = Category::where('status', 'normal')->get();
         View::share('globalCategory', $categories);
+
+        $materials = material::where('status', 'normal')->get();
+        View::share('globalMaterials', $materials);
 
         view()->composer('*', function ($view) {
             if (Auth::check()) {
