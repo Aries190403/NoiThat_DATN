@@ -26,7 +26,7 @@
 
             <div class="owl-icons">
                 @foreach ($globalCategory as $c)
-                    <a href="/category/{{ $c->id }}">
+                    <a class="categorySearch" id="{{ $c->id }}">
                         @php
                             $icon = json_decode($c->content, true);
                         @endphp
@@ -73,7 +73,7 @@
                             <div class="filter-content">
                                 <span class="checkbox">
                                     <input type="radio" name="radiogroup-type" id="typeIdAll" checked="checked">
-                                    <label for="typeIdAll">All <i>{{ count($globalCategory) }}</i></label>
+                                    <label for="typeIdAll">All <i>({{ count($globalCategory) }})</i></label>
                                 </span>
                                 @foreach ($globalCategory as $c)
                                     <span class="checkbox">
@@ -251,9 +251,9 @@
 
                                                     <div class="col-sm-6">
                                                         <!-- <div class="info-box">
-                                                                                                                                                                                                                                                                                                                                                                                                                        <strong>Maifacturer</strong>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <span>Brand name</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <strong>Maifacturer</strong>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span>Brand name</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                                                         <div class="info-box">
                                                             <strong>Materials</strong>
                                                             <span>{{ $dt->materials_type }}</span>
@@ -385,9 +385,9 @@
 
                                                     <div class="col-sm-6">
                                                         <!-- <div class="info-box">
-                                                                                                                                                                                                                                                                                                                                                                                                                        <strong>Maifacturer</strong>
-                                                                                                                                                                                                                                                                                                                                                                                                                        <span>Brand name</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <strong>Maifacturer</strong>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span>Brand name</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
                                                         <div class="info-box">
                                                             <strong>Materials</strong>
                                                             <span>{{ $dt->materials_type }}</span>
@@ -518,8 +518,14 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    updateProductList(data.products.data); // Cập nhật danh sách sản phẩm
-                    // console.log("kkk")
+                    if (data.products.data.length === 0) {
+                        // alert('No products found matching the selected criteria.');
+                        document.getElementById('product-list').innerHTML = `
+                        <div class=row>
+                        <h4 style="text-align:center;">No products found matching the selected criteria.</h4></div>`;
+                    } else {
+                        updateProductList(data.products.data); // Cập nhật danh sách sản phẩm
+                    }
                 })
                 .catch(error => console.error('Error:', error, selectedPrice, selectedType, selectedMaterial));
         }
@@ -540,15 +546,15 @@
             <div class="info">
                 ${ product.favorites ?
                     `<span class="add-favorite">
-                                                                <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
-                                                                    <i class="icon icon-heart" style="background-color: #e71d36;"></i>
-                                                                </a>
-                                                            </span>` :
+                                                                                                                                                                                <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
+                                                                                                                                                                                    <i class="icon icon-heart" style="background-color: #e71d36;"></i>
+                                                                                                                                                                                </a>
+                                                                                                                                                                            </span>` :
                     `<span class="add-favorite">
-                                                                <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
-                                                                    <i class="icon icon-heart"></i>
-                                                                </a>
-                                                            </span>`
+                                                                                                                                                                                <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
+                                                                                                                                                                                    <i class="icon icon-heart"></i>
+                                                                                                                                                                                </a>
+                                                                                                                                                                            </span>`
                 }
             </div>
             <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
@@ -567,13 +573,106 @@
                     <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
                     ${ product.sale_percentage ?
                         `<sub>$ ${product.product_price}</sub>
-                                                                <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
+                                                                                                                                                                                <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
                         `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
                     }
                     <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
                 </div>
             </div>
         </article>`;
+
+                // Append elements to the container
+                productListContainer.appendChild(productItem);
+            });
+
+        }
+    </script>
+    <script>
+        // Lấy tất cả các thẻ có class "categorySearch" và thêm sự kiện click
+        $('.categorySearch').on('click', function() {
+            // Hành động khi click vào phần tử
+
+            fecthCategorys(this.id); // Tải trang đầu tiên khi cập nhật bộ lọc
+            document.getElementById('pagination').innerHTML = '';
+        });
+
+        function fecthCategorys(id) {
+            // console.log(id);
+
+            fetch(`/filter-category`, {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify({
+                        type: id,
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.products.data.length === 0) {
+                        // alert('No products found matching the selected criteria.');
+                        document.getElementById('product-list').innerHTML = `
+                    <div class=row>
+                    <h4 style="text-align:center;">No products found matching the selected criteria.</h4></div>`;
+                    } else {
+                        updateProduct(data.products.data); // Cập nhật danh sách sản phẩm
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateProduct(products) {
+            let productListContainer = document.getElementById('product-list');
+            productListContainer.innerHTML = '';
+
+            products.forEach(product => {
+                // Create product item container
+                let productItem = document.createElement('div');
+                productItem.className = 'col-md-6 col-xs-6';
+                let contentArray = JSON.parse(product.product_content);
+                let imgThumbnail = contentArray.imgThumbnail || 'frontend/assets/images/product-1.png';
+                // Construct product item HTML
+                productItem.innerHTML = `
+    <article>
+        <div class="info">
+            ${ product.favorites ?
+                `<span class="add-favorite">
+                                                                                                                                                        <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
+                                                                                                                                                            <i class="icon icon-heart" style="background-color: #e71d36;"></i>
+                                                                                                                                                        </a>
+                                                                                                                                                    </span>` :
+                `<span class="add-favorite">
+                                                                                                                                                        <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
+                                                                                                                                                            <i class="icon icon-heart"></i>
+                                                                                                                                                        </a>
+                                                                                                                                                    </span>`
+            }
+        </div>
+        <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
+        <div class="figure-grid">
+            ${ product.sale_percentage ?
+                `<span class="label label-info">-${product.sale_percentage}%</span>` :
+                ''
+            }
+            <div class="image">
+
+                <a href="/productdetail/${product.product_id}">
+                    <img src="{{ asset($imgThumbnail) }}" alt="" width="360" />
+                </a>
+            </div>
+            <div class="text">
+                <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
+                ${ product.sale_percentage ?
+                    `<sub>$ ${product.product_price}</sub>
+                                                                                                                                                        <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
+                    `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
+                }
+                <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
+            </div>
+        </div>
+    </article>`;
 
                 // Append elements to the container
                 productListContainer.appendChild(productItem);

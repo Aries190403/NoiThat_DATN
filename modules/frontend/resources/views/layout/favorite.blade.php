@@ -1,6 +1,6 @@
 @extends('frontend::main')
 @section('content')
-    <section class="main-header" style="background-image:url(assets/images/gallery-2.jpg)">
+    <section class="main-header" style="background-image:url({{ asset('frontend/assets/images/gallery-2.jpg)') }}">
         <header>
             <div class="container text-center">
                 <h2 class="h2 title">Customer page</h2>

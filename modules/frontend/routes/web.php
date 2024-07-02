@@ -23,7 +23,7 @@ Route::middleware('web')->group(function () {
     Route::get('/productdetail/{id}', [ShopFrontendController::class, 'detail'])->name('detail');
     Route::post('/filter-products', [ShopFrontendController::class, 'filterProducts']);
 
-    Route::get('/category/{id}', [CategoryController::class, 'index']);
+    Route::post('/filter-category', [CategoryController::class, 'index']);
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register');

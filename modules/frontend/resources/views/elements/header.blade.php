@@ -90,7 +90,7 @@
 
                             <!-- Furniture icons in dropdown-->
 
-                            <li>
+                            <li id="li_hover">
                                 <a href="/"> Product Category <span class="open-dropdown"><i
                                             class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown">
@@ -104,13 +104,10 @@
                                                     alt="Lorem ipsum" />
                                             </div>
                                             <div class="box">
-                                                <div class="h2">Best ideas</div>
+                                                <div class="h2">Mobel</div>
                                                 <div class="clearfix">
-                                                    <p>Homes that differ in terms of style, concept and architectural
-                                                        solutions have been furnished by Furniture Factory. These spaces
-                                                        tell of an international lifestyle that expresses modernity,
-                                                        research and a creative spirit.</p>
-                                                    <a class="btn btn-clean btn-big" href="/shop">Explore</a>
+                                                    <p>Let us know what you're looking for. We will support you.</p>
+                                                    {{-- <a class="btn btn-clean btn-big" href="/shop">Explore</a> --}}
                                                 </div>
                                             </div>
                                         </div> <!--/box-1-->
@@ -118,7 +115,8 @@
                                         <!-- box-2 (right-side)-->
 
                                         <div class="box-2">
-                                            <div class="clearfix categories">
+                                            <div class="clearfix categories"
+                                                style="overflow-y: auto; max-height: 450px;">
                                                 <div class="row">
 
                                                     <!--icon item-->
@@ -133,7 +131,8 @@
                                                     </div> -->
                                                     @foreach ($globalCategory as $c)
                                                         <div class="col-sm-3 col-xs-6">
-                                                            <a href="/categorry/{{ $c->id }}">
+                                                            <a class="categorySearch categoryHeader"
+                                                                id="{{ $c->id }}">
                                                                 @php
                                                                     $icon = json_decode($c->content, true);
                                                                 @endphp
@@ -710,6 +709,14 @@
                                             }
                                         });
                                     });
+                                });
+                            </script>
+
+                            <script>
+                                $('.categoryHeader').on('click', function() {
+                                    // Hành động khi click vào phần tử
+                                    // alert(window.location.href);
+                                    if (!window.location.href.includes('/shop')) window.location.href = '/shop';
                                 });
                             </script>
                         </div>
