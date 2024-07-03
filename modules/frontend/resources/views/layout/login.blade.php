@@ -104,4 +104,23 @@
 
         </div>
     </section>
+    <script>
+        $(document).ready(function() {
+            $.toast({
+                heading: 'Notification !',
+                text: "Login to continue",
+                showHideTransition: 'slide', // It can be plain, fade or slide
+                icon: 'success',
+                hideAfter: 4000, // `false` to make it sticky or time in milliseconds to hide after
+                position: 'top-center',
+                loaderBg: 'black', // Background color of the toast loader
+                bgColor: '#ffc933', // Background color of the toast
+                textColor: 'white', // Text color
+                afterShown: function() {
+                    // Set z-index to ensure the toast appears on top
+                    $('.jq-toast-wrap').css('z-index', 9999);
+                }
+            });
+        });
+    </script>
 @endsection

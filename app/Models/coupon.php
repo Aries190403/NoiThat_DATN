@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class coupon extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_create', 'code', 'limit','count_active', 'discount', 'discount_money','downtime', 'description', 'status'];
+    protected $fillable = ['user_create', 'code', 'limit', 'count_active', 'discount', 'discount_money', 'downtime', 'description', 'status'];
 
     public function user()
     {

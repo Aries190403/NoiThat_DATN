@@ -1,6 +1,6 @@
 @extends('frontend::main')
 @section('content')
-    <section class="main-header" style="background-image:url(assets/images/gallery-2.jpg)">
+    <section class="main-header" style="background-image:url({{ asset('frontend/assets/images/gallery-2.jpg)') }}">
         <header>
             <div class="container text-center">
                 <h2 class="h2 title">Customer page</h2>
@@ -18,13 +18,28 @@
                     <div style="display: flex;
     justify-content: center;">
                         <div style="width: 60%">
-                            <img src="{{ asset('backend/src/images/avatar-clone.svg') }}" class="avatar-user"
-                                width="100%">
+                            @if (isset($user->picture->image))
+                                {{-- @dump($user->picture->image) --}}
+                                <img src="{{ asset($user->picture->image) }}" class="avatar-user" width="100%">
+                            @else
+                                <img src="{{ asset('backend/src/images/avatar-clone.svg') }}" class="avatar-user"
+                                    width="100%">
+                            @endif
+
                         </div>
                     </div>
                     <div style="display: flex;
     justify-content: center;">
-                        <button style="margin: 15px" class="btn btn-default">Update Image</button>
+                        <form id="uploadForm" method="POST" action="/uploadAvatar/{{ Auth::user()->id }}"
+                            enctype="multipart/form-data">
+                            <input type="hidden" name="_token" value="YOUR_CSRF_TOKEN">
+                            {{-- <a href="#" class="edit-avatar" id="uploadImageLink"><i class="icon-copy dw dw-pencil-1"
+                                    style="color: red"></i>sss</a> --}}
+                            <a id="uploadImageLink" style="margin: 15px" class="btn btn-default">Update Image</a>
+                            {{-- <a href="#" id="uploadImageLink">Upload Image</a> --}}
+                            <input type="file" id="imageInput" name="image" style="display: none;">
+                        </form>
+                        {{-- <a id="uploadImageLink" style="margin: 15px" class="btn btn-default">Update Image</a> --}}
                         <a href="/editpassword" style="margin: 15px" class="btn btn-default">Change Password</a>
                     </div>
                 </div>
@@ -136,6 +151,8 @@
                     </div>
                 </div>
             </div>
+            @include('frontend::layout.modal.modal-cropped')
+
     </section>
     <script>
         jQuery(document).ready(function() {
@@ -203,6 +220,95 @@
             }
 
             initializeEventListeners();
+        });
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/cropperjs"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var uploadImageLink = document.getElementById('uploadImageLink');
+            var imageInput = document.getElementById('imageInput');
+            var previewImage = document.getElementById('previewImage');
+            var imagePreviewModal = new bootstrap.Modal(document.getElementById('imagePreviewModal'));
+            var confirmUpload = document.getElementById('confirmUpload');
+            var uploadForm = document.getElementById('uploadForm');
+            var cropper;
+
+            uploadImageLink.addEventListener('click', function() {
+                imageInput.click();
+            });
+
+            imageInput.addEventListener('change', function(event) {
+                var file = event.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        imagePreviewModal.show();
+
+                        // Destroy the old cropper instance if exists
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+
+                        // Initialize the cropper
+                        cropper = new Cropper(previewImage, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            autoCropArea: 1
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            confirmUpload.addEventListener('click', function() {
+                var canvas = cropper.getCroppedCanvas({
+                    width: 400,
+                    height: 400,
+                });
+
+                canvas.toBlob(function(blob) {
+                    if (blob) {
+                        var formData = new FormData(uploadForm);
+                        formData.append('croppedImage', blob);
+
+                        fetch(uploadForm.action, {
+                                method: uploadForm.method,
+                                body: formData,
+                                headers: {
+                                    'X-CSRF-TOKEN': document.querySelector(
+                                        'input[name="_token"]').value
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    location.reload(); // Go back to the previous page
+                                } else {
+                                    alert(data.message);
+                                }
+                                imagePreviewModal.hide();
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('An error occurred while uploading the image.');
+                                imagePreviewModal.hide();
+                            });
+                    } else {
+                        console.error('Blob is null.');
+                    }
+                }, 'image/jpeg');
+            });
         });
     </script>
 @endsection
