@@ -79,6 +79,8 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/create', [SupplierController::class, 'Create'])->name('admin-supplier-create');
             Route::get('/information/{id}', [SupplierController::class, 'getInfor'])->name('admin-supplier-infor');
             Route::post('/edit/{id}', [SupplierController::class, 'edit'])->name('admin-supplier-edit');
+            Route::post('/state/{id}', [SupplierController::class, 'couponState'])->name('admin-supplier-state');
+            Route::post('/uplogo/{id}', [SupplierController::class, 'upAvatar'])->name('admin-supplier-uplogo');
         });
     });
 });

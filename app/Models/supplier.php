@@ -14,4 +14,9 @@ class supplier extends Model
     {
         return $this->belongsTo(Address::class, 'address_id');
     }
+
+    public function picture()
+    {
+        return $this->belongsTo(picture::class, 'avatar');
+    }
 }

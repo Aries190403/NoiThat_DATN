@@ -11,6 +11,12 @@
                 <div class="row container-fluid">
                     <div class="col-lg-4">
                         <div class="profile-photo">
+                            <form id="uploadForm" method="POST" action="{{ route('admin-supplier-uplogo', ['id' => 1]) }}" enctype="multipart/form-data">
+                                @csrf
+                                <a href="#" class="edit-avatar" id="uploadImageLink"><i class="icon-copy dw dw-pencil-1" style="color: red"></i></a>
+                                {{-- <a href="#" id="uploadImageLink">Upload Image</a> --}}
+                                <input type="file" id="imageInput" name="image" style="display: none;">
+                            </form>
                             <img id="supplier-avatar" src="{{ asset('backend/src/images/no-image.svg') }}" alt="" style="width: 100%; border-radius: 50%; display: block;" />
                         </div>
                         <div class="form-group">
@@ -36,26 +42,24 @@
                         <div class="col-4">
                             <label for="City" style="font-weight: bold;">City</label>
                             <select class="form-control city-select" name="City" id="supplierCity" required>
-                                <option value="" disabled selected>City</option>
+                                <option value="" disabled selected id="cityPlaceholder">City</option>
                                 @foreach($getAddress as $city)
                                     <option value="{{ $city['code'] }}">{{$city['name_with_type'] }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-4">
-                            <label for="District" style="font-weight: bold;" >District</label>
+                            <label for="District" style="font-weight: bold;">District</label>
                             <select class="form-control district-select" name="District" id="supplierDistrict" required disabled>
-                                <option value="" disabled selected>District</option>
+                                <option value="" disabled selected id="districtPlaceholder">District</option>
                             </select>
                         </div>
                         <div class="col-4">
                             <label for="Ward" style="font-weight: bold;" id="supplierWardLabel">Ward</label>
                             <select class="form-control ward-select" name="Ward" id="supplierWard" required disabled>
-                                <option value="" disabled selected>Ward</option>
+                                <option value="" disabled selected id="wardPlaceholder">Ward</option>
                             </select>
                         </div>
-                        
-                        
                         <div class="col-md-12 mt-3">
                             <div class="form-group">
                                 <label for="street" style="font-weight: bold;">Street</label>

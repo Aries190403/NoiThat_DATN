@@ -22,6 +22,7 @@
         </div>
     </div>
     @include('backend::supplier.modal.modal-view')
+    @include('backend::user.modal.modal-cropped')
     {{-- @include('backend::supplier.modal.modal-edit') --}}
 
     <table id="dataTablesupplier" class="data-table table nowrap">
@@ -41,9 +42,9 @@
                 <td class="table-plus">
                     <div class="name-avatar d-flex align-items-center">
                         <div class="avatar mr-2 flex-shrink-0">
-                            {{-- @if (isset($user->avatar))
+                            @if (isset($supplier->avatar))
                                 <img
-                                    src="{{ asset($user->picture->image) }}"
+                                    src="{{ asset($supplier->picture->image) }}"
                                     class="border-radius-100 shadow"
                                     width="40"
                                     height="40"
@@ -51,13 +52,13 @@
                                 />
                             @else
                                 <img
-                                    src="{{ asset('backend/src/images/avatar-clone.svg')}}"
+                                    src="{{ asset('backend/src/images/no-image.svg')}}"
                                     class="border-radius-100 shadow"
                                     width="40"
                                     height="40"
                                     alt=""
                                 />
-                            @endif --}}
+                            @endif
                         </div>
                         <div class="txt">
                             <div class="weight-600">{{$supplier->name}}</div>
@@ -97,6 +98,15 @@
                     <a href="{{ route('admin-supplier-infor', ['id' => $supplier->id]) }}" class="openModalView" data-supplier-id="{{ $supplier->id }}" style="color: #fb9700;">
                         <i class="icon-copy dw dw-eye" style="color: inherit;"></i>
                     </a>
+                    @if ($supplier->status == 'normal')
+                        <a href="{{route('admin-supplier-state', ['id' => $supplier->id])}}" id="lock-supplier" style="color: #ff0000;">
+                            <i class="icon-copy dw dw-padlock1" style="color: inherit;"></i>
+                        </a>
+                    @else
+                        <a href="{{route('admin-supplier-state', ['id' => $supplier->id])}}" id="lock-supplier" style="color: #00ff3381;">
+                            <i class="icon-copy dw dw-open-padlock" style="color: inherit;"></i>
+                        </a>
+                    @endif
                 </td>
             </tr>
             @endforeach

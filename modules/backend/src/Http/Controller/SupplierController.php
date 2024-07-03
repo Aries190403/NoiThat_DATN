@@ -7,6 +7,7 @@ use App\Models\Address as ModelsAddress;
 use App\Models\picture;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Modules\Backend\Extentions\Address\Address;
@@ -20,7 +21,7 @@ class SupplierController extends Controller
     {
         $title = "suppliers";
         $getAddress = Address::getProvinces();
-        $suppliers = supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
+        $suppliers = Supplier::where('status', '!=', DataType::DELETED_DATA_TYPE)->get();
         return view('backend::supplier.index', ['title' => $title, 'suppliers' => $suppliers, 'getAddress' => $getAddress]);
     }
 
@@ -75,11 +76,111 @@ class SupplierController extends Controller
 
     public function edit(Request $request, $id)
     {
-        dd($request);
+        $supplier = Supplier::findOrFail($id);
+        $data = $request->only('name', 'email', 'phone', 'street', 'city', 'district', 'ward', 'description');
+    
+        if (!empty($data['name'])) {
+            $supplier->name = $data['name'];
+        }
+        if (!empty($data['email'])) {
+            $supplier->email = $data['email'];
+        }
+        if (!empty($data['phone'])) {
+            $supplier->phone = $data['phone'];
+        }
+        if (!empty($data['description'])) {
+            $supplier->description = $data['description'];
+        }
+    
+        if($data['city'] == null || $data['district'] == null || $data['ward'] == null)
+        {
+            return response()->json(['error' => 'Please re-enter the address'], 400);
+        }
+        else{
+            $fullAddressName = Address::getFullAddressNames($data['city'], $data['district'], $data['ward']);
+            $address = ModelsAddress::findOrFail($supplier->address_id);
+    
+            $address->street = $data['street'];
+            $address->ward = $fullAddressName['ward_name'];
+            $address->district = $fullAddressName['district_name'];
+            $address->city = $fullAddressName['province_name'];
+        };
+        try {
+            $address->save();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Must enter full address'], 400);
+        }
+        try {
+            $supplier->save();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Unable to save supplier'], 500);
+        }
+    
+        return response()->json(['success' => 'Supplier updated successfully']);
     }
-
+    
     public function update(Request $request, $id)
     {
         
     }
+
+    public function couponState($id)
+    {
+        try {
+            $coupon = Supplier::findOrFail($id);
+            $coupon->status = ($coupon->status == 'normal') ? 'locked' : 'normal';
+            $coupon->save();
+
+            return redirect()->back()->with('success', 'coupon updated successfully');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred, please try again later'], 500);
+        }
+    }
+
+    public function upAvatar(Request $request, $id)
+    {
+        $disk = 'public';
+        $directory = 'uploads/images/avatars';
+    
+        if ($request->hasFile('image')) {
+            $filePath = $this->storeImage($request->file('image'), $disk, $directory);
+            
+            $user = Supplier::find($id);
+            if (!$user) {
+                return response()->json(['success' => false, 'message' => 'Không tìm thấy người dùng.']);
+            }
+    
+            $image = $user->avatar ? picture::find($user->avatar) : new picture();
+    
+            if (!$image) {
+                $image = new picture();
+            }
+    
+            $image->image = $filePath;
+            $image->save();
+    
+            $user->avatar = $image->id;
+            $user->save();
+    
+            return response()->json(['success' => true, 'path' => $filePath]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Không có hình ảnh nào được tải lên.']);
+    }
+
+    private function storeImage($file, $disk, $directory)
+    {
+        $destinationPath = public_path($directory);
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+    
+        $randomFileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+        $filePath = $directory . '/' . $randomFileName;
+    
+        $file->move($destinationPath, $randomFileName);
+    
+        return $filePath;
+    }
+
 }
