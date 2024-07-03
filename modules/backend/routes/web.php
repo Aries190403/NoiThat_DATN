@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Backend\Http\Controller\AddressController;
 use Modules\Backend\Http\Controller\CategoryController;
 use Modules\Backend\Http\Controller\CouponController;
-use Modules\Backend\Http\Controller\LoginController;    
+use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\MaterialController;
 use Modules\Backend\Http\Controller\ProductController;
@@ -20,12 +20,12 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
     Route::get('/districts/{cityCode}', [AddressController::class, 'getDistricts'])->name('admin-get-districts');
     Route::get('/wards/{districtCode}', [AddressController::class, 'getWards'])->name('admin-get-wards');
     Route::post('/uploadAvatar/{id}', [UserController::class, 'upAvatar'])->name('admin-up-avatar');
-    
+
     Route::middleware(['role:ROLE_SUPER_ADMIN'])->group(function () {
         Route::get('/dashboard', [MainAdminController::class, 'index'])->name('admin-dashboard');
         Route::get('/users', [UserController::class, 'index'])->name('admin-user');
         Route::get('/products', [ProductController::class, 'index'])->name('admin-product-index');
-        
+
         Route::prefix('user')->group(function () {
             Route::post('/create', [UserController::class, 'create'])->name('admin-user-create');
             Route::get('/delete/{id}', [UserController::class, 'deleted'])->name('admin-user-delete');
@@ -40,7 +40,6 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/add', [CategoryController::class, 'create'])->name('admin-category-store');
             Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('admin-category-edit');
             Route::post('/update/{id}', [CategoryController::class, 'update'])->name('admin-category-update');
-
         });
 
         Route::prefix('products')->group(function () {
@@ -68,7 +67,6 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/state/{id}', [CouponController::class, 'couponState'])->name('admin-coupon-state');
             Route::get('/view/{id}', [CouponController::class, 'view'])->name('admin-coupon-view');
             Route::post('/update/{id}', [CouponController::class, 'update'])->name('admin-coupon-update');
-
         });
 
         Route::prefix('setting')->group(function () {
@@ -81,11 +79,6 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/create', [SupplierController::class, 'Create'])->name('admin-supplier-create');
             Route::get('/information/{id}', [SupplierController::class, 'getInfor'])->name('admin-supplier-infor');
             Route::post('/edit/{id}', [SupplierController::class, 'edit'])->name('admin-supplier-edit');
-
-        });        
+        });
     });
 });
-
-
-
-

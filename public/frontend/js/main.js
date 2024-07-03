@@ -150,6 +150,8 @@
     function closeCart() {
         objCart.removeClass("open");
         $cart.removeClass("open");
+        $("#search").val("");
+        $("#results-list").empty();
     }
 
     // Sticky header

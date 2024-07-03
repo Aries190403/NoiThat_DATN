@@ -90,7 +90,7 @@
 
                             <!-- Furniture icons in dropdown-->
 
-                            <li>
+                            <li id="li_hover">
                                 <a href="/"> Product Category <span class="open-dropdown"><i
                                             class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown">
@@ -104,13 +104,10 @@
                                                     alt="Lorem ipsum" />
                                             </div>
                                             <div class="box">
-                                                <div class="h2">Best ideas</div>
+                                                <div class="h2">Mobel</div>
                                                 <div class="clearfix">
-                                                    <p>Homes that differ in terms of style, concept and architectural
-                                                        solutions have been furnished by Furniture Factory. These spaces
-                                                        tell of an international lifestyle that expresses modernity,
-                                                        research and a creative spirit.</p>
-                                                    <a class="btn btn-clean btn-big" href="/shop">Explore</a>
+                                                    <p>Let us know what you're looking for. We will support you.</p>
+                                                    {{-- <a class="btn btn-clean btn-big" href="/shop">Explore</a> --}}
                                                 </div>
                                             </div>
                                         </div> <!--/box-1-->
@@ -118,7 +115,8 @@
                                         <!-- box-2 (right-side)-->
 
                                         <div class="box-2">
-                                            <div class="clearfix categories">
+                                            <div class="clearfix categories"
+                                                style="overflow-y: auto; max-height: 450px;">
                                                 <div class="row">
 
                                                     <!--icon item-->
@@ -133,7 +131,8 @@
                                                     </div> -->
                                                     @foreach ($globalCategory as $c)
                                                         <div class="col-sm-3 col-xs-6">
-                                                            <a href="/categorry/{{ $c->id }}">
+                                                            <a class="categorySearch categoryHeader"
+                                                                id="{{ $c->id }}">
                                                                 @php
                                                                     $icon = json_decode($c->content, true);
                                                                 @endphp
@@ -347,11 +346,41 @@
                 <div class="search-wrapper">
 
                     <!-- Search form -->
-                    <input class="form-control" placeholder="Search..." />
-                    <button class="btn btn-main btn-search">Go!</button>
-
-                    <!-- Search results - live search -->
+                    <button id="btnSearch" class="btn btn-main btn-search">X</button>
+                    <input id='search' class="form-control" placeholder="Type name product..." />
                     <div class="search-results">
+                        {{-- <div class="search-result-items">
+                            <div class="title h4">Products <a href="/shop" class="btn btn-clean-dark btn-xs">View
+                                    all</a></div>
+                            <ul>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Green
+                                            corner</span> <span class="category">Sofa</span></a></li>
+                                <li><a href="#"><span class="id">42563</span> <span
+                                            class="name">Laura</span> <span class="category">Armchairs</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Nude</span>
+                                        <span class="category">Dining tables</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span
+                                            class="name">Aurora</span> <span class="category">Nightstands</span></a>
+                                </li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Dining
+                                            set</span> <span class="category">Kitchen</span></a></li>
+                                <li><a href="#"><span class="id">42563</span> <span class="name">Seat
+                                            chair</span> <span class="category">Bar sets</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="search-results"> --}}
+                        <div class="search-result-items">
+                            <div class="title h4">Products <a href="/shop" class="btn btn-clean-dark btn-xs">View
+                                    all</a></div>
+                            <ul id="results-list">
+                                <!-- Search results will be appended here -->
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Search results - live search -->
+                    {{-- <div class="search-results">
                         <div class="search-result-items">
                             <div class="title h4">Products <a href="#" class="btn btn-clean-dark btn-xs">View
                                     all</a></div>
@@ -394,8 +423,72 @@
                                             you</span></a></li>
                             </ul>
                         </div> <!--/search-result-items-->
-                    </div> <!--/search-results-->
+                    </div> <!--/search-results--> --}}
                 </div>
+
+                <script>
+                    $(document).ready(function() {
+                        let timeout = null;
+
+                        $('#search').on('input', function() {
+                            clearTimeout(timeout);
+                            const query = $(this).val();
+
+                            timeout = setTimeout(function() {
+                                if (query.length > 0) {
+                                    searchProducts(query);
+                                } else {
+                                    $('#results-list').empty();
+                                }
+                            }, 1000);
+                        });
+                        $('#search').on('keypress', function(e) {
+                            if (e.which == 13) { // Enter key pressed
+                                clearTimeout(timeout);
+                                const query = $(this).val();
+                                if (query.length > 0) {
+                                    searchProducts(query);
+                                } else {
+                                    $('#results-list').empty();
+                                }
+                            }
+                        });
+
+                        $('#btnSearch').on('click', function(e) {
+                            $('#search').val('');
+                            $('#results-list').empty();
+                        });
+
+                        function searchProducts(query) {
+                            $.ajax({
+                                url: '/search',
+                                method: 'GET',
+                                data: {
+                                    query: query
+                                },
+                                success: function(data) {
+                                    $('#results-list').empty();
+                                    if (data.length > 0) {
+                                        data.forEach(function(product) {
+                                            $('#results-list').append(
+                                                `<li>
+                                <a href="/productdetail/${product.id}"><span class="id"></span> <span class="name">${product.name}</span> <span class="category">${product.name}</span></a>
+                            </li>`
+                                            );
+                                        });
+                                    } else {
+                                        $('#results-list').append('<li>No products found !</li>');
+
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Search error:', error);
+                                    $('#results-list').append('<li>No products found !</li>');
+                                }
+                            });
+                        }
+                    });
+                </script>
 
                 <!-- ==========  Login wrapper ========== -->
 
@@ -460,6 +553,7 @@
                         <div class="clearfix">
                             <!--cart item-->
                             <div class="row">
+
                                 @if (isset($globalCart) && $globalCart)
                                     {{-- @dump($globalCart) --}}
                                     <div class="cart-items-container">
@@ -497,7 +591,8 @@
                                                         @if (isset($cartItem['sale_percentage']))
                                                             <span class="final">$
                                                                 {{ $cartItem['price'] - $cartItem['price'] * ($cartItem['sale_percentage'] * 0.01) }}</span>
-                                                            <span class="discount">$ {{ $cartItem['price'] }}</span>
+                                                            <span class="discount">$
+                                                                {{ $cartItem['price'] }}</span>
                                                         @else
                                                             <span class="final">$ {{ $cartItem['price'] }}</span>
                                                         @endif
@@ -511,7 +606,7 @@
                                     </div>
                                     <hr>
                                     <!--cart prices -->
-                                    <div class="clearfix">
+                                    {{-- <div class="clearfix">
                                         <div class="cart-block cart-block-footer clearfix">
                                             <div>
                                                 <strong>VAT</strong>
@@ -520,8 +615,8 @@
                                                 <span id="vat">$0.00</span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <hr />
+                                    </div> --}}
+                                    {{-- <hr /> --}}
                                     <!--cart final price -->
                                     <div class="clearfix">
                                         <div class="cart-block cart-block-footer clearfix">
@@ -554,7 +649,7 @@
                                 $(document).ready(function() {
                                     function updateCart() {
                                         var total = 0;
-                                        var vatRate = 0.005; // Example VAT rate (10%)
+                                        var vatRate = 0; // Example VAT rate (10%)
 
                                         $('.cartItem').each(function(index) {
                                             // console.log("Item index:", index);
@@ -614,6 +709,14 @@
                                             }
                                         });
                                     });
+                                });
+                            </script>
+
+                            <script>
+                                $('.categoryHeader').on('click', function() {
+                                    // Hành động khi click vào phần tử
+                                    // alert(window.location.href);
+                                    if (!window.location.href.includes('/shop')) window.location.href = '/shop';
                                 });
                             </script>
                         </div>

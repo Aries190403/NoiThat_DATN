@@ -81,13 +81,13 @@
                 <!-- === icon item === -->
 
                 <!-- <a href="#">
-                                                    <figure>
-                                                        <i class="f-icon f-icon-accessories"></i>
-                                                        <figcaption>Accessories</figcaption>
-                                                    </figure>
-                                                </a> -->
+                                                                                                                                                                                                                                                                                                                                <figure>
+                                                                                                                                                                                                                                                                                                                                    <i class="f-icon f-icon-accessories"></i>
+                                                                                                                                                                                                                                                                                                                                    <figcaption>Accessories</figcaption>
+                                                                                                                                                                                                                                                                                                                                </figure>
+                                                                                                                                                                                                                                                                                                                            </a> -->
                 @foreach ($globalCategory as $c)
-                    <a href="/categorry/{{ $c->id }}">
+                    <a class="categoryHome" id="{{ $c->id }}">
                         @php
                             $icon = json_decode($c->content, true);
                         @endphp
@@ -126,45 +126,49 @@
                 <!-- === product-item === -->
 
                 <!-- <div class="col-md-4 col-xs-6">
-                                                    <article>
-                                                        <div class="info">
-                                                            <span class="add-favorite">
-                                                                <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
-                                                            </span>
-                                                            <span>
-                                                                <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
-                                                            </span>
-                                                        </div>
-                                                        <div class="btn btn-add">
-                                                            <i class="icon icon-cart"></i>
-                                                        </div>
-                                                        <div class="figure-grid">
-                                                            <span class="label label-warning">New</span>
-                                                            <div class="image">
-                                                                <a href="#productid1" class="mfp-open">
-                                                                    <img src="{{ asset('frontend/assets/images/product-3.png') }}" alt="" width="360" />
-                                                                </a>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h2 class="title h4"><a href="product.html">Nude</a></h2>
-                                                                <sup>$ 2999,-</sup>
-                                                                <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                </div> -->
+                                                                                                                                                                                                                                                                                                                                <article>
+                                                                                                                                                                                                                                                                                                                                    <div class="info">
+                                                                                                                                                                                                                                                                                                                                        <span class="add-favorite">
+                                                                                                                                                                                                                                                                                                                                            <a href="javascript:void(0);" data-title="Add to favorites" data-title-added="Added to favorites list"><i class="icon icon-heart"></i></a>
+                                                                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                                                                        <span>
+                                                                                                                                                                                                                                                                                                                                            <a href="#productid1" class="mfp-open" data-title="Quick wiew"><i class="icon icon-eye"></i></a>
+                                                                                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                    <div class="btn btn-add">
+                                                                                                                                                                                                                                                                                                                                        <i class="icon icon-cart"></i>
+                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                    <div class="figure-grid">
+                                                                                                                                                                                                                                                                                                                                        <span class="label label-warning">New</span>
+                                                                                                                                                                                                                                                                                                                                        <div class="image">
+                                                                                                                                                                                                                                                                                                                                            <a href="#productid1" class="mfp-open">
+                                                                                                                                                                                                                                                                                                                                                <img src="" alt="" width="360" />
+                                                                                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                        <div class="text">
+                                                                                                                                                                                                                                                                                                                                            <h2 class="title h4"><a href="product.html">Nude</a></h2>
+                                                                                                                                                                                                                                                                                                                                            <sup>$ 2999,-</sup>
+                                                                                                                                                                                                                                                                                                                                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
+                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                </article>
+                                                                                                                                                                                                                                                                                                                            </div> -->
 
                 <!-- === product-item === -->
+                @php
+                    if (isset($favorites)) {
+                        foreach ($favorites as $item) {
+                            $fas[] = $item->id;
+                        }
+                    }
+                @endphp
 
                 @foreach ($data as $dt)
                     <div class="col-md-4 col-xs-6">
                         <article>
                             <div class="info">
-                                @php
-                                    $favorites = Session::get('favorite');
-                                @endphp
-                                @if (isset($favorites))
-                                    @if (array_key_exists($dt->product_id, $favorites))
+                                @if (isset($favorites) && isset($fas))
+                                    @if (in_array($dt->product_id, $fas))
                                         <span class="add-favorite">
                                             <a href="/addfavorite/{{ $dt->product_id }}"
                                                 data-title="Remove to favorites list" style="background-color: #e71d36;">
@@ -188,8 +192,8 @@
                                     </span>
                                 @endif
                                 <span>
-                                    <a href="#productid{{ $dt->product_id }}" class="mfp-open"
-                                        data-title="Quick wiew"><i class="icon icon-eye"></i></a>
+                                    <a href="#productid{{ $dt->product_id }}" class="mfp-open" data-title="Quick wiew"><i
+                                            class="icon icon-eye"></i></a>
                                 </span>
                             </div>
                             {{-- <div class="btn btn-add">
@@ -200,6 +204,10 @@
                                 </i></a>
                             <div class="figure-grid">
                                 <span class="label label-warning">New</span>
+                                @if (isset($dt->sale_percentage))
+                                    <span style="margin-left: 40px;"
+                                        class="label label-info">-{{ $dt->sale_percentage }}%</span>
+                                @endif
                                 <div class="image">
                                     @php
                                         // Giải mã chuỗi JSON thành mảng
@@ -261,9 +269,9 @@
 
                                         <div class="col-sm-6">
                                             <!-- <div class="info-box">
-                                                                                    <strong>Maifacturer</strong>
-                                                                                    <span>Brand name</span>
-                                                                                </div> -->
+                                                                                                                                                                                                                                                                                                                                                                <strong>Maifacturer</strong>
+                                                                                                                                                                                                                                                                                                                                                                <span>Brand name</span>
+                                                                                                                                                                                                                                                                                                                                                            </div> -->
                                             <div class="info-box">
                                                 <strong>Materials</strong>
                                                 <span>{{ $dt->materials_type }}</span>
@@ -345,8 +353,8 @@
                                     <div class="popup-buttons">
                                         <a href="/productdetail/{{ $dt->product_id }}"><span
                                                 class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
-                                        <a href="javascript:void(0);"><span class="icon icon-cart"></span> <span
-                                                class="hidden-xs">Buy Now</span></a>
+                                        <a href="/buynow/{{ $dt->product_id }}"><span class="icon icon-cart"></span>
+                                            <span class="hidden-xs">Buy Now</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -392,9 +400,9 @@
 
                                         <div class="col-sm-6">
                                             <!-- <div class="info-box">
-                                                                                    <strong>Maifacturer</strong>
-                                                                                    <span>Brand name</span>
-                                                                                </div> -->
+                                                                                                                                                                                                                                                                                                                                                                <strong>Maifacturer</strong>
+                                                                                                                                                                                                                                                                                                                                                                <span>Brand name</span>
+                                                                                                                                                                                                                                                                                                                                                            </div> -->
                                             <div class="info-box">
                                                 <strong>Materials</strong>
                                                 <span>{{ $dt->materials_type }}</span>
@@ -477,7 +485,7 @@
                                         <a href="/add/{{ $dt->product_id }}"><span class="icon icon-cart"></span> <span
                                                 class="hidden-xs">Add to cart</span></a>
 
-                                        <a href="javascript:void(0);"><span class="icon icon-cart"></span> <span
+                                        <a href="/buynow/{{ $dt->product_id }}"span class="icon icon-cart"></span> <span
                                                 class="hidden-xs">Buy Now</span></a>
                                     </div>
                                 </div>
@@ -735,19 +743,19 @@
     <!-- ========================  Banner ======================== -->
 
     <!-- <section class="banner" style="background-image:url({{ asset('frontend/assets/images/gallery-4.jpg)') }}">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-md-offset-2 col-md-8 text-center">
-                                                    <h2 class="title">Our story</h2>
-                                                    <p>
-                                                        We believe in creativity as one of the major forces of progress. With this idea, we traveled throughout Italy to find exceptional
-                                                        artisans and bring their unique handcrafted objects to connoisseurs everywhere.
-                                                    </p>
-                                                    <p><a href="about.html" class="btn btn-clean">Read full story</a></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section> -->
+                                                                                                                                                                                                                                                                                                                    <div class="container">
+                                                                                                                                                                                                                                                                                                                        <div class="row">
+                                                                                                                                                                                                                                                                                                                            <div class="col-md-offset-2 col-md-8 text-center">
+                                                                                                                                                                                                                                                                                                                                <h2 class="title">Our story</h2>
+                                                                                                                                                                                                                                                                                                                                <p>
+                                                                                                                                                                                                                                                                                                                                    We believe in creativity as one of the major forces of progress. With this idea, we traveled throughout Italy to find exceptional
+                                                                                                                                                                                                                                                                                                                                    artisans and bring their unique handcrafted objects to connoisseurs everywhere.
+                                                                                                                                                                                                                                                                                                                                </p>
+                                                                                                                                                                                                                                                                                                                                <p><a href="about.html" class="btn btn-clean">Read full story</a></p>
+                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                </section> -->
 
     <!-- ========================  Blog ======================== -->
 
@@ -908,4 +916,11 @@
         </div> <!--/gallery-->
 
     </section>
+    <script>
+        $('.categoryHome').on('click', function() {
+            // Hành động khi click vào phần tử
+            // alert("kkk");
+            window.location.href = '/shop';
+        });
+    </script>
 @endsection

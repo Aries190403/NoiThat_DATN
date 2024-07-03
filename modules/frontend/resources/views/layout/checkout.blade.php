@@ -7,11 +7,10 @@
             <div class="container text-center">
                 <h2 class="h2 title">Checkout</h2>
                 <ol class="breadcrumb breadcrumb-inverted">
-                    <li><a href="index.html"><span class="icon icon-home"></span></a></li>
-                    <li><a class="active" href="checkout-1.html">Cart items</a></li>
-                    <li><a href="checkout-2.html">Delivery</a></li>
-                    <li><a href="checkout-3.html">Payment</a></li>
-                    <li><a href="checkout-4.html">Receipt</a></li>
+                    <li><a href="/"><span class="icon icon-home"></span></a></li>
+                    <li><a class="active" href="/checkout">Cart items</a></li>
+                    <li><a href="/checkout-2" id="checkout-coupon">Delivery</a></li>
+                    <li><a href="#">Receipt</a></li>
                 </ol>
             </div>
         </header>
@@ -24,16 +23,13 @@
 
             <div class="stepper">
                 <ul class="row">
-                    <li class="col-md-3 active">
+                    <li class="col-md-4 active">
                         <span data-text="Cart items"></span>
                     </li>
-                    <li class="col-md-3">
+                    <li class="col-md-4">
                         <span data-text="Delivery"></span>
                     </li>
-                    <li class="col-md-3">
-                        <span data-text="Payment"></span>
-                    </li>
-                    <li class="col-md-3">
+                    <li class="col-md-4">
                         <span data-text="Receipt"></span>
                     </li>
                 </ul>
@@ -106,12 +102,12 @@
                 </div>
 
                 <!--cart prices -->
-                <div class="clearfix">
+                {{-- <div class="clearfix">
                     <div class="cart-block cart-block-footer clearfix">
                         <div><strong>VAT</strong></div>
                         <div><span id="vatprice">$ 0.00</span></div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!--cart final price -->
                 <div class="clearfix">
@@ -119,10 +115,11 @@
                         <div>
                             {{-- <span class="checkbox">
                                     <input type="checkbox" id="couponCodeID"> --}}
-                            <form id="couponForm" action="{{route('user-check-coupon')}}" method="get">
+                            <form id="couponForm" action="{{ route('user-check-coupon') }}" method="get">
                                 {{-- <label for="couponCodeID">Promo code</label> --}}
-                                <input id="couponCodeID" type="text" class="form-control" name="code" placeholder="Enter your coupon code" required style="width: 150px;" />
-                                <button type="submit" class="form-control">Check</button>
+                                <input id="couponCodeID" type="text" class="form-control" name="code"
+                                    placeholder="Enter your coupon code" required style="width: 150px;" />
+                                <button type="submit" class="form-control btn btn-main" style="width: 150px;">Add</button>
                             </form>
                             {{-- </span> --}}
                         </div>
@@ -142,7 +139,10 @@
                                 more</a>
                         </div>
                         <div class="col-xs-6 text-right">
-                            <a href="/checkout-2" class="btn btn-main"><span class="icon icon-cart"></span> Proceed to
+
+                            <a href="/checkout-2" id="checkout-coupon" class="btn btn-main"><span
+                                    class="icon icon-cart"></span>
+                                Proceed to
                                 delivery</a>
                         </div>
                     </div>
@@ -155,24 +155,24 @@
                     function updateCart(discountAmount = 0, percentDiscount = 0) {
                         var total = 0;
                         var vatRate = 0; // Example VAT rate (0.5%)
-            
+
                         $('.cartItemCheck').each(function(index) {
                             var quantity = parseInt($(this).find('.form-quantity').val());
                             var price = parseFloat($(this).find('.form-quantity').data('price'));
                             var salePercentage = parseFloat($(this).find('.form-quantity').data('sale'));
-            
+
                             var finalPrice = price; // Start with base price
-            
+
                             if (salePercentage > 0) {
                                 finalPrice = price - (price * (salePercentage / 100));
                             }
-            
+
                             var subtotal = finalPrice * quantity;
                             total += subtotal;
-            
+
                             $(this).find('.price .final').text('$' + finalPrice.toFixed(2));
                         });
-            
+
                         var vat = total * vatRate;
                         $('#vatprice').text('$' + vat.toFixed(2));
 
@@ -184,47 +184,76 @@
                             totalPrice = total - discountAmount;
                             giamgia = discountAmount;
                         }
-                        
+
                         console.log(percentDiscount, discountAmount);
                         $('#totalprice').text('$' + totalPrice.toFixed(2));
-            
+
                         if (discountAmount > 0) {
                             $('#originalPrice').text('$' + total.toFixed(2)).show();
                             $('#discountPrice').text('- $' + giamgia.toFixed(2)).show();
                         }
                     }
-            
+
                     updateCart();
-            
+
                     $('#couponForm').on('submit', function(event) {
                         event.preventDefault();
                         var code = $('#couponCodeID').val();
-            
+                        $('#originalPrice').hide();
+                        $('#discountPrice').hide();
+                        updateCart();
                         $.ajax({
                             url: $(this).attr('action'),
                             type: 'get',
-                            data: { code: code },
+                            data: {
+                                code: code
+                            },
                             success: function(response) {
                                 if (response.coupon) {
                                     var discount = response.coupon.discount_money;
                                     var percentDiscount = response.coupon.discount;
                                     updateCart(discount, percentDiscount);
                                 } else {
-                                    alert(response.error || 'An error occurred. Please try again.');
+                                    // alert(response.error || 'Voucher is expired or incorrect');
+                                    $(document).ready(function() {
+                                        $.toast({
+                                            heading: 'Notification !',
+                                            text: "Voucher is expired or incorrect",
+                                            showHideTransition: 'slide', // It can be plain, fade or slide
+                                            icon: 'error',
+                                            hideAfter: 4000, // `false` to make it sticky or time in milliseconds to hide after
+                                            position: 'top-center',
+                                            stack: false, // Ensure that toasts stack properly
+                                            loaderBg: 'white', // Background color of the toast loader
+                                            bgColor: '#ff0000', // Background color of the toast
+                                            textColor: 'white', // Text color
+                                        });
+                                    });
                                 }
                             },
                             error: function() {
-                                alert('An error occurred. Please try again.');
+                                $.toast({
+                                    heading: 'Notification !',
+                                    text: "Voucher is expired or incorrect",
+                                    showHideTransition: 'slide', // It can be plain, fade or slide
+                                    icon: 'error',
+                                    hideAfter: 4000, // `false` to make it sticky or time in milliseconds to hide after
+                                    position: 'top-center',
+                                    stack: false, // Ensure that toasts stack properly
+                                    loaderBg: 'white', // Background color of the toast loader
+                                    bgColor: '#ff0000', // Background color of the toast
+                                    textColor: 'white', // Text color
+                                });
                             }
                         });
                     });
-            
+
                     $('.form-quantity').on('input', function() {
+                        // session() - > put('code', []);
                         updateCart();
                     });
                 });
             </script>
-
             <script>
                 document.addEventListener("DOMContentLoaded", function() {
                             // Bắt sự kiện khi người dùng nhấn vào biểu tượng xóa
