@@ -83,22 +83,25 @@
                     <a href="{{route('admin-product-edit', ['id' => $product->id])}}" style="color: #265ed7; margin-right: 10px;">
                         <i class="icon-copy dw dw-edit2" style="color: inherit;"></i>
                     </a>
-                    {{-- <a href="{{route('admin-product-delete', ['id' => $product->id])}}" id="delete-product" style="color: #ff0000; margin-right: 10px;">
+                    <a href="{{route('admin-product-del', ['id' => $product->id])}}" id="delete-product" style="color: #ff0000; margin-right: 10px;">
                         <i class="icon-copy dw dw-delete-3" style="color: inherit;"></i>
                     </a>
-                    @if ($product->locked == 'normal')
-                        <a href="{{route('admin-product-state', ['id' => $product->id])}}" id="lock-product" style="color: #ff0000; margin-right: 10px;">
+                    @if ($product->status != 'normal')
+                        <a href="{{ route('admin-product-state', ['id' => $product->id]) }}" id="lock-product" style="color: #ff0000; margin-right: 10px;">
                             <i class="icon-copy dw dw-padlock1" style="color: inherit;"></i>
                         </a>
                     @else
                         <a href="{{route('admin-product-state', ['id' => $product->id])}}" id="lock-product" style="color: #00ff3381; margin-right: 10px;">
                             <i class="icon-copy dw dw-open-padlock" style="color: inherit;"></i>
                         </a>
-                    @endif --}}
+                    @endif
+                    <a href="#" class="openModal" data-id="{{ $product->id }}" style="color: #ffc400; margin-right: 10px;">
+                        <i class="icon-copy dw dw-box-1" style="color: inherit;"></i>
+                    </a>                    
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    
+    @include('backend::product.modal.modal-importing')
 </div>
