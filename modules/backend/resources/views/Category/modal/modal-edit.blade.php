@@ -45,15 +45,16 @@
                                 <input type="hidden" id="selected-icon" name="icon" required>
                             </div>                            
                         </div>
-                        <div class="col-md-12 mt-3" id="productSection" style="display: none; overflow-x: auto; max-height: 300px;">
+                        <div class="col-md-12 mt-3" id="productSection" style="overflow-x: auto; max-height: 300px;">
                             <label style="font-weight: bold;">Select Products</label>
-                            <div class="row">
+                            <input type="text" id="productSearch" class="form-control mb-3" placeholder="Search products..." style="position: sticky; top: 0; z-index: 999; background-color: #fff;">
+                            <div class="row" id="productList">
                                 @foreach($products as $product)
                                 @php
                                     $content = json_decode($product->content);
                                     $productName = strlen($product->name) > 15 ? substr($product->name, 0, 15) . '...' : $product->name;
                                 @endphp
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-3 mb-3 product-card-container">
                                     <div class="product-card" data-product-id="{{ $product->id }}">
                                         <div class="product-image">
                                             @if (isset($content->imgThumbnail))
