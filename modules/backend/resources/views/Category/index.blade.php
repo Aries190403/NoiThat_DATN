@@ -82,6 +82,37 @@
 
     <script>
         $(document).ready(function() {
+            // Search functionality
+            $('#productSearch').on('keyup', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('#productList .product-card-container').each(function() {
+                    var productName = $(this).find('.product-details span').attr('title').toLowerCase();
+                    if (productName.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+    
+            // Existing product card click functionality
+            $('.product-card').click(function() {
+                var checkbox = $(this).find('input[type="checkbox"]');
+                checkbox.prop('checked', !checkbox.prop('checked'));
+                $(this).toggleClass('selected');
+            });
+    
+            // Thumbnail preview functionality
+            $('#thumbnail').change(function() {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#thumbnailImage').attr('src', e.target.result);
+                    $('#thumbnailPreview').show();
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+    
+            // Modal edit functionality
             $('.openModalEdit').click(function(e) {
                 e.preventDefault();
                 var categoryId = $(this).data('category-id');
@@ -133,27 +164,5 @@
         });
     </script>
     
-    <script>
-        $(document).ready(function() {
-            $('.product-card').click(function() {
-                var checkbox = $(this).find('input[type="checkbox"]');
-                checkbox.prop('checked', !checkbox.prop('checked'));
-                $(this).toggleClass('selected');
-            });
-        });
-    </script>
-
-    <script>
-         $(document).ready(function() {
-            $('#thumbnail').change(function() {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#thumbnailImage').attr('src', e.target.result);
-                    $('#thumbnailPreview').show();
-                };
-                reader.readAsDataURL(this.files[0]);
-            });
-        });
-    </script>
     {{--  --}}
 @endsection
