@@ -425,5 +425,74 @@
         });
     </script>
 
+    {{-- nhập hàng --}}
+    <script>
+        $(document).ready(function(){
+            $('#importing-product').click(function(e){
+                e.preventDefault();
+                var productId = $(this).data('id');
+                var actionUrl = '{{ route("admin-product-importing", ["id" => ":id"]) }}';
+                actionUrl = actionUrl.replace(':id', productId);
+                $('#quantityForm').attr('action', actionUrl);
+                $('#myModal').modal('show');
+            });
+
+            $('#quantityForm').submit(function(e){
+                e.preventDefault();
+    
+                var form = $(this);
+                var url = form.attr('action');
+                var formData = form.serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    success: function(response){
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Importing successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $('#myModal').modal('hide');
+                        location.reload();
+                    },
+                    error: function(xhr){
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessages = '';
+                        $.each(errors, function(key, value){
+                            errorMessages += value + '<br>';
+                        });
+                        $('#errorMessages').html(errorMessages);
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- detail log --}}
+    <script>
+        $('#logDetailModal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget);
+          var url = button.data('url');
+      
+          var modal = $(this);
+          $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(data) {
+              modal.find('.modal-body #logDescription').val(data.log.description);
+            },
+            error: function() {
+              modal.find('.modal-body #logDescription').val('Error loading log details.');
+            }
+          });
+        });
+      </script>
+      
+      
+
 
 @endsection

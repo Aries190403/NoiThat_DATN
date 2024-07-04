@@ -52,6 +52,9 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/delimg/{id}', [ProductController::class, 'deleteImage'])->name('admin-product-del-img');
             Route::get('/lock/{id}', [ProductController::class, 'productState'])->name('admin-product-state');
             Route::get('/deleteProd/{id}', [ProductController::class, 'deleteProduct'])->name('admin-product-del');
+            Route::post('/importing/{id}', [ProductController::class, 'importing'])->name('admin-product-importing');
+            Route::get('/detailLog/{id}', [ProductController::class, 'detailLog'])->name('admin-product-detailLogs');
+
         });
 
         Route::prefix('material')->group(function () {
