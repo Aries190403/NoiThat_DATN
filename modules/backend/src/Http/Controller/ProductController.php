@@ -24,7 +24,7 @@ class ProductController extends Controller
     public function index()
     {
         $title = "Products";
-        $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->get();
+        $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->where('type', 'Product_Types')->get();
         $Products = product::where('status', '!=', DataType::DELETED_DATA_TYPE)->get();
         $materials = material::where('status', DataType::NORMAL_DATA_TYPE)->get();
         $suppliers = supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
