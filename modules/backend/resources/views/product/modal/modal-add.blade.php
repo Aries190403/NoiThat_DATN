@@ -10,7 +10,7 @@
             <form id="kt_modal_product_form" action="{{route('admin-product-create')}}" method="post">
                 @csrf
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group" style="margin-bottom: 15px;">
                             <label for="name" style="font-weight: bold;">Name <span style="color: red;">*</span></label>
                             <input type="text" class="form-control" name="name" placeholder="Enter your name" required style="margin-bottom: 15px;" />
@@ -20,6 +20,16 @@
                     <div class="col-md-6">
                         <label for="price" style="font-weight: bold;">Price (USD) <span style="color: red;">*</span></label>
                         <input type="number" step="0.01" class="form-control" name="price" placeholder="Enter price" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="supplier" style="font-weight: bold;">Supplier</label>
+                        <select class="form-control" name="supplier">
+                            <option value="">Select supplier</option>
+                            @foreach($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="col-md-4">

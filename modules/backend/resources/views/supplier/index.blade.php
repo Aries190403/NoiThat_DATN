@@ -246,28 +246,35 @@
                         $('#supplier-email').val(data.supplier.email);
                         $('#supplier-phone').val(data.supplier.phone);
                         $('#supplier-street').val(data.address.street);
-                        // $('#supplierCity').val(data.address.city).change();
-                        // $('#supplierDistrict').val(data.address.district).change();
-                        // $('#supplierWard').val(data.address.ward).change();
+                        $('#cityPlaceholder').text(data.address.city);
+                        $('#districtPlaceholder').text(data.address.district);
+                        $('#wardPlaceholder').text(data.address.ward);
                         $('#supplier-description').val(data.supplier.description);
                         toggleEditSave(false);
                         $('#supplierModal').modal('show');
-                        console.log(data.address.city, data.address.district, data.address.ward);
                     },
                     error: function() {
                         alert('Đã xảy ra lỗi, vui lòng thử lại sau');
                     }
                 });
-            });    
+            });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
             $('#edit-save-btn').on('click', function() {
                 if ($(this).text() === 'Edit') {
-                    toggleEditSave(true); // Bật chế độ chỉnh sửa
+                    toggleEditSave(true);
                 } else {
                     // Lưu thay đổi
                     var url = '{{ route("admin-supplier-edit", ":id") }}';
                     url = url.replace(':id', supplierId);
     
                     var data = {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
                         name: $('#supplier-name').val(),
                         email: $('#supplier-email').val(),
                         phone: $('#supplier-phone').val(),
@@ -283,16 +290,179 @@
                         method: 'POST',
                         data: data,
                         success: function(response) {
-                            toggleEditSave(false); // Vô hiệu hóa các trường sau khi lưu
-                            alert('Thông tin nhà cung cấp đã được cập nhật thành công');
+                            toggleEditSave(false);
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'User deleted successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            window.location.href = '{{ route('admin-supplier-index') }}';
                         },
-                        error: function() {
-                            alert('Đã xảy ra lỗi, vui lòng thử lại sau');
+                        error: function(xhr, status, error) {
+                            let errorMessage = 'An error occurred while processing your request.';
+                            if (xhr.responseJSON && xhr.responseJSON.error) {
+                                errorMessage = xhr.responseJSON.error;
+                            }
+                            Swal.fire(
+                                'Error!',
+                                errorMessage,
+                                'error'
+                            );
                         }
                     });
                 }
             });
         });
+    </script>
+
+    {{-- js state --}}
+    <script>
+        $(document).ready(function () {
+            locksupplier();
+            function locksupplier() {
+                $(document).on('click', '#lock-supplier', function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+                    var iconClass = $(this).find('i').attr('class');
+
+                    var action = (iconClass.includes('dw-padlock1')) ? 'lock' : 'unlock';
+                    var titleText = (action == 'lock') ? 'Lock' : 'Unlock';
+                    var confirmationText = (action == 'lock') ? 'This supplier will be locked!' : 'This supplier will be unlocked!';
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: confirmationText,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, ' + titleText + ' it!',
+                        cancelButtonText: 'No, cancel!',
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: url,
+                                type: 'Post',
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                success: function (response) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: 'supplier ' + titleText.toLowerCase() + 'ed successfully',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    window.location.href = '{{ route('admin-supplier-index') }}';
+                                },
+                                error: function(xhr, status, error) {
+                                    Swal.fire(
+                                        'Error!',
+                                        'An error occurred while processing your request.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+    {{-- js dopped image --}}
+    <script>
+        let cropper;
+        document.getElementById('uploadImageLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('imageInput').click();
+        });
+
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const image = document.getElementById('previewImage');
+                    image.src = e.target.result;
+                    $('#imagePreviewModal').modal('show');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $('#imagePreviewModal').on('shown.bs.modal', function() {
+            const image = document.getElementById('previewImage');
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 1
+            });
+        });
+
+        $('#imagePreviewModal').on('hidden.bs.modal', function() {
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            document.getElementById('previewImage').src = '';
+            document.getElementById('imageInput').value = '';
+        });
+
+        document.getElementById('confirmUpload').addEventListener('click', function() {
+            if (cropper) {
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    const formData = new FormData();
+                    formData.append('image', blob, 'cropped.jpg');
+                    const form = document.getElementById('uploadForm');
+                    const url = form.action;
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => { throw new Error(text) });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        $('#imagePreviewModal').modal('hide');
+                        if (cropper) {
+                            cropper.destroy();
+                            cropper = null;
+                        }
+                        location.reload();
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error.message,
+                            confirmButtonText: 'Close'
+                        });
+                        $('#imagePreviewModal').modal('hide');
+                        if (cropper) {
+                            cropper.destroy();
+                            cropper = null;
+                        }
+                    });
+                });
+            }
+        });
+
     </script>
 
 

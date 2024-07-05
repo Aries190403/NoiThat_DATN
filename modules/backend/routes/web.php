@@ -52,6 +52,9 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/delimg/{id}', [ProductController::class, 'deleteImage'])->name('admin-product-del-img');
             Route::get('/lock/{id}', [ProductController::class, 'productState'])->name('admin-product-state');
             Route::get('/deleteProd/{id}', [ProductController::class, 'deleteProduct'])->name('admin-product-del');
+            Route::post('/importing/{id}', [ProductController::class, 'importing'])->name('admin-product-importing');
+            Route::get('/detailLog/{id}', [ProductController::class, 'detailLog'])->name('admin-product-detailLogs');
+
         });
 
         Route::prefix('material')->group(function () {
@@ -72,6 +75,12 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
         Route::prefix('setting')->group(function () {
             Route::get('/', [SettingController::class, 'index'])->name('admin-setting-index');
             Route::post('/change', [SettingController::class, 'change'])->name('admin-setting-change');
+            Route::post('/addImage', [SettingController::class, 'addImage'])->name('admin-setting-addImage');
+            Route::post('/admin-setting-editImage', [SettingController::class, 'editImage'])->name('admin-setting-editImage');
+            Route::post('/admin-setting-deleteImage', [SettingController::class, 'deleteImage'])->name('admin-setting-deleteImage');
+
+
+
         });
 
         Route::prefix('supplier')->group(function () {
@@ -79,6 +88,8 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/create', [SupplierController::class, 'Create'])->name('admin-supplier-create');
             Route::get('/information/{id}', [SupplierController::class, 'getInfor'])->name('admin-supplier-infor');
             Route::post('/edit/{id}', [SupplierController::class, 'edit'])->name('admin-supplier-edit');
+            Route::post('/state/{id}', [SupplierController::class, 'couponState'])->name('admin-supplier-state');
+            Route::post('/uplogo/{id}', [SupplierController::class, 'upAvatar'])->name('admin-supplier-uplogo');
         });
     });
 });

@@ -4,11 +4,14 @@ namespace Modules\Backend\Http\Controller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\log;
 use App\Models\material;
 use App\Models\picture;
 use App\Models\product;
+use App\Models\supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -21,10 +24,11 @@ class ProductController extends Controller
     public function index()
     {
         $title = "Products";
-        $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->get();
-        $Products = product::where('status', DataType::NORMAL_DATA_TYPE)->get();
+        $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->where('type', 'Product_Types')->get();
+        $Products = product::where('status', '!=', DataType::DELETED_DATA_TYPE)->get();
         $materials = material::where('status', DataType::NORMAL_DATA_TYPE)->get();
-        return view('backend::product.index', ['title' => $title, 'products' => $Products, 'types' => $types, 'materials' => $materials]);
+        $suppliers = supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
+        return view('backend::product.index', ['title' => $title, 'products' => $Products, 'types' => $types, 'materials' => $materials, 'suppliers' => $suppliers]);
     }
 
     public function create(Request $request)
@@ -46,6 +50,13 @@ class ProductController extends Controller
         $product->description = $request->input('description');
     
         $product->save();
+
+        $log = new log();
+        $log->user_create = Auth::user()->id;
+        $log->product_id = $product->id;
+        $log->supplier_id = $request->input('supplier');
+        $log->description = 'first import; Quantity = ' . $request->input('stock');
+        $log->save();
     
         return redirect()->route('admin-product-edit', ['id' => $product->id])->with('success');
     }
@@ -58,10 +69,13 @@ class ProductController extends Controller
         }
         $materials = material::where('status', DataType::NORMAL_DATA_TYPE)->get();
         $images = picture::where('product_id', $id)->where('status', DataType::NORMAL_DATA_TYPE)->get();
+        $suppliers = supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
+
+        $logs = log::where('product_id', $id)->get();
 
         $title = "Edit Product";
         $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->get();
-        return view('backend::product.edit', ['title' => $title, 'product' => $product, 'types' => $types, 'materials' => $materials, 'images' => $images]);
+        return view('backend::product.edit', ['title' => $title, 'product' => $product, 'types' => $types, 'materials' => $materials, 'images' => $images, 'logs' => $logs, 'suppliers' => $suppliers]);
     }
 
     public function update(Request $request, $id)
@@ -71,23 +85,62 @@ class ProductController extends Controller
             if (!$product || $product->status === DataType::DELETED_DATA_TYPE) {
                 return response()->json(['error' => 'Product not found or deleted'], 404);
             }
-    
-            $product->name = $request->input('name');
-            $product->description = $request->input('description');
-            $product->category_id = $request->input('type');
-            $product->price = $request->input('price');
-            $product->material_id = $request->input('material');
-            $product->stock = $request->input('stock');
-            $product->sale_percentage = $request->input('sale');
+        
+            $changes = [];
+            $fields = ['name', 'description', 'price', 'stock', 'sale_percentage' => 'sale'];
+            
+            // Check and record changes for regular fields
+            foreach ($fields as $field => $input) {
+                if (is_int($field)) {
+                    $field = $input;
+                }
+                $newValue = $request->input($input);
+                if ($newValue !== null && $product->$field != $newValue) {
+                    $changes[] = ucfirst($field) . " changed from " . $product->$field . " to " . $newValue;
+                    $product->$field = $newValue;
+                }
+            }
+        
+            // Check and record changes for category_id
+            $newCategoryId = $request->input('type');
+            if ($newCategoryId !== null && $product->category_id != $newCategoryId) {
+                $oldCategoryName = $product->category->name;
+                $newCategoryName = Category::find($newCategoryId)->name;
+                $changes[] = "Category changed from " . $oldCategoryName . " to " . $newCategoryName;
+                $product->category_id = $newCategoryId;
+            }
+        
+            // Check and record changes for material_id
+            $newMaterialId = $request->input('material');
+            if ($newMaterialId !== null && $product->material_id != $newMaterialId) {
+                $oldMaterialName = $product->material->name;
+                $newMaterialName = Material::find($newMaterialId)->name;
+                $changes[] = "Material changed from " . $oldMaterialName . " to " . $newMaterialName;
+                $product->material_id = $newMaterialId;
+            }
+        
+            // Check and record changes for size
             $content = json_decode($product->content, true);
-            $content['size'] = [
-                'height' => $request->input('height') ?? ($content['size']['height'] ?? 0),
-                'length' => $request->input('length') ?? ($content['size']['length'] ?? 0),
-                'width' => $request->input('width') ?? ($content['size']['width'] ?? 0),
-            ];
+            $sizes = ['height', 'length', 'width'];
+            foreach ($sizes as $size) {
+                $newSize = $request->input($size);
+                if ($newSize !== null && $content['size'][$size] != $newSize) {
+                    $changes[] = ucfirst($size) . " changed from " . ($content['size'][$size] ?? 0) . " to " . $newSize;
+                    $content['size'][$size] = $newSize;
+                }
+            }
             $product->content = json_encode($content);
             $product->save();
-    
+        
+            // Log changes if any
+            if (!empty($changes)) {
+                $log = new Log();
+                $log->user_create = Auth::user()->id;
+                $log->product_id = $product->id;
+                $log->description = 'Edit product: ' . implode('; ', $changes);
+                $log->save();
+            }
+        
             return response()->json(['success' => 'Product updated successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred while updating the product'], 500);
@@ -192,7 +245,7 @@ class ProductController extends Controller
         try {
             $product = Product::findOrFail($id);
     
-            $product->locked = ($product->locked == 'normal') ? 'locked' : 'normal';
+            $product->status = ($product->status == 'normal') ? 'locked' : 'normal';
             $product->save();
     
             return redirect()->back()->with('success', 'Product updated successfully');
@@ -215,6 +268,36 @@ class ProductController extends Controller
             $product->save();
     
             return redirect()->route('admin-product-index')->with('success', 'Product deleted successfully');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while deleting the product'], 500);
+        }
+    }
+
+    public function importing($id, Request $request){
+        try {
+            $product = Product::findOrFail($id);
+            $product->stock = $product->stock + $request->input('quantity');
+            $product->save();
+
+            $log = new log();
+            $log->user_create = Auth::user()->id;
+            $log->product_id = $product->id;
+            $log->supplier_id = $request->input('supplier');
+            $log->description = 'import more goods; Quantity = ' . $request->input('quantity');
+            $log->save();
+    
+            return redirect()->route('admin-product-index')->with('success', 'Product importing successfully');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while deleting the product'], 500);
+        }
+    }
+
+    public function detailLog($id){
+        try{
+            $log = log::findOrFail($id);
+            return response()->json([
+                'log' => $log,
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred while deleting the product'], 500);
         }
