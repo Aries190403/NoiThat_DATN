@@ -1,23 +1,12 @@
 <div class="pd-20 card-box mb-30">
     <div style="align-items: center ">
-        <button
-            type="button"
-            class="btn btn-primary btn-sm"
-            data-toggle="modal"
-            data-target="#bd-example-modal-lg"
-        >
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#bd-example-modal-lg">
             <i class="dw dw-settings1"></i> Edit
         </button>
     </div>
-    <div
-        class="modal fade bs-example-modal-lg"
-        id="bd-example-modal-lg"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="myLargeModalLabel"
-        aria-hidden="true"
-    >
-        @include('backend::websetting.modal.modal-add') 
+    <div class="modal fade bs-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        @include('backend::websetting.modal.modal-add')
     </div>
     <table class="table table-bordered" style="margin-top: 1rem">
         <thead class="thead-dark">
@@ -54,6 +43,10 @@
             <tr>
                 <th scope="row">YouTube Link</th>
                 <td><a href="{{ $settings['youtube_link'] }}" target="_blank">{{ $settings['youtube_link'] }}</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Map Link</th>
+                <td><a href="{{ $settings['map_link'] }}" target="_blank">{{ $settings['map_link'] }}</a></td>
             </tr>
         </tbody>
     </table>

@@ -1,7 +1,6 @@
         <!-- ======================== Navigation ======================== -->
 
         <nav class="navbar-fixed">
-
             <div class="container">
 
                 <!-- ==========  Top navigation ========== -->
@@ -9,10 +8,10 @@
                 <div class="navigation navigation-top clearfix">
                     <ul>
                         <!--add active class for current page-->
-
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="{{ $globalSettings['facebook_link'] ?? '#' }}"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        {{-- <li><a href="#"><i class="fa fa-twitter"></i></a></li> --}}
+                        <li><a href="{{ $globalSettings['youtube_link'] ?? '#' }}"><i class="fa fa-youtube"></i></a></li>
 
                         <!--Currency selector-->
 

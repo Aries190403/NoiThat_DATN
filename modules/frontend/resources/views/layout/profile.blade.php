@@ -30,9 +30,10 @@
                     </div>
                     <div style="display: flex;
     justify-content: center;">
-                        <form id="uploadForm" method="POST" action="/uploadAvatar/{{ Auth::user()->id }}"
+                        <form id="uploadForm" method="POST" action="{{ route('admin-up-avatar', ['id' => $user->id]) }}"
                             enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="YOUR_CSRF_TOKEN">
+                            @csrf
+                            {{-- <input type="hidden" name="_token" value="YOUR_CSRF_TOKEN"> --}}
                             {{-- <a href="#" class="edit-avatar" id="uploadImageLink"><i class="icon-copy dw dw-pencil-1"
                                     style="color: red"></i>sss</a> --}}
                             <a id="uploadImageLink" style="margin: 15px" class="btn btn-default">Update Image</a>
@@ -224,7 +225,6 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <!-- Bootstrap JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JavaScript -->

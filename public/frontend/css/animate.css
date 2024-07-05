@@ -3374,3 +3374,32 @@
         display: flex;
         justify-content: center;
 }
+
+.classth{
+    align-content: center;
+    text-align: center;
+}
+
+.star-rating {
+    direction: rtl;
+    display: inline-flex;
+    font-size: 2rem;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    color: #ddd;
+    cursor: pointer;
+}
+
+.star-rating input[type="radio"]:checked~label {
+    color: #ffc700;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: #ffc700;
+}

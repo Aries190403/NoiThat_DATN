@@ -12,9 +12,12 @@ use Modules\Frontend\Http\Controller\EditpasswordController;
 use Modules\Frontend\Http\Controller\ForgotpassController;
 use Modules\Frontend\Http\Controller\LoginController;
 use Modules\Frontend\Http\Controller\MainFrontendController;
+use Modules\Frontend\Http\Controller\OrderController;
 use Modules\Frontend\Http\Controller\ProfileController;
+use Modules\Frontend\Http\Controller\RateController;
 use Modules\Frontend\Http\Controller\RegisterController;
 use Modules\Frontend\Http\Controller\ShopFrontendController;
+use Modules\Frontend\Http\Controller\VnPayController;
 
 Route::middleware('web')->group(function () {
     Route::get('/', [MainFrontendController::class, 'index'])->name('home');
@@ -32,30 +35,41 @@ Route::middleware('web')->group(function () {
     Route::post('/login', [LoginController::class, 'authenticate']);
     Route::middleware('auth')->group(function () {
         Route::post('/logout', [LoginController::class, 'logout']);
+        Route::middleware(['role:USER'])->group(function () {
+            Route::get('/profile', [ProfileController::class, 'profile']);
+            Route::post('/profile', [ProfileController::class, 'updateprofile']);
 
-        Route::get('/profile', [ProfileController::class, 'profile']);
-        Route::post('/profile', [ProfileController::class, 'updateprofile']);
+            Route::get('/userorderlist', [OrderController::class, 'index']);
 
-        Route::post('/uploadAvatar/{id}', [ProfileController::class, 'upAvatar']);
+            Route::post('/filter-invoices', [OrderController::class, 'filterInvoices']);
+            Route::get('/repay/{id}', [OrderController::class, 'repay']);
+            Route::get('/vieworder', [OrderController::class, 'view'])->name('vieworder');
+            Route::get('/viewmore/{id}', [OrderController::class, 'viewmore']);
+            Route::get('/cancel/{id}', [OrderController::class, 'cancel']);
+            Route::get('/return/{id}', [OrderController::class, 'return']);
 
-        Route::get('/editpassword', [EditpasswordController::class, 'editpassword']);
-        Route::post('/editpassword', [EditpasswordController::class, 'updatepassword']);
+            Route::post('/rate/{invoiceId}', [RateController::class, 'store'])->name('rate.store');
 
-        Route::get('/viewcart', [CartFrontendController::class, 'view']);
-        Route::get('/buynow/{id}', [CartFrontendController::class, 'buynow']);
-        Route::get('/add/{product}', [CartFrontendController::class, 'addToCart']);
-        Route::get('/cart/delete/{id}', [CartFrontendController::class, 'deleteCartItem']);
-        Route::post('/cart/update-quantity/{cartItemId}/{quantity}', [CartFrontendController::class, 'updateQuantity'])->name('cart.updateQuantity');
+            Route::post('/uploadAvatar/{id}', [ProfileController::class, 'upAvatar']);
 
-        Route::get('/checkout-2', [CartFrontendController::class, 'checkout_2']);
-        Route::post('/checkout-3', [CartFrontendController::class, 'checkout_3']);
-        Route::get('/receipt', [CartFrontendController::class, 'receipted']);
-        Route::get('/pay', [CartFrontendController::class, 'pay']);
+            Route::get('/editpassword', [EditpasswordController::class, 'editpassword']);
+            Route::post('/editpassword', [EditpasswordController::class, 'updatepassword']);
 
-        Route::get('/userfavorite', [CartFrontendController::class, 'favorite']);
-        Route::get('/addfavorite/{id}', [CartFrontendController::class, 'addfavorite']);
-        Route::get('/checkVoucher', [CouponController::class, 'check'])->name('user-check-coupon');
+            Route::get('/viewcart', [CartFrontendController::class, 'view']);
+            Route::get('/buynow/{id}', [CartFrontendController::class, 'buynow']);
+            Route::get('/add/{product}', [CartFrontendController::class, 'addToCart']);
+            Route::get('/cart/delete/{id}', [CartFrontendController::class, 'deleteCartItem']);
+            Route::post('/cart/update-quantity/{cartItemId}/{quantity}', [CartFrontendController::class, 'updateQuantity'])->name('cart.updateQuantity');
 
+            Route::get('/checkout-2', [CartFrontendController::class, 'checkout_2']);
+            Route::post('/checkout-3', [CartFrontendController::class, 'checkout_3']);
+            Route::get('/receipt', [CartFrontendController::class, 'receipted'])->name('receipt');
+            Route::get('/pay', [CartFrontendController::class, 'pay']);
+
+            Route::get('/userfavorite', [CartFrontendController::class, 'favorite']);
+            Route::get('/addfavorite/{id}', [CartFrontendController::class, 'addfavorite']);
+            Route::get('/checkVoucher', [CouponController::class, 'check'])->name('user-check-coupon');
+        });
         Route::middleware(['role:ROLE_SUPER_ADMIN'])->group(function () {
             Route::get('/dashboard', [MainAdminController::class, 'index'])->name('admin-dashboard');
         });

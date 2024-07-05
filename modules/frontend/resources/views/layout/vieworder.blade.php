@@ -2,40 +2,18 @@
 @section('content')
     <!-- ========================  Main header ======================== -->
 
-    <section class="main-header" style="background-image:url(assets/images/gallery-2.jpg)">
+    <section class="main-header" style="background-image:url({{ asset('frontend/assets/images/gallery-2.jpg)') }}">
         <header>
             <div class="container text-center">
-                <h2 class="h2 title">Checkout</h2>
+                <h2 class="h2 title">Customer page</h2>
                 <ol class="breadcrumb breadcrumb-inverted">
                     <li><a href="/"><span class="icon icon-home"></span></a></li>
-                    <li><a href="/viewcart">Cart items</a></li>
-                    <li><a href="/checkout-2">Delivery</a></li>
-                    <li><a class="active" href="#">Receipt</a></li>
+                    <li><a class="active" href="#">Order</a></li>
                 </ol>
             </div>
         </header>
     </section>
 
-    <!-- ========================  Step wrapper ======================== -->
-
-    <div class="step-wrapper">
-        <div class="container">
-
-            <div class="stepper">
-                <ul class="row">
-                    <li class="col-md-4 active">
-                        <span data-text="Cart items"></span>
-                    </li>
-                    <li class="col-md-4 active">
-                        <span data-text="Delivery"></span>
-                    </li>
-                    <li class="col-md-4 active">
-                        <span data-text="Receipt"></span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
 
     <!-- ========================  Checkout ======================== -->
 
@@ -82,7 +60,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <strong>Name</strong> <br />
-                                            <span>{{ $latestInvoice->name }}</span>
+                                            <span>{{ $Invoices->name }}</span>
                                         </div>
                                     </div>
 
@@ -96,7 +74,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <strong>Phone</strong><br />
-                                            <span>{{ $latestInvoice->phone }}</span>
+                                            <span>{{ $Invoices->phone }}</span>
                                         </div>
                                     </div>
 
@@ -104,7 +82,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <strong>Address</strong><br />
-                                            <span>{{ $latestInvoice->address }}</span>
+                                            <span>{{ $Invoices->address }}</span>
                                         </div>
                                     </div>
 
@@ -128,25 +106,25 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <strong>Order no.</strong> <br />
-                                            <span>#mobel{{ $latestInvoice->id }}</span>
+                                            <span>#mobel{{ $Invoices->id }}</span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <strong>Transaction ID</strong> <br />
-                                            <span>#mobel{{ $latestInvoice->pay->id }}</span>
+                                            <span>#mobel{{ $Invoices->pay->id }}</span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <strong>Order date</strong> <br />
-                                            <span>{{ $latestInvoice->invoice_date }}</span>
+                                            <span>{{ $Invoices->invoice_date }}</span>
                                         </div>
                                     </div>
                                     @php
-                                        $currentDate = new DateTime($latestInvoice->invoice_date);
+                                        $currentDate = new DateTime($Invoices->invoice_date);
 
                                         // Ngày bắt đầu (hiện tại + 3 ngày)
                                         $startDate = clone $currentDate;
@@ -161,7 +139,7 @@
                                         $endDateFormatted = $endDate->format('Y-m-d');
                                     @endphp
 
-                                    @if ($latestInvoice->delivery == 'Store')
+                                    @if ($Invoices->delivery == 'Store')
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Note</strong></br>
@@ -183,26 +161,26 @@
                                 <div class="h4">Payment details</div>
 
                                 <hr />
-                                @if ($latestInvoice->pay->name == 'COD')
+                                @if ($Invoices->pay->name == 'COD')
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Payment</strong><br />
-                                                <span>{{ $latestInvoice->pay->name }}<small>
-                                                        ({{ $latestInvoice->pay->description }})</small></span>
+                                                <span>{{ $Invoices->pay->name }}<small>
+                                                        ({{ $Invoices->pay->description }})</small></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Order time</strong> <br />
-                                                <span>{{ $latestInvoice->pay->created_at }}</span>
+                                                <span>{{ $Invoices->pay->created_at }}</span>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Amount</strong><br />
-                                                <span>$ {{ $latestInvoice->total }}</span>
+                                                <span>$ {{ $Invoices->total }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -211,27 +189,27 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Payment</strong><br />
-                                                <span>{{ $latestInvoice->pay->name }}<small>
-                                                        ({{ $latestInvoice->pay->description }} -
-                                                        {{ $latestInvoice->pay->notes }})</small></span>
+                                                <span>{{ $Invoices->pay->name }}<small>
+                                                        ({{ $Invoices->pay->description }} -
+                                                        {{ $Invoices->pay->notes }})</small></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Amount</strong><br />
-                                                <span>$ {{ $latestInvoice->total }}</span>
+                                                <span>$ {{ $Invoices->total }}</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Order time</strong> <br />
-                                                <span>{{ $latestInvoice->pay->created_at }}</span>
+                                                <span>{{ $Invoices->pay->created_at }}</span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <strong>Transaction time</strong><br />
-                                                <span>{{ $latestInvoice->pay->processing_time }}</span>
+                                                <span>{{ $Invoices->pay->processing_time }}</span>
                                             </div>
                                         </div>
 
@@ -354,7 +332,7 @@
                                 <strong class="h4">Final price</strong>
                             </div>
                             <div>
-                                <div class="h4 title">$ {{ $latestInvoice->total }}</div>
+                                <div class="h4 title">$ {{ $Invoices->total }}</div>
                             </div>
                         </div>
                     </div>

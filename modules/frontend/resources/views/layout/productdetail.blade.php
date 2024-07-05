@@ -50,9 +50,9 @@
                                 <!-- === info-box === -->
 
                                 <!-- <div class="info-box">
-                                                                                                                            <span><strong>Maifacturer</strong></span>
-                                                                                                                            <span>Brand name</span>
-                                                                                                                        </div> -->
+                                                                                                                                                                        <span><strong>Maifacturer</strong></span>
+                                                                                                                                                                        <span>Brand name</span>
+                                                                                                                                                                    </div> -->
 
                                 <!-- === info-box === -->
 
@@ -114,12 +114,12 @@
                             </div> --}}
 
                                 <!-- <div class="info-box info-box-addto">
-                                                                                                                            <span><strong>Collection</strong></span>
-                                                                                                                            <span>
-                                                                                                                                <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
-                                                                                                                                <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
-                                                                                                                            </span>
-                                                                                                                        </div> -->
+                                                                                                                                                                        <span><strong>Collection</strong></span>
+                                                                                                                                                                        <span>
+                                                                                                                                                                            <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
+                                                                                                                                                                            <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
+                                                                                                                                                                        </span>
+                                                                                                                                                                    </div> -->
 
                                 <hr />
 
@@ -212,19 +212,13 @@
         </div>
 
         <!-- === product-info === -->
-
         <div class="info">
             <div class="container">
                 <div class="row">
+                    <!-- === nav-tabs === -->
 
                     <div class="col-md-8">
                         <ul class="nav nav-tabs" role="tablist">
-                            <!-- <li role="presentation" class="active">
-                                                                                                            <a href="#designer" aria-controls="designer" role="tab" data-toggle="tab">
-                                                                                                                <i class="icon icon-user"></i>
-                                                                                                                <span>Collection</span>
-                                                                                                            </a>
-                                                                                                        </li> -->
                             <li role="presentation" class="active">
                                 <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
                                     <i class="icon icon-sort-alpha-asc"></i>
@@ -232,9 +226,9 @@
                                 </a>
                             </li>
                             <li role="presentation">
-                                <a href="#comment" aria-controls="comment" role="tab" data-toggle="tab">
+                                <a href="#rating" aria-controls="rating" role="tab" data-toggle="tab">
                                     <i class="icon icon-thumbs-up"></i>
-                                    <span>Comment</span>
+                                    <span>Rating</span>
                                 </a>
                             </li>
                         </ul>
@@ -242,104 +236,12 @@
                         <!-- === tab-panes === -->
 
                         <div class="tab-content">
-                            {{--
-                        <div role="tabpanel" class="tab-pane active" id="designer">
-                            <div class="content">
 
-                                <!-- === designer collection title === -->
-
-                                <h3>Designers collection</h3>
-
-                                <div class="products">
-                                    <div class="row">
-
-                                        <!-- === product-item === -->
-
-                                        <div class="col-md-6 col-xs-6">
-                                            <article>
-                                                <div class="figure-grid">
-                                                    <div class="image">
-                                                        <a href="#productid1" class="mfp-open">
-                                                            <img src="{{ asset('frontend/assets/images/product-1.png')}}" alt="" width="360" />
-                        </a>
-                    </div>
-                    <div class="text">
-                        <h4 class="title"><a href="product.html">Green corner</a></h4>
-                        <sup>Designer collection</sup>
-                        <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                    </div>
-                </div>
-                </article>
-            </div>
-
-            <!-- === product-item === -->
-
-            <div class="col-md-6 col-xs-6">
-                <article>
-                    <div class="figure-grid">
-                        <div class="image">
-                            <a href="#productid1" class="mfp-open">
-                                <img src="{{ asset('frontend/assets/images/product-2.png')}}" alt="" width="360" />
-                            </a>
-                        </div>
-                        <div class="text">
-                            <h4 class="title"><a href="product.html">Laura</a></h4>
-                            <sup>Designer collection</sup>
-                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- === product-item === -->
-
-            <div class="col-md-6 col-xs-6">
-                <article>
-                    <div class="figure-grid">
-                        <div class="image">
-                            <a href="#productid1" class="mfp-open">
-                                <img src="{{ asset('frontend/assets/images/product-3.png')}}" alt="" width="360" />
-                            </a>
-                        </div>
-                        <div class="text">
-                            <h4 class="title"><a href="product.html">Nude</a></h4>
-                            <sup>Designer collection</sup>
-                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- === product-item === -->
-
-            <div class="col-md-6 col-xs-6">
-                <article>
-                    <div class="figure-grid">
-                        <div class="image">
-                            <a href="#productid1" class="mfp-open">
-                                <img src="{{ asset('frontend/assets/images/product-4.png')}}" alt="" width="360" />
-                            </a>
-                        </div>
-                        <div class="text">
-                            <h4 class="title"><a href="product.html">Aurora</a></h4>
-                            <sup>Designer collection</sup>
-                            <span class="description clearfix">Gubergren amet dolor ea diam takimata consetetur facilisis blandit et aliquyam lorem ea duo labore diam sit et consetetur nulla</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-        </div> <!--/row-->
-    </div> <!--/products-->
-    </div> <!--/content-->
-    </div> <!--/tab-pane--> --}}
-                            <!-- ============ tab #2 ============ -->
-
-                            <div role="tabpanel" class="tab-pane-active" id="design">
+                            <div role="tabpanel" class="tab-pane active" id="design">
                                 <div class="content">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <!-- <h3>Dimensions</h3> -->
+                                            <h3>Dimensions</h3>
                                             <p>
                                                 <img class="full-image"
                                                     src="{{ asset('frontend/assets/images/specs.png') }}"
@@ -347,13 +249,9 @@
                                             </p>
                                         </div>
                                         <div class="col-md-8">
-                                            <h3>Product Description</h3>
+                                            <h3>Product description</h3>
                                             <p>
                                                 {{ $data->product_description }}
-                                            </p>
-                                            <hr />
-                                            <p>
-                                                Products are provided by all stores in the system.
                                             </p>
                                         </div>
 
@@ -362,12 +260,12 @@
                             </div> <!--/tab-pane-->
                             <!-- ============ tab #3 ============ -->
 
-                            <div role="tabpanel" class="tab-pane" id="comment">
+                            <div role="tabpanel" class="tab-pane" id="rating">
 
                                 <!-- ============ ratings ============ -->
 
                                 <div class="content">
-                                    <h3>Comment</h3>
+                                    <h3>Rating</h3>
 
                                     <div class="row">
 
@@ -377,153 +275,22 @@
                                             <div class="comments">
 
                                                 <!-- === rating === -->
-                                                {{--
-                        <div class="rating clearfix">
-                            <div class="rate-box">
-                                <strong>Quality</strong>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>3</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>5</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>0</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>2</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>1</span>
-                                </div>
-                            </div>
 
-                            <!-- rate -->
-                            <div class="rate-box">
-                                <strong>Design</strong>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <span>3</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <span>5</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <span>0</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>2</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star active"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>1</span>
-                                </div>
-                            </div>
 
-                            <!-- rate -->
-                            <div class="rate-box">
-                                <strong>General</strong>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>3</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>5</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>0</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>2</span>
-                                </div>
-                                <div class="rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <span>1</span>
-                                </div>
-                            </div>
-
-                        </div> --}}
-                                                <div class="rating clearfix"></div>
                                                 <div class="comment-wrapper">
 
                                                     <!-- === comment === -->
-
+                                                    @php
+                                                        if (isset($rate)) {
+                                                            foreach ($rate as $item) {
+                                                                $fas[] = $item->id;
+                                                            }
+                                                        }
+                                                    @endphp
                                                     <div class="comment-block">
                                                         <div class="comment-user">
-                                                            <div><img
-                                                                    src="{{ asset('frontend/assets/images/user-2.jpg') }}"
-                                                                    alt="Alternate Text" width="70" /></div>
+                                                            <div><img src="assets/images/user-2.jpg" alt="Alternate Text"
+                                                                    width="70" /></div>
                                                             <div>
                                                                 <h5>
                                                                     <span>John Doe</span>
@@ -561,8 +328,7 @@
 
                                                         <div class="comment-block">
                                                             <div class="comment-user">
-                                                                <div><img
-                                                                        src="{{ asset('frontend/assets/images/user-2.jpg') }}"
+                                                                <div><img src="assets/images/user-2.jpg"
                                                                         alt="Alternate Text" width="70" /></div>
                                                                 <div>
                                                                     <h5>Administrator<small>08.05.2017</small></h5>
@@ -589,9 +355,8 @@
 
                                                     <div class="comment-block">
                                                         <div class="comment-user">
-                                                            <div><img
-                                                                    src="{{ asset('frontend/assets/images/user-2.jpg') }}"
-                                                                    alt="Alternate Text" width="70" /></div>
+                                                            <div><img src="assets/images/user-2.jpg" alt="Alternate Text"
+                                                                    width="70" /></div>
                                                             <div>
                                                                 <h5>
                                                                     <span>John Doe</span>
@@ -629,40 +394,8 @@
                                                     </div>
 
                                                 </div><!--/comment-wrapper-->
-
-                                                <div class="comment-header">
-                                                    <a href="#" class="btn btn-clean-dark">12 comments</a>
-                                                </div> <!--/comment-header-->
-                                                <!-- === add comment === -->
-
-                                                <div class="comment-add">
-
-                                                    <div class="comment-reply-message">
-                                                        <div class="h3 title">Leave a Reply </div>
-                                                        <p>Your email address will not be published.</p>
-                                                    </div>
-
-                                                    <form action="#" method="post">
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" name="name"
-                                                                value="" placeholder="Your Name" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <input type="text" class="form-control" name="name"
-                                                                value="" placeholder="Your Email" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <textarea rows="10" class="form-control" placeholder="Your comment"></textarea>
-                                                        </div>
-                                                        <div class="clearfix text-center">
-                                                            <a href="#" class="btn btn-main">Add comment</a>
-                                                        </div>
-                                                    </form>
-
-                                                </div><!--/comment-add-->
                                             </div> <!--/comments-->
                                         </div>
-
 
                                     </div> <!--/row-->
                                 </div> <!--/content-->
