@@ -67,7 +67,7 @@ class CartFrontendController extends Controller
         } else {
             return redirect('/login')->with('no', 'Login to continue!');
         }
-
+        if (session()->get('cart') == null) return redirect('/')->with('no', 'ERROR !');
         // Lấy giỏ hàng từ session
         $cart = session()->get('cart', []);
 
@@ -93,6 +93,7 @@ class CartFrontendController extends Controller
         } else {
             return redirect('/login')->with('no', 'Login to continue!');
         }
+        if (session()->get('cart') == null) return redirect('/')->with('no', 'ERROR !');
 
         // Lấy giỏ hàng từ session
         $cart = session()->get('cart', []);
@@ -115,6 +116,7 @@ class CartFrontendController extends Controller
         // $cartItem = cart::where('product_id', $ItemId)->where('user_id', Auth::user()->id)->firstOrFail();
         // $cartItem->quantity = $quantity;
         // $cartItem->save();
+        if (session()->get('cart') == null) return redirect('/')->with('no', 'ERROR !');
 
         $cart = session()->get('cart', []);
         if (isset($cart[$ItemId])) {
@@ -199,6 +201,8 @@ class CartFrontendController extends Controller
 
     public function checkout_2(Request $req)
     {
+        if (session()->get('cart') == null) return redirect('/')->with('no', 'ERROR !');
+
         $discountprecent = 0;
         $discountmoney = 0;
         //checkcode
@@ -261,6 +265,8 @@ class CartFrontendController extends Controller
 
     public function checkout_3(Request $request)
     {
+        if (session()->get('cart') == null) return redirect('/')->with('no', 'ERROR !');
+
         $user = Auth::user();
         $cart = session()->get('cart', []);
 
@@ -315,6 +321,7 @@ class CartFrontendController extends Controller
                 'phone' => $request->input('phone'),
                 'name' => $request->input('name'),
                 'total' => $finalPrice,
+                'discountMoney' => $discountMoney,
                 'status' => 'Pending',
                 'delivery' => $Delivery,
                 'user_id' => $user->id,

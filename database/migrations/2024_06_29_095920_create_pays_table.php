@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->date('transaction_fee')->nullable();
-            $table->integer('processing_time')->nullable();
+            $table->date('processing_time')->nullable();
             $table->string('status');
             $table->timestamps();
             $table->softDeletes();
