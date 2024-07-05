@@ -75,6 +75,12 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
         Route::prefix('setting')->group(function () {
             Route::get('/', [SettingController::class, 'index'])->name('admin-setting-index');
             Route::post('/change', [SettingController::class, 'change'])->name('admin-setting-change');
+            Route::post('/addImage', [SettingController::class, 'addImage'])->name('admin-setting-addImage');
+            Route::post('/admin-setting-editImage', [SettingController::class, 'editImage'])->name('admin-setting-editImage');
+            Route::post('/admin-setting-deleteImage', [SettingController::class, 'deleteImage'])->name('admin-setting-deleteImage');
+
+
+
         });
 
         Route::prefix('supplier')->group(function () {

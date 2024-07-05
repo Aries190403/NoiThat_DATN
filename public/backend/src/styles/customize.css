@@ -164,3 +164,46 @@
 .custom-file-label::after {
     display: none;
 }
+/* CSS cho các nút chỉnh sửa và xóa */
+.position-relative {
+    position: relative;
+}
+
+.editImageLink,
+.deleteImageLink {
+    position: absolute;
+    font-size: 1.2em;
+    z-index: 10;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.editImageLink {
+    top: 10px;
+    right: 10px;
+    color: #007bff; /* Màu icon cho chỉnh sửa */
+}
+
+.deleteImageLink {
+    top: 10px;
+    right: 40px;
+    color: #dc3545; /* Màu icon cho xóa */
+}
+
+.editImageLink:hover {
+    color: #0056b3; /* Màu icon khi hover cho chỉnh sửa */
+}
+
+.deleteImageLink:hover {
+    color: #c82333; /* Màu icon khi hover cho xóa */
+}
+
+.card {
+    position: relative;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+

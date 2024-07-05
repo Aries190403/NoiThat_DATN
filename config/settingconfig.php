@@ -9,4 +9,7 @@ return array (
   'facebook_link' => 'https://facebook.com/yourpage',
   'youtube_link' => 'https://youtube.com/yourchannel',
   'map_link' => 'https://maps.app.goo.gl/DJdrzSMbMhj8uWsv6',
+  'slideshow_images' => 
+  array (
+  ),
 );
