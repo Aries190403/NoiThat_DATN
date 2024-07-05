@@ -19,9 +19,4 @@ class product extends Model
     {
         return $this->belongsTo(Material::class, 'material_id');
     }
-
-    public function rate()
-    {
-        return $this->belongsTo(rate::class, 'id');
-    }
 }

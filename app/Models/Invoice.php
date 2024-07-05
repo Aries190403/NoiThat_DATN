@@ -16,6 +16,7 @@ class Invoice extends Model
         'phone',
         'name',
         'total',
+        'discountMoney',
         'status',
         'delivery',
         'user_id',

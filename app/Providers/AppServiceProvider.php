@@ -58,24 +58,6 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view) {
             if (Auth::check()) {
-                $userId = Auth::id();
-                $favorites = rate::where('user_id', $userId)->get();
-
-                $products = [];
-                foreach ($favorites as $item) {
-                    $product = Product::find($item->product_id);
-                    if ($product) {
-                        $products[] = $product;
-                    }
-                }
-
-
-                $view->with('rates', $products);
-            }
-        });
-
-        view()->composer('*', function ($view) {
-            if (Auth::check()) {
                 $cartItems = session()->get('cart', []);
 
                 $products = [];
