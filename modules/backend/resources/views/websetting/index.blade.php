@@ -1,32 +1,32 @@
 @extends('backend::base')
 @section('content')
-<div id="list-table-setting">
-    <div class="mobile-menu-overlay"></div>
-    <div class="main-container">
-        <div class="xs-pd-20-10 pd-ltr-20">
-            <div class="page-header">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="title">
-                            <h4>Setting</h4>
+    <div id="list-table-setting">
+        <div class="mobile-menu-overlay"></div>
+        <div class="main-container">
+            <div class="xs-pd-20-10 pd-ltr-20">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="title">
+                                <h4>Setting</h4>
+                            </div>
+                            <nav aria-label="breadcrumb" role="navigation">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route('admin-dashboard') }}">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active" aria-current="page">
+                                        Setting
+                                    </li>
+                                </ol>
+                            </nav>
                         </div>
-                        <nav aria-label="breadcrumb" role="navigation">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a href="{{route('admin-dashboard')}}">Home</a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    Setting
-                                </li>
-                            </ol>
-                        </nav>
                     </div>
                 </div>
+                @include('backend::websetting.table.table-index')
             </div>
-            @include('backend::websetting.table.table-index')
         </div>
     </div>
-</div>
 @endsection
 @section('script')
     <script>

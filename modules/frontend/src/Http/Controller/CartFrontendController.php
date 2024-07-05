@@ -342,7 +342,58 @@ class CartFrontendController extends Controller
             }
             DB::commit();
             // return response()->json(['message' => 'Invoice created successfully', 'invoice_id' => $invoice->id], 201);
-            // if ($paymentOption == 'VNPAY') return redirect('/pay');
+            if ($paymentOption == 'VNPAY') {
+                $vnp_TmnCode = "707ER4OT"; // Mã Website tại VNPAY
+                $vnp_HashSecret = "KZC6E0KWQQUVHXINEGP384PCI6F8QV4X"; // Chuỗi bí mật
+
+                $vnp_Returnurl = route('receipt'); // Đường dẫn trả về sau khi thanh toán thành công
+
+                $vnp_TxnRef = "#mobel" . $invoice->id; // Mã đơn hàng
+                $vnp_OrderInfo = "Mobel order no." . $invoice->id; // Thông tin đơn hàng
+                $vnp_OrderType = $Delivery; // Loại đơn hàng
+                $api_url = 'https://v6.exchangerate-api.com/v6/380f982aff4995c2f5f6475b/latest/USD';
+
+                // Gọi API và lấy dữ liệu tỷ giá
+                $response = file_get_contents($api_url);
+                $data = json_decode($response, true);
+                // Kiểm tra dữ liệu trả về
+                if (isset($data['conversion_rates']['VND'])) {
+                    // Lấy tỷ giá USD -> VND
+                    $exchangeRate = $data['conversion_rates']['VND'];
+                } else {
+                    // Sử dụng tỷ giá cố định nếu không lấy được từ API
+                    $exchangeRate = 25000;
+                }
+                $vnp_Amount = $finalPrice * 100 * $exchangeRate; // Số tiền thanh toán (đơn vị: USD)
+                $vnp_Locale = 'vn'; // Ngôn ngữ
+                $vnp_BankCode = $request->input('bank_code'); // Mã ngân hàng
+
+
+                $inputData = array(
+                    "vnp_Version" => "2.1.0",
+                    "vnp_TmnCode" => $vnp_TmnCode,
+                    "vnp_Amount" => $vnp_Amount,
+                    "vnp_Command" => "pay",
+                    "vnp_CreateDate" => date('YmdHis'),
+                    "vnp_CurrCode" => "VND",
+                    "vnp_IpAddr" => $request->ip(),
+                    "vnp_Locale" => $vnp_Locale,
+                    "vnp_OrderInfo" => $vnp_OrderInfo,
+                    "vnp_OrderType" => $vnp_OrderType,
+                    "vnp_ReturnUrl" => $vnp_Returnurl,
+                    "vnp_TxnRef" => $vnp_TxnRef,
+                );
+
+                ksort($inputData);
+                $query = http_build_query($inputData);
+                $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html?" . $query;
+                $vnpSecureHash = hash_hmac('sha512', $query, $vnp_HashSecret);
+                $vnp_Url .= '&vnp_SecureHash=' . $vnpSecureHash;
+                session()->put('cart', []);
+                if ($request->vnp_TransactionStatus == '00') return redirect()->to($vnp_Url)->with("ok", "You have successfully paid.");
+                return redirect()->to($vnp_Url);
+            }
+            session()->put('cart', []);
             return redirect('/receipt');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -350,24 +401,67 @@ class CartFrontendController extends Controller
             return redirect()->back();
         }
     }
-    public function receipted()
+    public function receipted(Request $request)
     {
+        // dd($request);
         $user = Auth::user();
         $latestInvoice = Invoice::where('user_id', $user->id)->latest()->first();
-        $cart = session()->get('cart', []);
-
-        // Lấy danh sách product_id từ giỏ hàng
-        $productIds = array_keys($cart);
-
-        // Lấy thông tin sản phẩm từ database dựa trên product_id
+        $productDetails = $latestInvoice->invoicedetails->mapWithKeys(function ($detail) {
+            return [$detail->product_id => $detail->quantity];
+        });
+        $discountprecent = 0;
+        $discountmoney = 0;
+        $code = coupon::where('id', $latestInvoice->coupon_id)->first();
+        if (isset($code)) {
+            $discountprecent = $code->discount;
+            $discountmoney = $code->discount_money;
+        }
+        $productIds = $productDetails->keys();
         $items = Product::whereIn('id', $productIds)->get();
 
-        // Gắn thêm số lượng từ giỏ hàng vào sản phẩm
-        foreach ($items as $product) {
-            $product->quantity = $cart[$product->id]['quantity'];
+        // Để truy cập số lượng của từng sản phẩm, bạn có thể làm như sau:
+        foreach ($items as $item) {
+            $item->quantity = $productDetails[$item->id];
+            // Xử lý sản phẩm và số lượng tương ứng tại đây
         }
+        $totalPrice = 0;
+        $discountMoney = 0;
+        $finalPrice = 0;
+        foreach ($items as $item) {
+            if (isset($item->sale_percentage))
+                $totalPrice += $item->quantity * ($item->price - ($item->price * $item->sale_percentage * 0.01));
+            else
+                $totalPrice += $item->quantity * $item->price;
+        }
+        // dump($totalPrice);
+        $finalPrice = $totalPrice;
+
+        if ($finalPrice > 0 && $discountmoney > 0 && $discountprecent != 0) {
+            $finalPrice = $this->calculateDiscountedPrice($finalPrice, $discountmoney, $discountprecent);
+            $discountMoney = $totalPrice - $finalPrice;
+        }
+
+        $pay = Pay::where('id', $latestInvoice->pay_id)->first(); // Sử dụng first() thay vì get() vì bạn chỉ cần một bản ghi duy nhất
+
+        if (
+            $pay != null && $pay->name == "VNPAY" && $request->vnp_TransactionStatus == '00'
+        ) {
+            $pay->description = "Paid";
+
+            // Chuỗi ngày giờ cần chuyển đổi
+            $vnp_PayDate = $request->vnp_PayDate;
+
+            // Tạo đối tượng DateTime từ chuỗi ngày giờ
+            $date = DateTime::createFromFormat('YmdHis', $vnp_PayDate);
+
+            // Định dạng lại ngày giờ theo định dạng mong muốn
+            $pay->processing_time = $date->format('Y-m-d H:i:s');
+            $pay->notes = $request->vnp_TransactionNo;
+            $pay->save();
+        }
+        // dd($items);
         // dd($product);
-        return view('frontend::layout.receipt', ['latestInvoice' => $latestInvoice, 'items' => $items]);
+        return view('frontend::layout.receipt', ['latestInvoice' => $latestInvoice, 'items' => $items, 'totalPrice' => $totalPrice, 'discountMoney' => $discountMoney]);
     }
 
     public function buynow($id)

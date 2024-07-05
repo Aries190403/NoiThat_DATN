@@ -19,12 +19,12 @@
 
 
 
-            <div class="row">
 
-                <!-- === product-item === -->
-                @php
-                    $data = $favorites;
-                @endphp
+            <!-- === product-item === -->
+            @php
+                $data = $favorites;
+            @endphp
+            <div class="row">
                 @if ($data)
                     @foreach ($data as $dt)
                         <div class="col-md-4 col-xs-6">
@@ -71,14 +71,14 @@
                         </div>
                         <!-- ========================  Product info popup - quick view ======================== -->
                     @endforeach
-                @endif
-
+                @else
             </div> <!--/row-->
             <!-- === button more === -->
-
             <div class="wrapper-more">
+                <h3>You don't have any favorite products yet.</h3>
                 <a href="/shop" class="btn btn-main">View store</a>
             </div>
+            @endif
 
         </div> <!--/container-->
     </section>
