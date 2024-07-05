@@ -251,9 +251,9 @@
 
                                                     <div class="col-sm-6">
                                                         <!-- <div class="info-box">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <strong>Maifacturer</strong>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span>Brand name</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <strong>Maifacturer</strong>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span>Brand name</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
                                                         <div class="info-box">
                                                             <strong>Materials</strong>
                                                             <span>{{ $dt->materials_type }}</span>
@@ -385,9 +385,9 @@
 
                                                     <div class="col-sm-6">
                                                         <!-- <div class="info-box">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <strong>Maifacturer</strong>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <span>Brand name</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <strong>Maifacturer</strong>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span>Brand name</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
                                                         <div class="info-box">
                                                             <strong>Materials</strong>
                                                             <span>{{ $dt->materials_type }}</span>
@@ -534,27 +534,35 @@
             let productListContainer = document.getElementById('product-list');
             productListContainer.innerHTML = '';
 
-            products.forEach(product => {
+            products.forEach((product, index) => {
                 // Create product item container
                 let productItem = document.createElement('div');
                 productItem.className = 'col-md-6 col-xs-6';
+                // console.log(product.product_content, "kkk");
                 let contentArray = JSON.parse(product.product_content);
-                let imgThumbnail = contentArray.imgThumbnail || 'frontend/assets/images/product-1.png';
+                let baseAssetPath = "{{ asset('') }}";
+
+                // Đường dẫn ảnh
+                let img = contentArray.imgThumbnail || 'frontend/assets/images/product-1.png';
+                let imgSrc = baseAssetPath + img;
+
+                // Thêm vào HTML
+
                 // Construct product item HTML
                 productItem.innerHTML = `
         <article>
             <div class="info">
                 ${ product.favorites ?
                     `<span class="add-favorite">
-                                                                                                                                                                                <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
-                                                                                                                                                                                    <i class="icon icon-heart" style="background-color: #e71d36;"></i>
-                                                                                                                                                                                </a>
-                                                                                                                                                                            </span>` :
+                                                                                                                                                                                                                                                                                    <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
+                                                                                                                                                                                                                                                                                        <i class="icon icon-heart" style="background-color: #e71d36;"></i>
+                                                                                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                                                                                </span>` :
                     `<span class="add-favorite">
-                                                                                                                                                                                <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
-                                                                                                                                                                                    <i class="icon icon-heart"></i>
-                                                                                                                                                                                </a>
-                                                                                                                                                                            </span>`
+                                                                                                                                                                                                                                                                                    <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
+                                                                                                                                                                                                                                                                                        <i class="icon icon-heart"></i>
+                                                                                                                                                                                                                                                                                    </a>
+                                                                                                                                                                                                                                                                                </span>`
                 }
             </div>
             <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
@@ -566,14 +574,14 @@
                 <div class="image">
 
                     <a href="/productdetail/${product.product_id}">
-                        <img src="{{ asset($imgThumbnail) }}" alt="" width="360" />
+                        <img id="product-image-${index}" alt="" width="360" />
                     </a>
                 </div>
                 <div class="text">
                     <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
                     ${ product.sale_percentage ?
                         `<sub>$ ${product.product_price}</sub>
-                                                                                                                                                                                <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
+                                                                                                                                                                                                                                                                                    <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
                         `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
                     }
                     <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
@@ -583,6 +591,12 @@
 
                 // Append elements to the container
                 productListContainer.appendChild(productItem);
+                let imgElement = document.getElementById(`product-image-${index}`);
+                if (imgElement) {
+                    imgElement.src = imgSrc;
+                } else {
+                    console.error(`Element with ID 'product-image-${index}' not found.`);
+                }
             });
 
         }
@@ -627,27 +641,31 @@
             let productListContainer = document.getElementById('product-list');
             productListContainer.innerHTML = '';
 
-            products.forEach(product => {
+            products.forEach((product, index) => {
                 // Create product item container
                 let productItem = document.createElement('div');
                 productItem.className = 'col-md-6 col-xs-6';
                 let contentArray = JSON.parse(product.product_content);
-                let imgThumbnail = contentArray.imgThumbnail || 'frontend/assets/images/product-1.png';
+                let baseAssetPath = "{{ asset('') }}";
+
+                // Đường dẫn ảnh
+                let img = contentArray.imgThumbnail || 'frontend/assets/images/product-1.png';
+                let imgSrc = baseAssetPath + img;
                 // Construct product item HTML
                 productItem.innerHTML = `
     <article>
         <div class="info">
             ${ product.favorites ?
                 `<span class="add-favorite">
-                                                                                                                                                        <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
-                                                                                                                                                            <i class="icon icon-heart" style="background-color: #e71d36;"></i>
-                                                                                                                                                        </a>
-                                                                                                                                                    </span>` :
+                                                                                                                                                                                                                                                            <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
+                                                                                                                                                                                                                                                                <i class="icon icon-heart" style="background-color: #e71d36;"></i>
+                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                        </span>` :
                 `<span class="add-favorite">
-                                                                                                                                                        <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
-                                                                                                                                                            <i class="icon icon-heart"></i>
-                                                                                                                                                        </a>
-                                                                                                                                                    </span>`
+                                                                                                                                                                                                                                                            <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
+                                                                                                                                                                                                                                                                <i class="icon icon-heart"></i>
+                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                        </span>`
             }
         </div>
         <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
@@ -659,14 +677,14 @@
             <div class="image">
 
                 <a href="/productdetail/${product.product_id}">
-                    <img src="{{ asset($imgThumbnail) }}" alt="" width="360" />
+                    <img id="product-image-${index}" alt="" width="360" />
                 </a>
             </div>
             <div class="text">
                 <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
                 ${ product.sale_percentage ?
                     `<sub>$ ${product.product_price}</sub>
-                                                                                                                                                        <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
+                                                                                                                                                                                                                                                            <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
                     `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
                 }
                 <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
@@ -676,6 +694,12 @@
 
                 // Append elements to the container
                 productListContainer.appendChild(productItem);
+                let imgElement = document.getElementById(`product-image-${index}`);
+                if (imgElement) {
+                    imgElement.src = imgSrc;
+                } else {
+                    console.error(`Element with ID 'product-image-${index}' not found.`);
+                }
             });
 
         }

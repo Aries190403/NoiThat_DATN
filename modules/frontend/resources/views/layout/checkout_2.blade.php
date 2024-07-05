@@ -37,7 +37,22 @@
             </div>
         </div>
     </div>
-
+    {{-- <form id="vnpay-form" action="/payment/create" method="POST">
+        @csrf
+        <input type="hidden" name="order_id" id="order_id" value="125">
+        <input type="hidden" name="order_desc" id="order_desc" value="Mua hàng từ giỏ hàng của bạn">
+        <input type="hidden" name="order_type" id="order_type" value="sales">
+        <input type="hidden" name="amount" id="amount" value="100000000">
+        <input type="hidden" name="bank_code" id="bank_code" value="NCB">
+        <button type="submit">
+            <img src="{{ asset('images/vnpay.jpg') }}" alt="VNPAY Logo"
+                style=" margin-right: 10px; width: 24px; height: auto;">
+            <div class="vnpay-text">
+                Ví điện tử
+                <span class="vn">VN</span><span class="pay">PAY</span>
+            </div>
+        </button>
+    </form> --}}
     <!-- ========================  Checkout ======================== -->
 
     <section class="checkout">
@@ -62,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-
+                <input type="hidden" name="bank_code" id="bank_code" value="NCB">
                 <!-- ========================  Delivery ======================== -->
 
                 <div class="cart-wrapper">
@@ -236,6 +251,9 @@
                                             <small></small>
                                         </label>
                                     </span>
+
+                                    {{-- {{ -kkk-- }} --}}
+
 
                                     <hr />
 

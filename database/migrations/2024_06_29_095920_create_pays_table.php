@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->decimal('transaction_fee', 8, 2)->nullable();
+            $table->date('transaction_fee')->nullable();
             $table->integer('processing_time')->nullable();
             $table->string('status');
             $table->timestamps();
