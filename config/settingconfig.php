@@ -8,4 +8,7 @@ return array (
   'close_time' => '6:47 am',
   'facebook_link' => 'https://facebook.com/yourpage',
   'youtube_link' => 'https://youtube.com/yourchannel',
+  'slideshow_images' => 
+  array (
+  ),
 );
