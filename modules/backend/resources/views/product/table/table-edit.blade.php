@@ -8,6 +8,9 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#listImage" role="tab" aria-selected="false">Image</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#listLogs" role="tab" aria-selected="false">History</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="home" role="tabpanel">
@@ -32,13 +35,13 @@
                         <p class="text-center text-muted font-14">{{$product->role}}</p>
 
                         <div class="row" style="text-align: center;">
-                            <div class="col-6" style="margin-bottom: 10px;">
+                            <div class="col-md-4" style="margin-bottom: 10px;">
                                 <a href="{{ route('admin-product-del', ['id' => $product->id]) }}" id="delete-product" style="color: #ff0000;" title="Delete this product">
                                     <i class="icon-copy dw dw-delete-3" style="color: inherit; font-size: 50px"></i>
                                 </a>
                             </div>
-                            <div class="col-6" style="margin-bottom: 10px;">
-                                @if ($product->locked == 'normal')
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                @if ($product->status != 'normal')
                                     <a href="{{ route('admin-product-state', ['id' => $product->id]) }}" id="lock-product" style="color: #ff0000;" title="Lock this product">
                                         <i class="icon-copy dw dw-padlock1" style="color: inherit; font-size: 50px"></i>
                                     </a>
@@ -47,6 +50,11 @@
                                         <i class="icon-copy dw dw-open-padlock" style="color: inherit; font-size: 50px"></i>
                                     </a>
                                 @endif
+                            </div>
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                <a href="#" data-id="{{ $product->id }}" id="importing-product" style="color: #ffea00;" title="Import more goods">
+                                    <i class="icon-copy dw dw-box-1" style="color: inherit; font-size: 50px"></i>
+                                </a>
                             </div>
                         </div>                        
                     </div>
@@ -133,6 +141,8 @@
                 </div>
             </div>
             @include('backend::product.table.ImageList')
+            @include('backend::product.table.history')
+            @include('backend::product.modal.modal-importing')
         </div>
     </div>
 </div>

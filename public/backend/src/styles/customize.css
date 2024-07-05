@@ -113,3 +113,97 @@
     cursor: pointer;
     text-decoration: none; /* Ensure the link has no underline */
 }
+.product-card {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.product-card:hover {
+    border-color: #ff0000;
+}
+
+.product-image {
+    position: relative;
+}
+
+.product-image img {
+    max-width: 100%;
+}
+
+.product-details {
+    padding: 10px 0;
+}
+
+.product-details span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.selected {
+    border-color: #007bff;
+}
+.custom-file-input ~ .custom-file-label::after {
+    content: "Browse";
+}
+.thumbnail-preview-container img {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+}
+.custom-file-label::after {
+    display: none;
+}
+/* CSS cho các nút chỉnh sửa và xóa */
+.position-relative {
+    position: relative;
+}
+
+.editImageLink,
+.deleteImageLink {
+    position: absolute;
+    font-size: 1.2em;
+    z-index: 10;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.editImageLink {
+    top: 10px;
+    right: 10px;
+    color: #007bff; /* Màu icon cho chỉnh sửa */
+}
+
+.deleteImageLink {
+    top: 10px;
+    right: 40px;
+    color: #dc3545; /* Màu icon cho xóa */
+}
+
+.editImageLink:hover {
+    color: #0056b3; /* Màu icon khi hover cho chỉnh sửa */
+}
+
+.deleteImageLink:hover {
+    color: #c82333; /* Màu icon khi hover cho xóa */
+}
+
+.card {
+    position: relative;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+

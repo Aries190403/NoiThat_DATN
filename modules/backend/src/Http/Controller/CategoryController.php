@@ -4,6 +4,8 @@ namespace Modules\Backend\Http\Controller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\product;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Modules\Backend\Http\Data\DataCategoryType;
@@ -25,7 +27,8 @@ class CategoryController extends Controller
         $path = base_path('modules/backend/resources/configs/icon.json');
         $icons = json_decode(File::get($path), true);
         $types = config('backendconfig.types');
-        return view('backend::category.index', ['title' => $title, 'categories' => $categories, 'icons' => $icons, 'types' => $types]);
+        $products = product::where('status', '!=', DataType::DELETED_DATA_TYPE)->get();
+        return view('backend::category.index', ['title' => $title, 'categories' => $categories, 'icons' => $icons, 'types' => $types, 'products' => $products]);
     }
 
     public function Create(Request $request)
@@ -54,19 +57,38 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        // dd($request);
         $category = Category::find($id);
+        if (!$category) {
+            return redirect()->route('admin-category-index')->with('error', 'Category not found');
+        }
+    
         $content = json_decode($category->content, true);
-        $content['icon'] = $request->input('icon');
-        
+    
+        if ($request->filled('icon')) {
+            $content['icon'] = $request->input('icon');
+        }
+    
         $category->name = $request->input('name');
         $category->type = $request->input('type');
+        
+        $content['products'] = $request->input('products') ?? [];
+        $content['products'] = json_encode($content['products']);
+    
+        if ($request->hasFile('thumbnail')) {
+            $disk = 'uploads';
+            $directory = '/uploads/images/product';
+            $filePath = $this->storeImage($request->file('thumbnail'), $disk, $directory);
+            
+            $content['imgThumbnail'] = $filePath;
+        }
+    
         $category->content = json_encode($content);
         $category->save();
-
+    
         return redirect()->route('admin-category-index')->with('success', 'Category updated successfully');
     }
-
-
+    
     // public function update(Request $request, $id)
     // {
     //     $category = Category::find($id);
@@ -75,4 +97,19 @@ class CategoryController extends Controller
     //     $category->save();
     //     return redirect()->route('category-index')->with('success', 'Category updated successfully.');
     // }
+
+    private function storeImage($file, $disk, $directory)
+    {
+        $destinationPath = public_path($directory);
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+    
+        $randomFileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+        $filePath = $directory . '/' . $randomFileName;
+    
+        $file->move($destinationPath, $randomFileName);
+    
+        return $filePath;
+    }
 }
