@@ -16,11 +16,15 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $Invoices = Invoice::where('user_id', Auth::user()->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        try {
+            $Invoices = Invoice::where('user_id', Auth::user()->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
 
-        return view('frontend::layout.order', ['Invoices' => $Invoices]);
+            return view('frontend::layout.order', ['Invoices' => $Invoices]);
+        } catch (\Throwable $th) {
+            return view('frontend::error.404');
+        }
     }
 
     public function filterInvoices(Request $request)
@@ -35,9 +39,12 @@ class OrderController extends Controller
                 $query->orderBy('created_at', 'asc');
             }
         }
-        if ($request->input('status') != 'all')
-            $query->where('status', $request->input('status'));
-
+        if ($request->input('status') != 'all') {
+            if ($request->input('status') == 'completed') {
+                $query->where('status', 'like', '%Completed%');
+            } else
+                $query->where('status', $request->input('status'));
+        }
         $invoices = $query->get();
         if ($invoices != null)
 
@@ -83,6 +90,11 @@ class OrderController extends Controller
 
     public function repay(Request $request, $id)
     {
+        try {
+            $invoice = Invoice::where('id', $id)->first();
+        } catch (\Throwable $th) {
+            return view('frontend::error.404');
+        }
         $invoice = Invoice::where('id', $id)->first();
         if ($invoice->pay->description != "Unpaid" || $invoice->pay->name != "VNPAY") return view("frontend::error.404");
         $vnp_TmnCode = "707ER4OT"; // Mã Website tại VNPAY
@@ -99,7 +111,7 @@ class OrderController extends Controller
         // Gọi API và lấy dữ liệu tỷ giá
         $response = file_get_contents($api_url);
         $data = json_decode($response, true);
-        dd($data);
+        // dd($data);
         // Kiểm tra dữ liệu trả về
         if (isset($data['conversion_rates']['VND'])) {
             // Lấy tỷ giá USD -> VND
@@ -109,7 +121,7 @@ class OrderController extends Controller
             $exchangeRate = 25000;
         }
 
-        $vnp_Amount = $invoice->total * 100 * $exchangeRate; // Số tiền thanh toán (đơn vị: VNĐ)
+        $vnp_Amount = $invoice->total * 100 * ceil($exchangeRate); // Số tiền thanh toán (đơn vị: VNĐ)
         $vnp_Locale = 'vn'; // Ngôn ngữ
         // $vnp_BankCode = $request->input('bank_code'); // Mã ngân hàng
 
@@ -143,6 +155,8 @@ class OrderController extends Controller
         $id = str_replace('#mobel', '', $request->vnp_TxnRef);
 
         $Invoices = Invoice::where('id', $id)->first();
+        $Invoices->status = 'Confirmed';
+        $Invoices->save();
         $productDetails = $Invoices->invoicedetails->mapWithKeys(function ($detail) {
             return [$detail->product_id => $detail->quantity];
         });
@@ -199,6 +213,11 @@ class OrderController extends Controller
 
     public function viewmore($id)
     {
+        try {
+            $Invoices = Invoice::where('id', $id)->first();
+        } catch (\Throwable $th) {
+            return view('frontend::error.404');
+        }
         $Invoices = Invoice::where('id', $id)->first();
         $productDetails = $Invoices->invoicedetails->mapWithKeys(function ($detail) {
             return [$detail->product_id => $detail->quantity];
@@ -240,6 +259,7 @@ class OrderController extends Controller
     {
         try {
             $invoice = Invoice::where('id', $id)->first();
+            if ($invoice->status != 'Pending' || $invoice->status != 'Confirmed') return redirect()->back()->with('no', 'Cancel failed');
             $invoice->status = 'Cancelled';
             if ($invoice->pay->description == 'Paid') {
                 $pay = pay::where('id', $invoice->pay_id)->first();
@@ -258,6 +278,7 @@ class OrderController extends Controller
     {
         try {
             $invoice = Invoice::where('id', $id)->first();
+            if ($invoice->status != 'Completed') return redirect()->back()->with('no', 'Return failed');
             $invoice->status = 'Returning';
             if ($invoice->pay->description == 'Paid') {
                 $pay = pay::where('id', $invoice->pay_id)->first();
@@ -270,11 +291,5 @@ class OrderController extends Controller
             return redirect()->back()->with('no', 'Return failed');
         }
         return redirect()->back()->with('ok', 'Returned');
-    }
-
-    public function rate(Request $request, $id)
-    {
-        $star = $request->input('star');
-        $content = $request->input('content');
     }
 }

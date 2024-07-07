@@ -32,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
         $categories = Category::where('status', 'normal')->where('type', 'Product_Types')->get();
         View::share('globalCategory', $categories);
 
+        $roomCategory = Category::where('status', 'normal')->where('type', 'Rooms')->get();
+        View::share('roomCategory', $roomCategory);
+
         $materials = material::where('status', 'normal')->get();
         View::share('globalMaterials', $materials);
 
