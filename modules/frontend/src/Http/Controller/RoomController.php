@@ -39,82 +39,34 @@ class RoomController extends Controller
         }
     }
 
-    public function filterroomProducts(Request $request, $roomtype)
+    public function filterroomProducts(Request $request, $id)
     {
-        $data = DB::table('products')
-            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
-            ->leftJoin('pictures', 'products.id', '=', 'pictures.product_id')
-            ->leftJoin('materials', 'products.material_id', '=', 'materials.id')
-            ->leftJoin('galleries', 'products.id', '=', 'galleries.id')
-            ->select(
-                //Product
-                'products.id as product_id',
-                'products.category_id',
-                'products.name as product_name',
-                'products.price as product_price',
-                'products.stock as total_stock',
-                'products.sale_percentage',
-                'products.description as product_description',
-                'products.content as product_content',
-                'products.status as product_status',
+        try {
+            // Lấy danh mục phòng theo $id
+            $Category = Category::where('id', $id)
+                ->where('status', 'normal')
+                ->where('type', 'Rooms')
+                ->firstOrFail();
 
-                //CATEGORY
-                'categories.name as category_name',
-                'categories.type as category_type',
-                'categories.description as category_description',
-                'categories.content as category_content',
-                //Gallery
-                'galleries.parent as galleries_parent',
-                'galleries.description as description',
-                //material
-                'materials.name as materials_name',
-                'materials.color as materials_color',
-                'materials.type as materials_type',
-                'materials.description as materials_description',
-                'materials.content as content',
-                DB::raw('GROUP_CONCAT(DISTINCT materials.name ORDER BY materials.name ASC) as materials'),
-                DB::raw('GROUP_CONCAT(DISTINCT pictures.image ORDER BY pictures.created_at DESC) as images')
-            )
-            ->groupBy(
-                'products.id',
-                'products.category_id',
-                'products.name',
-                'products.price',
-                'products.stock',
-                'products.sale_percentage',
-                'products.description',
-                'products.content',
-                'products.status',
-                'categories.id',
-                'categories.name',
-                'categories.type',
-                'categories.description',
-                'categories.content',
-                'galleries.parent',
-                'galleries.description',
-                'materials.name',
-                'materials.color',
-                'materials.type',
-                'materials.description',
-                'materials.content',
-            )
-            ->where('categories.type', $roomtype)
-            ->orderBy('products.id', 'DESC');
-        $query = $data;
-        if ($request->input('price')) {
-            list($minPrice, $maxPrice) = explode(';', $request->input('price'));
-            $query->whereBetween('products.price', [(float) $minPrice, (float) $maxPrice]);
+            // Lấy danh sách ID sản phẩm từ nội dung danh mục
+            $content = json_decode($Category->content);
+            $productIds = json_decode($content->products);
+
+            // Lấy danh sách sản phẩm từ ID
+            $query = Product::whereIn('id', $productIds);
+
+            // Áp dụng điều kiện lọc theo giá nếu có
+            if ($request->input('price')) {
+                list($minPrice, $maxPrice) = explode(';', $request->input('price'));
+                $query->whereBetween('price', [(float) $minPrice, (float) $maxPrice]);
+            }
+
+            // Thực hiện phân trang
+            $products = $query->paginate(10); // Số sản phẩm trên mỗi trang là 10
+
+            return response()->json(['products' => $products]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Error fetching room products'], 500);
         }
-
-        if ($request->input('type') && $request->input('type') !== 'All') {
-            $query->where('products.category_id', (int) $request->input('type'));
-        }
-
-        if ($request->input('material') && $request->input('material') !== 'All') {
-            $query->where('products.material_id', (int) $request->input('material'));
-        }
-
-        $products = $query->paginate(100); // Phân trang, mỗi trang 10 sản phẩm
-        return response()->json(['roomproducts' => $products]);
     }
 }

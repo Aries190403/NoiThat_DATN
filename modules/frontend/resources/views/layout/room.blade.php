@@ -6,7 +6,7 @@
                 <h1 class="h2 title">Shop</h1>
                 <ol class="breadcrumb breadcrumb-inverted">
                     <li><a href="/"><span class="icon icon-home"></span></a></li>
-                    <li><a class="" href="/shop">Product</a></li>
+
                     <li><a class="active" href="#">Room</a></li>
                 </ol>
             </div>
@@ -88,7 +88,7 @@
                             @if (isset($data))
                                 @foreach ($data as $dt)
                                     <div class="col-md-6 col-xs-6">
-                                        @dump($dt->id)
+                                        {{-- @dump($dt->id) --}}
 
                                         <article>
                                             <div class="info">
@@ -178,7 +178,7 @@
         </div><!--/container-->
     </section>
     <script>
-        document.getElementById('Updatesearch').addEventListener('click', function() {
+        document.getElementById('Updateroomsearch').addEventListener('click', function() {
             fetchProducts(); // Tải trang đầu tiên khi cập nhật bộ lọc
         });
 
@@ -217,7 +217,7 @@
                         updateProductList(data.products.data); // Cập nhật danh sách sản phẩm
                     }
                 })
-                .catch(error => console.error('Error:', error, selectedPrice, selectedType, selectedMaterial));
+                .catch(error => console.error('Error:', error, selectedPrice));
         }
 
         function updateProductList(products) {
@@ -244,15 +244,15 @@
             <div class="info">
                 ${ product.favorites ?
                     `<span class="add-favorite">
-                                                                                                                                                                                                                                                                                                            <a href="/removefavorite/${product.id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
-                                                                                                                                                                                                                                                                                                                <i class="icon icon-heart" style="background-color: #e71d36;"></i>
-                                                                                                                                                                                                                                                                                                            </a>
-                                                                                                                                                                                                                                                                                                        </span>` :
+                                                                                                                                                                                                                                                                                                                            <a href="/removefavorite/${product.id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
+                                                                                                                                                                                                                                                                                                                                <i class="icon icon-heart" style="background-color: #e71d36;"></i>
+                                                                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                                                        </span>` :
                     `<span class="add-favorite">
-                                                                                                                                                                                                                                                                                                            <a href="/addfavorite/${product.id}" data-title="Add to favorites" data-title-added="Added to favorites list">
-                                                                                                                                                                                                                                                                                                                <i class="icon icon-heart"></i>
-                                                                                                                                                                                                                                                                                                            </a>
-                                                                                                                                                                                                                                                                                                        </span>`
+                                                                                                                                                                                                                                                                                                                            <a href="/addfavorite/${product.id}" data-title="Add to favorites" data-title-added="Added to favorites list">
+                                                                                                                                                                                                                                                                                                                                <i class="icon icon-heart"></i>
+                                                                                                                                                                                                                                                                                                                            </a>
+                                                                                                                                                                                                                                                                                                                        </span>`
                 }
             </div>
             <a href="/add/${product.id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
@@ -271,7 +271,7 @@
                     <h2 class="title h4"><a href="#productid${product.id}">${product.name}</a></h2>
                     ${ product.sale_percentage ?
                         `<sub>$ ${product.price}</sub>
-                                                                                                                                                                                                                                                                                                            <sup>$ ${product.price - (product.price * (product.sale_percentage * 0.01))}</sup>` :
+                                                                                                                                                                                                                                                                                                                            <sup>$ ${product.price - (product.price * (product.sale_percentage * 0.01))}</sup>` :
                         `<sub style="text-decoration: none;">$ ${product.price}</sub>`
                     }
                     <span class="description clearfix">${product.description ? product.description : ''}</span>
