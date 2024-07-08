@@ -50,9 +50,9 @@
                                 <!-- === info-box === -->
 
                                 <!-- <div class="info-box">
-                                                                                                                                                                        <span><strong>Maifacturer</strong></span>
-                                                                                                                                                                        <span>Brand name</span>
-                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                        <span><strong>Maifacturer</strong></span>
+                                                                                                                                                                                                                                                                        <span>Brand name</span>
+                                                                                                                                                                                                                                                                    </div> -->
 
                                 <!-- === info-box === -->
 
@@ -114,12 +114,12 @@
                             </div> --}}
 
                                 <!-- <div class="info-box info-box-addto">
-                                                                                                                                                                        <span><strong>Collection</strong></span>
-                                                                                                                                                                        <span>
-                                                                                                                                                                            <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
-                                                                                                                                                                            <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
-                                                                                                                                                                        </span>
-                                                                                                                                                                    </div> -->
+                                                                                                                                                                                                                                                                        <span><strong>Collection</strong></span>
+                                                                                                                                                                                                                                                                        <span>
+                                                                                                                                                                                                                                                                            <i class="add"><i class="fa fa-star-o"></i> Add to Collection</i>
+                                                                                                                                                                                                                                                                            <i class="added"><i class="fa fa-star"></i> Remove from Collection</i>
+                                                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                                                    </div> -->
 
                                 <hr />
 
@@ -279,15 +279,44 @@
 
                                                 <div class="comment-wrapper">
 
-                                                    <!-- === comment === -->
-                                                    @php
-                                                        if (isset($rate)) {
-                                                            foreach ($rate as $item) {
-                                                                $fas[] = $item->id;
-                                                            }
-                                                        }
-                                                    @endphp
-                                                    <div class="comment-block">
+                                                    @if (isset($rates) && $rates->count() > 0)
+                                                        @foreach ($rates as $rate)
+                                                            <div class="comment-block">
+                                                                <div class="comment-user">
+                                                                    <div>
+                                                                        @if (isset($rate->image_user[0]))
+                                                                            {{-- @dump($user->picture->image) --}}
+                                                                            <img src="{{ asset($rate->image_user[0]) }}"
+                                                                                alt="User Image" width="70">
+                                                                        @else
+                                                                            <img src="{{ asset('backend/src/images/avatar-clone.svg') }}"
+                                                                                alt="User Image" width="70">
+                                                                        @endif
+                                                                    </div>
+                                                                    <div>
+                                                                        <h5>
+                                                                            <span>{{ $rate->user_name }}</span>
+                                                                            <span class="pull-right">
+                                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                                    <i
+                                                                                        class="fa fa-star {{ $i <= $rate->quanlity ? 'active' : '' }}"></i>
+                                                                                @endfor
+                                                                            </span>
+                                                                            <small>{{ $rate->created_at }}</small>
+                                                                        </h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="comment-desc">
+                                                                    <p>
+                                                                        {{ $rate->content }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <p>No reviews available.</p>
+                                                    @endif
+                                                    {{-- <div class="comment-block">
                                                         <div class="comment-user">
                                                             <div><img src="assets/images/user-2.jpg" alt="Alternate Text"
                                                                     width="70" /></div>
@@ -310,15 +339,20 @@
 
                                                         <div class="comment-desc">
                                                             <p>
-                                                                In vestibulum tellus ut nunc accumsan eleifend. Donec mattis
+                                                                In vestibulum tellus ut nunc accumsan eleifend.
+                                                                Donec mattis
                                                                 cursus ligula, id
-                                                                iaculis dui feugiat nec. Etiam ut ante sed neque lacinia
+                                                                iaculis dui feugiat nec. Etiam ut ante sed neque
+                                                                lacinia
                                                                 volutpat. Maecenas
-                                                                ultricies tempus nibh, sit amet facilisis mauris vulputate
+                                                                ultricies tempus nibh, sit amet facilisis mauris
+                                                                vulputate
                                                                 in. Phasellus
-                                                                tempor justo et mollis facilisis. Donec placerat at nulla
+                                                                tempor justo et mollis facilisis. Donec placerat at
+                                                                nulla
                                                                 sed suscipit. Praesent
-                                                                accumsan, sem sit amet euismod ullamcorper, justo sapien
+                                                                accumsan, sem sit amet euismod ullamcorper, justo
+                                                                sapien
                                                                 cursus nisl, nec
                                                                 gravida
                                                             </p>
@@ -329,31 +363,37 @@
                                                         <div class="comment-block">
                                                             <div class="comment-user">
                                                                 <div><img src="assets/images/user-2.jpg"
-                                                                        alt="Alternate Text" width="70" /></div>
+                                                                        alt="Alternate Text" width="70" />
+                                                                </div>
                                                                 <div>
                                                                     <h5>Administrator<small>08.05.2017</small></h5>
                                                                 </div>
                                                             </div>
                                                             <div class="comment-desc">
                                                                 <p>
-                                                                    Curabitur sit amet elit quis tellus tincidunt efficitur.
+                                                                    Curabitur sit amet elit quis tellus tincidunt
+                                                                    efficitur.
                                                                     Cras lobortis id
-                                                                    elit eu vehicula. Sed porttitor nulla vitae nisl varius
+                                                                    elit eu vehicula. Sed porttitor nulla vitae nisl
+                                                                    varius
                                                                     luctus. Quisque
-                                                                    a enim nisl. Maecenas facilisis, felis sed blandit
+                                                                    a enim nisl. Maecenas facilisis, felis sed
+                                                                    blandit
                                                                     scelerisque, sapien
-                                                                    nisl egestas diam, nec blandit diam ipsum eget dolor.
+                                                                    nisl egestas diam, nec blandit diam ipsum eget
+                                                                    dolor.
                                                                     Maecenas ultricies
-                                                                    tempus nibh, sit amet facilisis mauris vulputate in.
+                                                                    tempus nibh, sit amet facilisis mauris vulputate
+                                                                    in.
                                                                 </p>
                                                             </div>
                                                         </div>
                                                         <!--/reply-->
-                                                    </div>
+                                                    </div> --}}
 
                                                     <!-- === comment === -->
 
-                                                    <div class="comment-block">
+                                                    {{-- <div class="comment-block">
                                                         <div class="comment-user">
                                                             <div><img src="assets/images/user-2.jpg" alt="Alternate Text"
                                                                     width="70" /></div>
@@ -373,25 +413,33 @@
                                                         </div>
                                                         <div class="comment-desc">
                                                             <p>
-                                                                Cras lobortis id elit eu vehicula. Sed porttitor nulla vitae
+                                                                Cras lobortis id elit eu vehicula. Sed porttitor
+                                                                nulla vitae
                                                                 nisl varius luctus.
-                                                                Quisque a enim nisl. Maecenas facilisis, felis sed blandit
+                                                                Quisque a enim nisl. Maecenas facilisis, felis sed
+                                                                blandit
                                                                 scelerisque, sapien
-                                                                nisl egestas diam, nec blandit diam ipsum eget dolor. In
+                                                                nisl egestas diam, nec blandit diam ipsum eget
+                                                                dolor. In
                                                                 vestibulum tellus
-                                                                ut nunc accumsan eleifend. Donec mattis cursus ligula, id
+                                                                ut nunc accumsan eleifend. Donec mattis cursus
+                                                                ligula, id
                                                                 iaculis dui feugiat
-                                                                nec. Etiam ut ante sed neque lacinia volutpat. Maecenas
+                                                                nec. Etiam ut ante sed neque lacinia volutpat.
+                                                                Maecenas
                                                                 ultricies tempus
-                                                                nibh, sit amet facilisis mauris vulputate in. Phasellus
+                                                                nibh, sit amet facilisis mauris vulputate in.
+                                                                Phasellus
                                                                 tempor justo et mollis
-                                                                facilisis. Donec placerat at nulla sed suscipit. Praesent
+                                                                facilisis. Donec placerat at nulla sed suscipit.
+                                                                Praesent
                                                                 accumsan, sem sit
-                                                                amet euismod ullamcorper, justo sapien cursus nisl, nec
+                                                                amet euismod ullamcorper, justo sapien cursus nisl,
+                                                                nec
                                                                 gravida
                                                             </p>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
 
                                                 </div><!--/comment-wrapper-->
                                             </div> <!--/comments-->

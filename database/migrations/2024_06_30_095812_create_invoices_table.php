@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('name');
             $table->decimal('total', 8, 2);
+            $table->decimal('discountMoney', 8, 2);
             $table->string('status');
             $table->string('delivery');
             $table->foreignId('user_id')->constrained('users');

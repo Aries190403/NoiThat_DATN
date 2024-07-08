@@ -4,7 +4,9 @@ namespace Modules\Frontend\Http\Controller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\picture;
 use App\Models\product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -138,8 +140,16 @@ class ShopFrontendController extends Controller
                 'materials.content',
             )
             ->first();
-        // dd($data);
-        return view('frontend::layout.productdetail', compact('data'));
+        $rates = DB::table('rates')
+            ->select('rates.*', 'users.name as user_name')
+            ->join('users', 'rates.user_id', '=', 'users.id')
+            ->where('rates.product_id', $id)
+            ->get();
+        foreach ($rates as $rate) {
+            $rate->image_user = picture::where('id', User::where('id', $rate->user_id)->pluck('avatar'))->pluck('image');
+        }
+        // dd($rates);
+        return view('frontend::layout.productdetail', ['data' => $data, 'rates' => $rates]);
     }
     public function filterProducts(Request $request)
     {

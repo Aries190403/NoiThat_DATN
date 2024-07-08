@@ -206,4 +206,23 @@
     padding: 15px;
 }
 
+.btn.active {
+    background-color: rgb(0, 218, 247) !important;
+    border-color: rgb(0, 218, 247) !important;
+}
+
+.modal-lg {
+    max-width: 80%;
+}
+
+.modal-body {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #f2f2f2; /* Màu xám */
+}
+
+
 

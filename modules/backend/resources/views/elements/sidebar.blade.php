@@ -203,7 +203,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle {{ request()->routeIs('admin-product-index') || request()->routeIs('admin-material-index') || request()->routeIs('admin-coupon-index') ? 'data-option="on"' : 'data-option="off"' }}">
-                        <span class="micon dw dw-folder1"></span><span class="mtext">Products</span>
+                        <span class="micon dw dw-package"></span><span class="mtext">Products</span>
                     </a>
                     <ul class="submenu">
                         <li><a href="{{ route('admin-product-index') }}" class="{{ request()->routeIs('admin-product-index') ? 'active' : '' }}">Product List</a></li>
@@ -224,6 +224,11 @@
                 <li class="dropdown">
                     <a href="{{ route('admin-supplier-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-supplier-index') ? 'active' : '' }}">
                         <span class="micon dw dw-building1"></span><span class="mtext">Suppliers</span>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="{{ route('admin-invoice-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-invoice-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-invoice-1"></span><span class="mtext">Invoices</span>
                     </a>
                 </li>
             </ul>

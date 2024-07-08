@@ -16,6 +16,7 @@ class Invoice extends Model
         'phone',
         'name',
         'total',
+        'discountMoney',
         'status',
         'delivery',
         'user_id',
@@ -42,5 +43,10 @@ class Invoice extends Model
     public function pay()
     {
         return $this->belongsTo(Pay::class, 'pay_id');
+    }
+
+    public function details()
+    {
+        return $this->hasMany(InvoiceDetail::class, 'invoice_id');
     }
 }
