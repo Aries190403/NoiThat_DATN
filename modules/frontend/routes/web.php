@@ -16,6 +16,7 @@ use Modules\Frontend\Http\Controller\OrderController;
 use Modules\Frontend\Http\Controller\ProfileController;
 use Modules\Frontend\Http\Controller\RateController;
 use Modules\Frontend\Http\Controller\RegisterController;
+use Modules\Frontend\Http\Controller\RoomController;
 use Modules\Frontend\Http\Controller\ShopFrontendController;
 use Modules\Frontend\Http\Controller\VnPayController;
 
@@ -25,14 +26,21 @@ Route::middleware('web')->group(function () {
     Route::get('/shop', [ShopFrontendController::class, 'index'])->name('shop');
     Route::get('/productdetail/{id}', [ShopFrontendController::class, 'detail'])->name('detail');
     Route::post('/filter-products', [ShopFrontendController::class, 'filterProducts']);
-
+    Route::get('/filter-products', [RateController::class, 'notfound']);
     Route::post('/filter-category', [CategoryController::class, 'index']);
+    Route::get('/filter-category', [RateController::class, 'notfound']);
+
+    Route::get('/room/{id}', [RoomController::class, 'index']);
+    Route::post('/filter-roomproducts/{id}', [RoomController::class, 'filterroomProducts']);
+    Route::get('/filter-roomproducts/{id}', [RateController::class, 'notfound']);
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'store'])->name('register');
 
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'authenticate']);
+    Route::get('/logout', [RateController::class, 'notfound']);
+
     Route::middleware('auth')->group(function () {
         Route::post('/logout', [LoginController::class, 'logout']);
         Route::middleware(['role:USER'])->group(function () {
@@ -42,6 +50,8 @@ Route::middleware('web')->group(function () {
             Route::get('/userorderlist', [OrderController::class, 'index']);
 
             Route::post('/filter-invoices', [OrderController::class, 'filterInvoices']);
+            Route::get('/filter-invoices', [RateController::class, 'notfound']);
+
             Route::get('/repay/{id}', [OrderController::class, 'repay']);
             Route::get('/vieworder', [OrderController::class, 'view'])->name('vieworder');
             Route::get('/viewmore/{id}', [OrderController::class, 'viewmore']);
@@ -49,8 +59,10 @@ Route::middleware('web')->group(function () {
             Route::get('/return/{id}', [OrderController::class, 'return']);
 
             Route::post('/rate/{invoiceId}', [RateController::class, 'store'])->name('rate.store');
+            Route::get('/rate/{invoiceId}', [RateController::class, 'notfound']);
 
             Route::post('/uploadAvatar/{id}', [ProfileController::class, 'upAvatar']);
+            Route::get('/uploadAvatar/{id}', [RateController::class, 'notfound']);
 
             Route::get('/editpassword', [EditpasswordController::class, 'editpassword']);
             Route::post('/editpassword', [EditpasswordController::class, 'updatepassword']);
@@ -60,9 +72,12 @@ Route::middleware('web')->group(function () {
             Route::get('/add/{product}', [CartFrontendController::class, 'addToCart']);
             Route::get('/cart/delete/{id}', [CartFrontendController::class, 'deleteCartItem']);
             Route::post('/cart/update-quantity/{cartItemId}/{quantity}', [CartFrontendController::class, 'updateQuantity'])->name('cart.updateQuantity');
+            Route::get('/cart/update-quantity/{cartItemId}/{quantity}', [RateController::class, 'notfound']);
 
             Route::get('/checkout-2', [CartFrontendController::class, 'checkout_2']);
             Route::post('/checkout-3', [CartFrontendController::class, 'checkout_3']);
+            Route::get('/checkout-3', [RateController::class, 'notfound']);
+
             Route::get('/receipt', [CartFrontendController::class, 'receipted'])->name('receipt');
             Route::get('/pay', [CartFrontendController::class, 'pay']);
 

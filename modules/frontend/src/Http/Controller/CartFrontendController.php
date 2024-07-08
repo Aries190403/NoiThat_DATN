@@ -371,7 +371,7 @@ class CartFrontendController extends Controller
                     // Sử dụng tỷ giá cố định nếu không lấy được từ API
                     $exchangeRate = 25000;
                 }
-                $vnp_Amount = $finalPrice * 100 * $exchangeRate; // Số tiền thanh toán (đơn vị: USD)
+                $vnp_Amount = $finalPrice * 100 * ceil($exchangeRate); // Số tiền thanh toán (đơn vị: USD)
                 $vnp_Locale = 'vn'; // Ngôn ngữ
                 $vnp_BankCode = $request->input('bank_code'); // Mã ngân hàng
 
@@ -413,6 +413,8 @@ class CartFrontendController extends Controller
         // dd($request);
         $user = Auth::user();
         $latestInvoice = Invoice::where('user_id', $user->id)->latest()->first();
+        $latestInvoice->status = "Confirmed";
+        $latestInvoice->save();
         $productDetails = $latestInvoice->invoicedetails->mapWithKeys(function ($detail) {
             return [$detail->product_id => $detail->quantity];
         });
