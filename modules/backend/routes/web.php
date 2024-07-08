@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Backend\Http\Controller\AddressController;
 use Modules\Backend\Http\Controller\CategoryController;
 use Modules\Backend\Http\Controller\CouponController;
+use Modules\Backend\Http\Controller\InvoiceController;
 use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\MaterialController;
@@ -78,9 +79,6 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/addImage', [SettingController::class, 'addImage'])->name('admin-setting-addImage');
             Route::post('/admin-setting-editImage', [SettingController::class, 'editImage'])->name('admin-setting-editImage');
             Route::post('/admin-setting-deleteImage', [SettingController::class, 'deleteImage'])->name('admin-setting-deleteImage');
-
-
-
         });
 
         Route::prefix('supplier')->group(function () {
@@ -91,5 +89,12 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/state/{id}', [SupplierController::class, 'couponState'])->name('admin-supplier-state');
             Route::post('/uplogo/{id}', [SupplierController::class, 'upAvatar'])->name('admin-supplier-uplogo');
         });
+
+        Route::prefix('invoice')->group(function () {
+            Route::get('/', [InvoiceController::class, 'index'])->name('admin-invoice-index');
+            Route::post('/update', [InvoiceController::class, 'update'])->name('admin-invoice-update');
+            Route::get('/detail/{id}', [InvoiceController::class, 'detail'])->name('admin-invoice-detail');
+        });
+
     });
 });
