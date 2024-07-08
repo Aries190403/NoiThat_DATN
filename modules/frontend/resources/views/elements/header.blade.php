@@ -90,7 +90,7 @@
                             <!-- Furniture icons in dropdown-->
 
                             <li id="li_hover">
-                                <a href="/"> Product Category <span class="open-dropdown"><i
+                                <a href="#"> Product Category <span class="open-dropdown"><i
                                             class="fa fa-angle-down"></i></span></a>
                                 <div class="navbar-dropdown">
                                     <div class="navbar-box">
@@ -149,9 +149,9 @@
                                 </div> <!--/navbar-dropdown-->
                             </li>
 
-                            <li>
-                                <a href="/blog">Blogs</a>
-                                {{-- <div class="navbar-dropdown">
+                            {{-- <li>
+                                <a href="/blog">Blogs</a> --}}
+                            {{-- <div class="navbar-dropdown">
                                     <div class="navbar-box">
 
                                         <!-- box-1 (left-side)-->
@@ -242,6 +242,37 @@
                                         </div> <!--/box-2-->
                                     </div> <!--/navbar-box-->
                                 </div> <!--/navbar-dropdown--> --}}
+                            {{-- </li> --}}
+                            <li>
+                                <a href="#">Rooms <span class="open-dropdown"><i
+                                            class="fa fa-angle-down"></i></span></a>
+                                <div class="navbar-dropdown navbar-dropdown-single">
+                                    <div class="navbar-box">
+
+                                        <!-- box-2 (without 'box-1', box-2 will be displayed as full width)-->
+
+                                        <div class="box-2">
+                                            <div class="box clearfix">
+                                                <ul>
+                                                    <li style="" class="label">Rooms </li>
+                                                    {{-- <br> --}}
+                                                    @foreach ($roomCategory as $item)
+                                                        @php
+                                                            $content = json_decode($item->content);
+                                                        @endphp
+                                                        @if (isset($content->imgThumbnail))
+                                                            {{-- <a href="/room/{{ $item->id }}">Anchor link</a> --}}
+                                                            <li><a
+                                                                    href="/room/{{ $item->id }}">{{ $item->name }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @endforeach
+                                                    {{-- <li><a href="products-grid.html">Products grid</a></li> --}}
+                                                </ul>
+                                            </div> <!--/box-->
+                                        </div> <!--/box-2-->
+                                    </div> <!--/navbar-box-->
+                                </div> <!--/navbar-dropdown-->
                             </li>
 
                             <!-- Mega menu dropdown -->

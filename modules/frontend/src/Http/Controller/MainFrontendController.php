@@ -19,7 +19,6 @@ class MainFrontendController extends Controller
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->leftJoin('pictures', 'products.id', '=', 'pictures.product_id')
             ->leftJoin('materials', 'products.material_id', '=', 'materials.id')
-            ->leftJoin('galleries', 'products.id', '=', 'galleries.id')
             ->select(
                 //Product
                 'products.id as product_id',
@@ -37,9 +36,6 @@ class MainFrontendController extends Controller
                 'categories.type as category_type',
                 'categories.description as category_description',
                 'categories.content as category_content',
-                //Gallery
-                'galleries.parent as galleries_parent',
-                'galleries.description as description',
                 //material
                 'materials.name as materials_name',
                 'materials.color as materials_color',
@@ -64,14 +60,13 @@ class MainFrontendController extends Controller
                 'categories.type',
                 'categories.description',
                 'categories.content',
-                'galleries.parent',
-                'galleries.description',
                 'materials.name',
                 'materials.color',
                 'materials.type',
                 'materials.description',
                 'materials.content',
             )
+            ->where('products.status', 'normal')
             ->orderBy('products.id', 'DESC')
             ->paginate(6);
         if (Auth::check()) {

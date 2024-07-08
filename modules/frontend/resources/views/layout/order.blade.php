@@ -100,8 +100,8 @@
                                         <option value="all">All</option>
                                         <option value="pending">Pending</option>
                                         <option value="Confirmed">Confirmed</option>
-                                        <option value="completed">Completed</option>
                                         <option value="Shipping">Shipping</option>
+                                        <option value="completed">Completed</option>
                                         <option value="cancelled">Cancelled</option>
                                         <option value="Failed">Failed</option>
                                         <option value="Returned">Returned</option>
@@ -144,7 +144,7 @@
                             </tr>
                             <div class="modal fade" id="rateModal{{ $Invoice->id }}" tabindex="-1" role="dialog"
                                 aria-labelledby="rateModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+                                <div class="modal-dialog" role="document" style="margin-top: 150px">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="rateModalLabel">Comment</h5>
@@ -160,7 +160,7 @@
                                             <form action="/rate/{{ $Invoice->id }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <label for="rating">Qunlity:</label>
+                                                    <label for="rating">Quanlity:</label>
                                                     <div class="star-rating">
                                                         <input type="radio" id="star5" name="rating" value="5"
                                                             checked />
