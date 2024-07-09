@@ -10,6 +10,7 @@ use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\MaterialController;
 use Modules\Backend\Http\Controller\ProductController;
 use Modules\Backend\Http\Controller\SettingController;
+use Modules\Backend\Http\Controller\StatisticalController;
 use Modules\Backend\Http\Controller\SupplierController;
 use Modules\Backend\Http\Controller\UserController;
 
@@ -96,5 +97,8 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/detail/{id}', [InvoiceController::class, 'detail'])->name('admin-invoice-detail');
         });
 
+        Route::prefix('statistical')->group(function () {
+            Route::get('/', [StatisticalController::class, 'index'])->name('admin-statistical-index');
+        });
     });
 });

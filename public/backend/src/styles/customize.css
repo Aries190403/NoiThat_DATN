@@ -224,5 +224,37 @@
     background-color: #f2f2f2; /* Màu xám */
 }
 
+body {
+    padding-top: 50px;
+}
+.statistics-container {
+    max-width: 800px;
+}
+.statistics-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    color: #fff;
+}
+.statistics-card .card-body {
+    display: flex;
+    align-items: center;
+}
+.statistics-card .card-body i {
+    font-size: 2rem;
+    margin-right: 15px;
+}
+.total-revenue {
+    background-color: #28a745;
+}
+.total-orders {
+    background-color: #007bff;
+}
+.total-vouchers {
+    background-color: #ffc107;
+}
+.total-discount {
+    background-color: #dc3545;
+}
+
 
 

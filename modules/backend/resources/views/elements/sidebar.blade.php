@@ -231,6 +231,11 @@
                         <span class="micon dw dw-invoice-1"></span><span class="mtext">Invoices</span>
                     </a>
                 </li>
+                <li class="dropdown">
+                    <a href="{{ route('admin-statistical-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-statistical-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-analytics-3"></span><span class="mtext">Statistical</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
