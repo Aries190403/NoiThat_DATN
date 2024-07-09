@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Backend\Http\Controller\AddressController;
 use Modules\Backend\Http\Controller\CategoryController;
 use Modules\Backend\Http\Controller\CouponController;
+use Modules\Backend\Http\Controller\FeedbackController;
 use Modules\Backend\Http\Controller\InvoiceController;
 use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
@@ -99,6 +100,12 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
 
         Route::prefix('statistical')->group(function () {
             Route::get('/', [StatisticalController::class, 'index'])->name('admin-statistical-index');
+        });
+
+        Route::prefix('feedback')->group(function () {
+            Route::get('/', [FeedbackController::class, 'index'])->name('admin-feedback-index');
+            Route::post('/lock/{id}', [FeedbackController::class, 'State'])->name('admin-feedback-state');
+
         });
     });
 });

@@ -191,15 +191,9 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-user') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-user') ? 'active' : '' }}">
-                        <span class="micon dw dw-user1"></span><span class="mtext">Users</span>
+                    <a href="{{ route('admin-category-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-category-index') ? 'active' : '' }}">
+                        <span class="micon bi bi-menu-app"></span><span class="mtext">Categories</span>
                     </a>
-                    {{-- <ul class="submenu">
-                        <li><a href="#">Users Admin</a></li>
-                    </ul>
-                    <ul class="submenu">
-                        <li><a href="#">Users</a></li>
-                    </ul> --}}
                 </li>
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle {{ request()->routeIs('admin-product-index') || request()->routeIs('admin-material-index') || request()->routeIs('admin-coupon-index') ? 'data-option="on"' : 'data-option="off"' }}">
@@ -212,13 +206,18 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-category-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-category-index') ? 'active' : '' }}">
-                        <span class="micon bi bi-menu-app"></span><span class="mtext">Categories</span>
+                    <a href="{{ route('admin-invoice-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-invoice-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-invoice-1"></span><span class="mtext">Invoices</span>
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-setting-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-setting-index') ? 'active' : '' }}">
-                        <span class="micon dw dw-settings2"></span><span class="mtext">Settings</span>
+                    <a href="{{ route('admin-statistical-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-statistical-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-analytics-3"></span><span class="mtext">Statistical</span>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="{{ route('admin-feedback-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-feedback-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-chat3"></span><span class="mtext">Feedbacks</span>
                     </a>
                 </li>
                 <li class="dropdown">
@@ -227,13 +226,19 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-invoice-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-invoice-index') ? 'active' : '' }}">
-                        <span class="micon dw dw-invoice-1"></span><span class="mtext">Invoices</span>
+                    <a href="{{ route('admin-user') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-user') ? 'active' : '' }}">
+                        <span class="micon dw dw-user1"></span><span class="mtext">Users</span>
                     </a>
+                    {{-- <ul class="submenu">
+                        <li><a href="#">Users Admin</a></li>
+                    </ul>
+                    <ul class="submenu">
+                        <li><a href="#">Users</a></li>
+                    </ul> --}}
                 </li>
                 <li class="dropdown">
-                    <a href="{{ route('admin-statistical-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-statistical-index') ? 'active' : '' }}">
-                        <span class="micon dw dw-analytics-3"></span><span class="mtext">Statistical</span>
+                    <a href="{{ route('admin-setting-index') }}" class="dropdown-toggle no-arrow {{ request()->routeIs('admin-setting-index') ? 'active' : '' }}">
+                        <span class="micon dw dw-settings2"></span><span class="mtext">Settings</span>
                     </a>
                 </li>
             </ul>

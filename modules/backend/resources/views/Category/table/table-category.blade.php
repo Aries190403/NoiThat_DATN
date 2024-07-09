@@ -57,7 +57,7 @@
                 </td>
                 <td>
                     {{-- <a href="{{route('admin-category-edit',['id'=>$category->id])}}" class="openModalEdit" data-category-id="{{ $category->id }}">Edit category</a> --}}
-                    <a href="{{route('admin-category-edit',['id'=>$category->id])}}" class="openModalEdit" data-category-id="{{ $category->id }}" style="color: #265ed7;">
+                    <a href="#" data-url="{{route('admin-category-edit',['id'=>$category->id])}}" class="openModalEdit" data-category-id="{{ $category->id }}" style="color: #265ed7;">
                         <i class="icon-copy dw dw-edit2" style="color: inherit;"></i>
                     </a>
                 </td>

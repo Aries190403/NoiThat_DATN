@@ -113,10 +113,10 @@
             });
     
             // Modal edit functionality
-            $('.openModalEdit').click(function(e) {
+            $(document).on('click', '.openModalEdit', function(e) {
                 e.preventDefault();
                 var categoryId = $(this).data('category-id');
-                var url = $(this).attr('href');
+                var url = $(this).data('url');
                 
                 $.ajax({
                     url: url,
