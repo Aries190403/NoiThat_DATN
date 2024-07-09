@@ -124,7 +124,7 @@
     {{-- invoice detail --}}
     <script>
         $(document).ready(function(){
-            $('.openInvoiceModal').click(function(e){
+            $(document).on('click', '.openInvoiceModal', function(e) {
                 e.preventDefault();
                 var invoiceId = $(this).data('id');
                 $.ajax({

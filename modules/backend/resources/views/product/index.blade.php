@@ -208,7 +208,7 @@
     {{-- nhập hàng  --}}
     <script>
         $(document).ready(function(){
-            $('.openModal').click(function(e){
+            $(document).on('click', '.openModal', function(e) {
                 e.preventDefault();
                 var productId = $(this).data('id');
                 var actionUrl = '{{ route("admin-product-importing", ["id" => ":id"]) }}';

@@ -34,7 +34,7 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('.openModalEdit').click(function(e) {
+            $(document).on('click', '.openModalEdit', function(e) {
                 e.preventDefault();
                 var materialId = $(this).data('material-id');
                 var url = $(this).attr('href');

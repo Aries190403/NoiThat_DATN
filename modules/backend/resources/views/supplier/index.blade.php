@@ -227,7 +227,7 @@
                 $('#edit-save-btn').text(isEdit ? 'Save' : 'Edit');
             }
     
-            $('.openModalView').on('click', function(e) {
+            $(document).on('click', '.openModalView', function(e) {
                 e.preventDefault();
     
                 supplierId = $(this).data('supplier-id');

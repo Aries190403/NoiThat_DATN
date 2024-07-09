@@ -123,7 +123,7 @@
     {{-- show view coupon --}}
     <script>
         $(document).ready(function() {
-            $('.openModalView').on('click', function(e) {
+            $(document).on('click', '.openModalView', function(e) {
                 e.preventDefault();
     
                 var couponId = $(this).data('coupon-id');
