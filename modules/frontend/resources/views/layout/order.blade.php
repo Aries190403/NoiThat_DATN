@@ -130,8 +130,9 @@
                                             class="btn btn-danger">Rate</a>
                                     @endif
                                     @if (
-                                        ($Invoice->pay->description == 'Unpaid' && $Invoice->pay->name == 'VNPAY' && $Invoice->status == 'Pending') ||
-                                            $Invoice->status == 'Confirmed')
+                                        $Invoice->pay->description == 'Unpaid' &&
+                                            $Invoice->pay->name == 'VNPAY' &&
+                                            ($Invoice->status == 'Pending' || $Invoice->status == 'Confirmed'))
                                         <a href="/repay/{{ $Invoice->id }}" class="btn btn-main">PAY</a>
                                     @endif
                                     @if ($Invoice->status == 'Pending' || $Invoice->status == 'Confirmed')

@@ -413,9 +413,6 @@ class CartFrontendController extends Controller
         // dd($request);
         $user = Auth::user();
         $latestInvoice = Invoice::where('user_id', $user->id)->latest()->first();
-        if ($latestInvoice->pay->name == 'VNPAY' && $latestInvoice->pay->description == 'Paid')
-            $latestInvoice->status = "Confirmed";
-        $latestInvoice->save();
         $productDetails = $latestInvoice->invoicedetails->mapWithKeys(function ($detail) {
             return [$detail->product_id => $detail->quantity];
         });
@@ -468,6 +465,10 @@ class CartFrontendController extends Controller
             $pay->processing_time = $date->format('Y-m-d H:i:s');
             $pay->notes = $request->vnp_TransactionNo;
             $pay->save();
+        }
+        if ($latestInvoice->pay->name == 'VNPAY' && $latestInvoice->pay->description == 'Paid') {
+            $latestInvoice->status = "Confirmed";
+            $latestInvoice->save();
         }
         // dd($items);
         // dd($product);

@@ -156,8 +156,6 @@ class OrderController extends Controller
         $id = str_replace('#mobel', '', $request->vnp_TxnRef);
 
         $Invoices = Invoice::where('id', $id)->first();
-        $Invoices->status = 'Confirmed';
-        $Invoices->save();
         $productDetails = $Invoices->invoicedetails->mapWithKeys(function ($detail) {
             return [$detail->product_id => $detail->quantity];
         });
@@ -208,6 +206,10 @@ class OrderController extends Controller
             $pay->processing_time = $date->format('Y-m-d H:i:s');
             $pay->notes = $request->vnp_TransactionNo;
             $pay->save();
+        }
+        if ($Invoices->pay->name == 'VNPAY' && $Invoices->pay->description == 'Paid') {
+            $Invoices->status = "Confirmed";
+            $Invoices->save();
         }
         return view('frontend::layout.vieworder', ['Invoices' => $Invoices, 'items' => $items, 'totalPrice' => $totalPrice, 'discountMoney' => $discountMoney]);
     }
