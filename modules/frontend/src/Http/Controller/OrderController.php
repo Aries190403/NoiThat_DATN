@@ -5,6 +5,7 @@ namespace Modules\Frontend\Http\Controller;
 use App\Http\Controllers\Controller;
 use App\Models\coupon;
 use App\Models\Invoice;
+use App\Models\InvoiceDetail;
 use App\Models\Pay;
 use App\Models\product;
 use DateTime;
@@ -259,12 +260,20 @@ class OrderController extends Controller
     {
         try {
             $invoice = Invoice::where('id', $id)->first();
-            if ($invoice->status != 'Pending' || $invoice->status != 'Confirmed') return redirect()->back()->with('no', 'Cancel failed');
+            if ($invoice->status != 'Pending' && $invoice->status != 'Confirmed') return redirect()->back()->with('no', 'Cancel failed');
             $invoice->status = 'Cancelled';
             if ($invoice->pay->description == 'Paid') {
                 $pay = pay::where('id', $invoice->pay_id)->first();
                 $pay->description = 'Refunding';
                 $pay->save();
+            }
+            $invoiceDetails = InvoiceDetail::where('invoice_id', $invoice->id)->get();
+            foreach ($invoiceDetails as $detail) {
+                $product = Product::where('id', $detail->product_id)->first();
+                if ($product) {
+                    $product->increment('stock', $detail->quantity);
+                    $product->save();
+                }
             }
             $invoice->save();
             //code...
