@@ -254,7 +254,7 @@
                                         <div class="box-2">
                                             <div class="box clearfix">
                                                 <ul>
-                                                    <li style="" class="label">Rooms </li>
+                                                    {{-- <li style="" class="label">Rooms </li> --}}
                                                     {{-- <br> --}}
                                                     @foreach ($roomCategory as $item)
                                                         @php
