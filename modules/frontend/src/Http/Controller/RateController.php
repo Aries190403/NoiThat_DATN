@@ -16,21 +16,20 @@ class RateController extends Controller
             $latestInvoice = Invoice::where('id', $id)->first();
             if ($latestInvoice->status != 'Completed') {
                 return view('frontend::error.404');
-
-                $latestInvoice = Invoice::where('id', $id)->first();
-                $latestInvoice->status = 'Completed - Rated';
-                $latestInvoice->save();
-                $productIds = $latestInvoice->invoicedetails->pluck('product_id')->toArray();
-                // dd($productIds, $id);
-                foreach ($productIds as $productId) {
-                    Rate::create([
-                        'user_id' => auth()->id(),
-                        'product_id' => $productId,
-                        'content' => $request->input('comment'),
-                        'quanlity' => $request->input('rating'),
-                        'status' => 1,
-                    ]);
-                }
+            }
+            $latestInvoice = Invoice::where('id', $id)->first();
+            $latestInvoice->status = 'Completed - Rated';
+            $latestInvoice->save();
+            $productIds = $latestInvoice->invoicedetails->pluck('product_id')->toArray();
+            // dd($productIds, $id);
+            foreach ($productIds as $productId) {
+                Rate::create([
+                    'user_id' => auth()->id(),
+                    'product_id' => $productId,
+                    'content' => $request->input('comment'),
+                    'quanlity' => $request->input('rating'),
+                    'status' => 1,
+                ]);
             }
         } catch (\Throwable $th) {
             return view('frontend::error.404');

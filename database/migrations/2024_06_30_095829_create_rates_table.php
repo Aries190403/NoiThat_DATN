@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('rates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('image_user');
             $table->foreignId('product_id')->constrained('products');
             $table->string('content');
             $table->integer('quanlity');

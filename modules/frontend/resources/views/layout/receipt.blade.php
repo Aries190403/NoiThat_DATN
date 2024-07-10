@@ -54,7 +54,7 @@
                         <span class="h2 title">Your order is completed!</span>
                     </div>
                     <div class="col-xs-6 text-right">
-                        <a href="/" class="btn btn-main"><span class="icon icon-home"></span> Home</a>
+                        <a href="/userorderlist" class="btn btn-main"><span class="icon icon-cart"></span> Your order</a>
                         <a onclick="window.print()" class="btn btn-main"><span class="icon icon-printer"></span> Print</a>
                     </div>
                 </div>
@@ -369,7 +369,7 @@
                         <span class="h2 title">Your order is completed!</span>
                     </div>
                     <div class="col-xs-6 text-right">
-                        <a href="/" class="btn btn-main"><span class="icon icon-home"></span> Home</a>
+                        <a href="/userorderlist" class="btn btn-main"><span class="icon icon-cart"></span> Your order</a>
                         <a onclick="window.print()" class="btn btn-main"><span class="icon icon-printer"></span>
                             Print</a>
                     </div>

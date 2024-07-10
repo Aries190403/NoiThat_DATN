@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use Modules\Backend\Http\Controller\AddressController;
 use Modules\Backend\Http\Controller\CategoryController;
 use Modules\Backend\Http\Controller\CouponController;
+use Modules\Backend\Http\Controller\FeedbackController;
 use Modules\Backend\Http\Controller\InvoiceController;
 use Modules\Backend\Http\Controller\LoginController;
 use Modules\Backend\Http\Controller\MainAdminController;
 use Modules\Backend\Http\Controller\MaterialController;
 use Modules\Backend\Http\Controller\ProductController;
 use Modules\Backend\Http\Controller\SettingController;
+use Modules\Backend\Http\Controller\StatisticalController;
 use Modules\Backend\Http\Controller\SupplierController;
 use Modules\Backend\Http\Controller\UserController;
 
@@ -55,7 +57,7 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/deleteProd/{id}', [ProductController::class, 'deleteProduct'])->name('admin-product-del');
             Route::post('/importing/{id}', [ProductController::class, 'importing'])->name('admin-product-importing');
             Route::get('/detailLog/{id}', [ProductController::class, 'detailLog'])->name('admin-product-detailLogs');
-
+            Route::post('/importProducts', [ProductController::class, 'importProducts'])->name('admin-product-importProducts');
         });
 
         Route::prefix('material')->group(function () {
@@ -96,5 +98,14 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/detail/{id}', [InvoiceController::class, 'detail'])->name('admin-invoice-detail');
         });
 
+        Route::prefix('statistical')->group(function () {
+            Route::get('/', [StatisticalController::class, 'index'])->name('admin-statistical-index');
+        });
+
+        Route::prefix('feedback')->group(function () {
+            Route::get('/', [FeedbackController::class, 'index'])->name('admin-feedback-index');
+            Route::post('/lock/{id}', [FeedbackController::class, 'State'])->name('admin-feedback-state');
+            Route::get('/view/{id}', [FeedbackController::class, 'view'])->name('admin-feedback-view');
+        });
     });
 });
