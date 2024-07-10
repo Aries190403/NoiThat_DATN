@@ -24,6 +24,7 @@
                 </div>
             </div>
             @include('backend::product.table.table-product')
+            @include('backend::product.modal.modal-import-products')
         </div>
     </div>
 </div>
@@ -251,4 +252,122 @@
             });
         });
     </script>
+
+    {{-- nhập nhiều hàng --}}
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.product-card', function(e) {
+                var checkbox = $(this).find('.product-checkbox');
+                var quantityInput = $(this).find('.product-quantity');
+                
+                if (!$(e.target).is(checkbox) && !$(e.target).is(quantityInput)) {
+                    checkbox.prop('checked', !checkbox.prop('checked'));
+                }
+    
+                if (checkbox.prop('checked')) {
+                    $(this).addClass('selected-card');
+                    quantityInput.show();
+                } else {
+                    $(this).removeClass('selected-card');
+                    quantityInput.hide().val('');
+                }
+            });
+    
+            $(document).on('click', '.product-quantity', function(e) {
+                e.stopPropagation();
+            });
+    
+            $('.product-quantity').hide();
+    
+            $('#importGoodsForm').on('submit', function(e) {
+                e.preventDefault();
+    
+                var selectedProducts = [];
+                $('.product-checkbox:checked').each(function() {
+                    var productId = $(this).val();
+                    var quantityInput = $(this).siblings('.product-quantity');
+                    var quantity = quantityInput.val();
+                    
+                    if (quantity) {
+                        selectedProducts.push({ id: productId, quantity: quantity });
+                    } else {
+                        quantityInput.css('border', '1px solid red');
+                    }
+                });
+    
+                if (selectedProducts.length === 0) {
+                    Swal.fire(
+                        'Error!',
+                        'Please select at least one product and enter its quantity.',
+                        'error'
+                    );
+                    return;
+                }
+
+                var supplierValue = $('#supplier').val();
+
+                var data = {
+                    _token: $('input[name=_token]').val(),
+                    supplier: supplierValue,
+                    products: selectedProducts
+                };
+    
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: JSON.stringify(data),
+                    // data: $(this).serialize(),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Importing successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        $('#importGoodsForm')[0].reset();
+                        $('.product-checkbox').prop('checked', false);
+                        $('.product-quantity').hide().val('');
+                        $('.product-card').removeClass('selected-card');
+                        $('#importGoodsModal').modal('hide');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error!',
+                            'An error occurred. Please try again later.',
+                            'error'
+                        );
+                    }
+                });
+            });
+    
+            $('#productSearch').on('input', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('.product-card-container').each(function() {
+                    var productName = $(this).find('.product-details span').text().toLowerCase();
+                    if (productName.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+    
+            $(document).on('change', '.product-checkbox', function() {
+                var card = $(this).closest('.product-card');
+                if ($(this).is(':checked')) {
+                    card.addClass('selected-card');
+                    $(this).siblings('.product-quantity').show();
+                } else {
+                    card.removeClass('selected-card');
+                    $(this).siblings('.product-quantity').hide().val('');
+                }
+            });
+        });
+    </script>
+    
+    
+
 @endsection

@@ -9,6 +9,9 @@
             >
                 <i class="fa fa-user-plus"></i> Add
             </button>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#importGoodsModal">
+                <i class="fa fa-truck"></i> Import Goods
+            </button>
         </div>
         <div
             class="modal fade bs-example-modal-lg"

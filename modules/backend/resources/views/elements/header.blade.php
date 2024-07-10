@@ -90,7 +90,7 @@
                     </a>
                 </div>
             </div>
-            <div class="user-notification">
+            {{-- <div class="user-notification">
                 <div class="dropdown">
                     <a
                         class="dropdown-toggle no-arrow"
@@ -119,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="user-info-dropdown">
                 <div class="dropdown">
                     <a
@@ -140,9 +140,9 @@
                     <div
                         class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
                     >
-                        <a class="dropdown-item" href="profile.html"
+                        {{-- <a class="dropdown-item" href="profile.html"
                             ><i class="dw dw-user1"></i> Profile</a
-                        >
+                        > --}}
                         <a class="dropdown-item" href="{{route('admin-store-logout')}}"
                             ><i class="dw dw-logout1"></i> Logout</a
                         >

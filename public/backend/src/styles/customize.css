@@ -256,5 +256,10 @@ body {
     background-color: #dc3545;
 }
 
+/* js nhập nhiều sản phẩm */
+.selected-card {
+    background-color: lightblue;
+}
+
 
 

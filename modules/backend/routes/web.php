@@ -57,7 +57,7 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/deleteProd/{id}', [ProductController::class, 'deleteProduct'])->name('admin-product-del');
             Route::post('/importing/{id}', [ProductController::class, 'importing'])->name('admin-product-importing');
             Route::get('/detailLog/{id}', [ProductController::class, 'detailLog'])->name('admin-product-detailLogs');
-
+            Route::post('/importProducts', [ProductController::class, 'importProducts'])->name('admin-product-importProducts');
         });
 
         Route::prefix('material')->group(function () {
@@ -105,7 +105,7 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
         Route::prefix('feedback')->group(function () {
             Route::get('/', [FeedbackController::class, 'index'])->name('admin-feedback-index');
             Route::post('/lock/{id}', [FeedbackController::class, 'State'])->name('admin-feedback-state');
-
+            Route::get('/view/{id}', [FeedbackController::class, 'view'])->name('admin-feedback-view');
         });
     });
 });

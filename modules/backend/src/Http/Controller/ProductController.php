@@ -292,6 +292,30 @@ class ProductController extends Controller
         }
     }
 
+    public function importProducts(Request $request){
+        try {
+            $products = $request->input('products');
+            $supplier = $request->input('supplier');
+
+            foreach($products as $item)
+            {
+                $product = Product::findOrFail($item['id']);
+                $product->stock = $product->stock + $item['quantity'];
+                $product->save();
+
+                $log = new log();
+                $log->user_create = Auth::user()->id;
+                $log->product_id = $item['id'];
+                $log->supplier_id = $supplier;
+                $log->description = 'import more goods; Quantity = ' . $item['quantity'];
+                $log->save();
+            }
+            return redirect()->route('admin-product-index')->with('success', 'Product importing successfully');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while updated the product'], 500);
+        }
+    }
+
     public function detailLog($id){
         try{
             $log = log::findOrFail($id);

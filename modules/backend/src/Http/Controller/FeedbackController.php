@@ -35,4 +35,16 @@ class FeedbackController extends Controller
             return response()->json(['error' => 'An error occurred, please try again later'], 500);
         }
     }
+
+    public function view($id)
+    {
+        try{
+            $feedback = rate::findOrFail($id);
+            return response()->json([
+                'feedback' => $feedback,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred, please try again later'], 500);
+        }
+    }
 }

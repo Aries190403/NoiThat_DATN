@@ -84,9 +84,9 @@
                     @endif
                 </td>
                 <td  style="text-align: center">
-                    {{-- <a href="{{ route('admin-feedback-view', ['id' => $feedback->id]) }}" class="openModalView" data-feedback-id="{{ $feedback->id }}" style="color: #fb9700;">
+                    <a href="#" class="openModalView" data-url="{{ route('admin-feedback-view', ['id' => $feedback->id]) }}" style="color: #fb9700;">
                         <i class="icon-copy dw dw-eye" style="color: inherit;"></i>
-                    </a> --}}
+                    </a>
                     @if ($feedback->status == '1')
                         <a href="#" id="lock-feedback" data-url="{{ route('admin-feedback-state', ['id' => $feedback->id]) }}" style="color: #ff0000;">
                             <i class="icon-copy dw dw-padlock1" style="color: inherit;"></i>

@@ -24,6 +24,8 @@
                 </div>
             </div>
             @include('backend::feedback.table.table-index')
+            @include('backend::feedback.modal.modal-view')
+
         </div>
     </div>
 </div>
@@ -84,6 +86,32 @@
                     });
                 });
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.openModalView', function(e) {
+                e.preventDefault();
+                var url = $(this).data('url');
+
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(response) {
+                        console.log(response);
+                        if (response.feedback) {
+                            $('#feedbackDescription').text(response.feedback.content);
+                            $('#feedbackModal').modal('show');
+                        } else {
+                            alert('Failed to load feedback.');
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred while fetching feedback.');
+                    }
+                });
+            });
         });
     </script>
 @endsection
