@@ -36,16 +36,18 @@
         
         var categories = [];
         var completeCounts = [];
-        var failCounts = [];
+        var returnCounts = [];
         var refundCounts = [];
-
+        var failCounts = [];
+    
         statisticsOrder.forEach(function(stat) {
             categories.push(stat.month);
             completeCounts.push(parseInt(stat.complete_count));
-            failCounts.push(parseInt(stat.fail_count));
+            returnCounts.push(parseInt(stat.return_count));
             refundCounts.push(parseInt(stat.refund_count));
+            failCounts.push(returnCounts[returnCounts.length - 1] + refundCounts[refundCounts.length - 1]); // Tổng 'Failed'
         });
-
+    
         Highcharts.chart('countorder', {
             chart: {
                 type: 'column'
@@ -78,20 +80,25 @@
                 }
             },
             series: [{
-                name: 'Complete',
+                name: 'Completed',
                 data: completeCounts
-
+    
             }, {
-                name: 'Fail',
-                data: failCounts
-
+                name: 'Returned',
+                data: returnCounts
+    
             }, {
-                name: 'Refun',
+                name: 'Refunded',
                 data: refundCounts
-
+    
+            }, {
+                name: 'Failed', // Tổng 'Returned' và 'Refunded'
+                data: failCounts
+    
             }]
         });
     </script>
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

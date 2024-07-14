@@ -42,6 +42,7 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/', [CategoryController::class, 'index'])->name('admin-category-index');
             Route::post('/add', [CategoryController::class, 'create'])->name('admin-category-store');
             Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('admin-category-edit');
+            Route::get('/deleted/{id}', [CategoryController::class, 'deleted'])->name('admin-category-deleted');
             Route::post('/update/{id}', [CategoryController::class, 'update'])->name('admin-category-update');
         });
 
@@ -65,6 +66,7 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/add', [MaterialController::class, 'create'])->name('admin-material-store');
             Route::get('/edit/{id}', [MaterialController::class, 'edit'])->name('admin-material-edit');
             Route::post('/update/{id}', [MaterialController::class, 'update'])->name('admin-material-update');
+            Route::get('/deleted/{id}', [MaterialController::class, 'deleted'])->name('admin-material-deleted');
         });
 
         Route::prefix('coupon')->group(function () {

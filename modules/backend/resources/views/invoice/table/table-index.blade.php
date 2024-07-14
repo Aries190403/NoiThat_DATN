@@ -16,7 +16,7 @@
         </ul>
         @include('backend::invoice.modal.modal-detail')
         <div class="tab-content">
-            @foreach (['home5' => 'Pending', 'profile5' => ['Confirmed', 'Shipping'], 'contact5' => ['Completed', 'Completed - Rated'], 'failed' => ['Failed', 'Refunding', 'Refuned', 'Returning', 'Returned']] as $tab => $statuses)
+            @foreach (['home5' => 'Pending', 'profile5' => ['Confirmed', 'Shipping'], 'contact5' => ['Completed', 'Completed - Rated'], 'failed' => ['Failed', 'Refunding', 'Refuned', 'Returnding', 'Returned']] as $tab => $statuses)
             <div class="tab-pane fade @if($loop->first) active show @endif" id="{{ $tab }}" role="tabpanel">
                 <div class="pd-20">
                     <table id="dataTableinvoice{{ $tab }}" class="data-table table nowrap">
@@ -30,7 +30,7 @@
                                 <button class="btn btn-primary status-btn" style="margin-right: 1rem;" data-status="Shipping" data-tab="{{ $tab }}" data-request-type="Returning">Returning</button>
                                 @elseif($tab == 'failed')
                                 <button class="btn btn-primary status-btn" style="margin-right: 1rem;" data-status="Refunding" data-tab="{{ $tab }}" data-request-type="Refunded">Refunded</button>
-                                <button class="btn btn-primary status-btn" style="margin-right: 1rem;" data-status="Returning" data-tab="{{ $tab }}" data-request-type="Returned">Returned</button>
+                                <button class="btn btn-primary status-btn" style="margin-right: 1rem;" data-status="Returnding" data-tab="{{ $tab }}" data-request-type="Returned">Returned</button>
                                 @endif
                             </div>
                             <tr>

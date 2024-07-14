@@ -43,7 +43,12 @@ class InvoiceController extends Controller
                 $payment->save();
             }
             elseif($request->input('requestType') == 'Returning'){
-                $invoice->status = DataType::INVOICE_RETURNDING_DATA_TYPE;  
+                if($invoice->pay->description == 'paid'){
+                    $invoice->status = DataType::INVOICE_REFUNDING_DATA_TYPE;  
+                }
+                else{
+                    $invoice->status = DataType::INVOICE_RETURNDING_DATA_TYPE;  
+                }
             }
             elseif($request->input('requestType') == 'Shipping'){
                 $invoice->status = DataType::INVOICE_SHIPPING_DATA_TYPE;  

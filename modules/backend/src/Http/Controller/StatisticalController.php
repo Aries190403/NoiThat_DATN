@@ -17,8 +17,8 @@ class StatisticalController extends Controller
         $statisticsOrder = Invoice::select(
             DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"),
             DB::raw("SUM(CASE WHEN status = 'Completed' OR status = 'Completed - Rated' THEN 1 ELSE 0 END) as complete_count"),
-            DB::raw("SUM(CASE WHEN status IN ('Returned', 'Failed') THEN 1 ELSE 0 END) as fail_count"),
-            DB::raw("SUM(CASE WHEN status = 'Refunded' THEN 1 ELSE 0 END) as refund_count")
+            DB::raw("SUM(CASE WHEN status = 'Refuned' THEN 1 ELSE 0 END) as return_count"),
+            DB::raw("SUM(CASE WHEN status = 'Returned' THEN 1 ELSE 0 END) as refund_count")
         )
         ->whereRaw('created_at >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)')
         ->groupBy('month')

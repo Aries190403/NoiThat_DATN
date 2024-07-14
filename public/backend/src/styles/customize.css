@@ -261,5 +261,42 @@ body {
     background-color: lightblue;
 }
 
+/* css home */
 
-
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff; /* Change text color to white for better contrast */
+}
+.feature-1 { background-color: #4CAF50; } /* Green */
+.feature-2 { background-color: #2196F3; } /* Blue */
+.feature-3 { background-color: #FF9800; } /* Orange */
+.feature-4 { background-color: #f44336; } /* Red */
+.feature-5 { background-color: #9C27B0; } /* Purple */
+.feature-6 { background-color: #3F51B5; } /* Indigo */
+.feature-7 { background-color: #FF5722; } /* Deep Orange */
+.feature-8 { background-color: #009688; } /* Teal */
+.feature-9 { background-color: #FFC107; } /* Amber */
+.feature-10 { background-color: #00BCD4; } /* Cyan */
+.feature-11 { background-color: #8BC34A; } /* Light Green */
+.feature-12 { background-color: #795548; } /* Brown */
+.grid-item a {
+    text-decoration: none;
+    color: #fff; /* Change link color to white */
+}
+.grid-item i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}

@@ -11,7 +11,7 @@
                 <div class="row container-fluid">
                     <div class="col-lg-4">
                         <div class="profile-photo">
-                            <form id="uploadForm" method="POST" action="{{ route('admin-supplier-uplogo', ['id' => 1]) }}" enctype="multipart/form-data">
+                            <form id="uploadForm" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <a href="#" class="edit-avatar" id="uploadImageLink"><i class="icon-copy dw dw-pencil-1" style="color: red"></i></a>
                                 {{-- <a href="#" id="uploadImageLink">Upload Image</a> --}}

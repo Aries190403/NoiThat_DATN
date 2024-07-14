@@ -40,6 +40,7 @@
                 document.getElementById('close_time').value = settings.close_time;
                 document.getElementById('facebook_link').value = settings.facebook_link;
                 document.getElementById('youtube_link').value = settings.youtube_link;
+                document.getElementById('map_link').value = settings.map_link;
             });
         });
     </script>

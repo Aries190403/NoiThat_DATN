@@ -116,7 +116,7 @@ class ProductController extends Controller
                 $oldMaterialName = $product->material->name;
                 $newMaterialName = Material::find($newMaterialId)->name;
                 $changes[] = "Material changed from " . $oldMaterialName . " to " . $newMaterialName;
-                $product->material_id = $newMaterialId;
+                $product->material_id = $request->input('material');
             }
         
             // Check and record changes for size
@@ -178,8 +178,8 @@ class ProductController extends Controller
     
     public function uploadImages(Request $request, $id)
     {
-        $disk = 'uploads';
-        $directory = 'images/product';
+        $disk = 'public';
+        $directory = 'uploads/images/products';
         
         $product = Product::find($id);
         if (!$product) {
@@ -231,13 +231,17 @@ class ProductController extends Controller
 
     private function storeImage($file, $disk, $directory)
     {
-        if (!Storage::disk($disk)->exists($directory)) {
-            Storage::disk($disk)->makeDirectory($directory);
+        $destinationPath = public_path($directory);
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
         }
     
         $randomFileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
-        $filePath = $file->storeAs($directory, $randomFileName, $disk);
-        return $disk . '/' . $filePath;
+        $filePath = $directory . '/' . $randomFileName;
+    
+        $file->move($destinationPath, $randomFileName);
+    
+        return $filePath;
     }
 
     public function productState(Request $request, $id)

@@ -66,6 +66,10 @@
                             <th scope="row">YouTube Link</th>
                             <td><a href="{{ $settings['youtube_link'] }}" target="_blank">{{ $settings['youtube_link'] }}</a></td>
                         </tr>
+                        <tr>
+                            <th scope="row">Map</th>
+                            <td><a href="{{ $settings['map_link'] }}" target="_blank">{{ $settings['map_link'] }}</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
