@@ -28,7 +28,7 @@
             <tr>
                 <th class="table-plus">Code</th>
                 <th style="text-align: center">Limit</th>
-                <th style="text-align: center">Discord</th>
+                <th style="text-align: center">Discount</th>
                 <th style="text-align: center">Max money</th>
                 <th style="text-align: center">Down Time</th>
                 <th style="text-align: center">Status</th>

@@ -59,4 +59,53 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#delete-category', function(e) {
+                e.preventDefault();
+
+                var categoryId = $(this).data('id');
+                var deleteUrl = '{{ route("admin-material-deleted", ":id") }}';
+                deleteUrl = deleteUrl.replace(':id', categoryId);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'GET',
+                            url: deleteUrl,
+                            success: function(response) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'material deleted successfully',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                location.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'Please try again later.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

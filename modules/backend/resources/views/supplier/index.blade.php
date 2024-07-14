@@ -13,7 +13,7 @@
                         <nav aria-label="breadcrumb" role="navigation">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <a href="index.html">Home</a>
+                                    <a href="{{route('admin-dashboard')}}">Home</a>
                                 </li>
                                 <li class="breadcrumb-item active" aria-current="page">
                                     Suppliers
@@ -250,6 +250,10 @@
                         $('#districtPlaceholder').text(data.address.district);
                         $('#wardPlaceholder').text(data.address.ward);
                         $('#supplier-description').val(data.supplier.description);
+
+                        var uploadUrl = '{{ route("admin-supplier-uplogo", ":id") }}';
+                        uploadUrl = uploadUrl.replace(':id', supplierId);
+                        $('#uploadForm').attr('action', uploadUrl);
                         toggleEditSave(false);
                         $('#supplierModal').modal('show');
                     },

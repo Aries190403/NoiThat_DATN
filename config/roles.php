@@ -7,12 +7,12 @@ return [
                 // Các quyền của vai trò Admin
             ],
         ],
-        'product_editor' => [
-            'name' => 'ROLE_PRODUCT_EDITOR',
-            'inherits' => ['admin'],
-            'permissions' => [
-            ],
-        ],
+        // 'product_editor' => [
+        //     'name' => 'ROLE_PRODUCT_EDITOR',
+        //     'inherits' => ['admin'],
+        //     'permissions' => [
+        //     ],
+        // ],
         'user' => [
             'name' => 'USER',
             'inherits' => [],

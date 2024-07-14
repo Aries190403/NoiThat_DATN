@@ -189,8 +189,8 @@ class UserController extends Controller
 
     public function upAvatar(Request $request, $id)
     {
-        $disk = 'uploads';
-        $directory = 'images/avatars';
+        $disk = 'public';
+        $directory = 'uploads/images/avatars';
 
         if ($request->hasFile('image')) {
             $filePath = $this->storeImage($request->file('image'), $disk, $directory);
@@ -220,13 +220,17 @@ class UserController extends Controller
 
     private function storeImage($file, $disk, $directory)
     {
-        if (!Storage::disk($disk)->exists($directory)) {
-            Storage::disk($disk)->makeDirectory($directory);
+        $destinationPath = public_path($directory);
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
         }
-
+    
         $randomFileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
-        $filePath = $file->storeAs($directory, $randomFileName, $disk);
-        return $disk . '/' . $filePath;
+        $filePath = $directory . '/' . $randomFileName;
+    
+        $file->move($destinationPath, $randomFileName);
+    
+        return $filePath;
     }
 
     public function changePassword(Request $request, $id)

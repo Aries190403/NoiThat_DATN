@@ -60,6 +60,9 @@
                     <a href="#" data-url="{{route('admin-category-edit',['id'=>$category->id])}}" class="openModalEdit" data-category-id="{{ $category->id }}" style="color: #265ed7;">
                         <i class="icon-copy dw dw-edit2" style="color: inherit;"></i>
                     </a>
+                    <a href="#" id="delete-category" data-id="{{ $category->id }}" style="color: #ff0000;">
+                        <i class="icon-copy dw dw-delete-3" style="color: inherit;"></i>
+                    </a>
                 </td>
             </tr>
             @endforeach

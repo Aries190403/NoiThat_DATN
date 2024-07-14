@@ -55,4 +55,13 @@ class MaterialController extends Controller
 
         return redirect()->route('admin-material-index')->with('success', 'material updated successfully');
     }
+
+    public function deleted($id)
+    {
+        $material = material::find($id);
+        $material->status = DataType::DELETED_DATA_TYPE;
+        $material->save();
+
+        return response()->json(['success' => 'Material updated successfully.']);
+    }
 }

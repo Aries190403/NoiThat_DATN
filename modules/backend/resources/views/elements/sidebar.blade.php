@@ -170,7 +170,7 @@
 
 <div class="left-side-bar">
     <div class="brand-logo">
-        <a href="index.html">
+        <a href="{{route('admin-dashboard')}}">
             <img src="{{ asset('backend/vendors/images/deskapp-logo.svg') }}" alt="" class="dark-logo" />
             <img
                 src="{{ asset('backend/vendors/images/deskapp-logo-white.svg')}}"

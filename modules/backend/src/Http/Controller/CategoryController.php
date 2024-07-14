@@ -89,14 +89,24 @@ class CategoryController extends Controller
         return redirect()->route('admin-category-index')->with('success', 'Category updated successfully');
     }
     
-    // public function update(Request $request, $id)
-    // {
-    //     $category = Category::find($id);
-    //     $category->name = (string)$request->input('name');
-    //     $category->description= (string)$request->input('description');
-    //     $category->save();
-    //     return redirect()->route('category-index')->with('success', 'Category updated successfully.');
-    // }
+    public function deleted($id)
+    {
+        $category = Category::find($id);
+        $productsInStock = Product::where('category_id', $id)->where('stock', '>', 0)->exists();
+        
+        if ($productsInStock) {
+            return response()->json(['error' => 'Category cannot be deleted because there are products in stock.'], 400);
+        }
+
+        if ($category->type == 'Rooms')
+        {
+            return response()->json(['error' => 'Category cannot be deleted because there are products in stock.'], 400);
+        }
+
+        $category->status = DataType::DELETED_DATA_TYPE;
+        $category->save();
+        return response()->json(['success' => 'Category updated successfully.']);
+    }
 
     private function storeImage($file, $disk, $directory)
     {
