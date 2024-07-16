@@ -268,7 +268,6 @@
                 }
             });
 
-
             $('#edit-save-btn').on('click', function() {
                 if ($(this).text() === 'Edit') {
                     toggleEditSave(true);
@@ -276,7 +275,7 @@
                     // Lưu thay đổi
                     var url = '{{ route("admin-supplier-edit", ":id") }}';
                     url = url.replace(':id', supplierId);
-    
+
                     var data = {
                         _token: $('meta[name="csrf-token"]').attr('content'),
                         name: $('#supplier-name').val(),
@@ -288,7 +287,7 @@
                         ward: $('#supplierWard').val(),
                         description: $('#supplier-description').val()
                     };
-    
+
                     $.ajax({
                         url: url,
                         method: 'POST',

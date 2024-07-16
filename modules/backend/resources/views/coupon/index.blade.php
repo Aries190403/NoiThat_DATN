@@ -34,135 +34,129 @@
 @section('script')
     <script>
         $(document).ready(function () {
-            $('#kt_modal_coupon_form').on('submit', function (e) {
-                e.preventDefault();
+        $('#kt_modal_coupon_form').on('submit', function (e) {
+            e.preventDefault();
 
-                let formData = $(this).serialize();
+            let formData = $(this).serialize();
 
-                $.ajax({
-                    url: $(this).attr('action'),
-                    method: $(this).attr('method'),
-                    data: formData,
-                    success: function (response) {
-                        Swal.fire(
-                            'Success!',
-                            'Coupon created successfully.',
-                            'success'
-                        ).then(() => {
-                            window.location.href = '{{ route('admin-coupon-index') }}';
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        let errorMessage = 'An error occurred while processing your request.';
-                        if (xhr.status === 409) {
-                            errorMessage = xhr.responseJSON.error;
-                        }
-                        Swal.fire(
-                            'Error!',
-                            errorMessage,
-                            'error'
-                        );
-                    }
-                });
-            });
-            lockCoupon();
-            function lockCoupon() {
-                $(document).on('click', '#lock-coupon', function(e) {
-                    e.preventDefault();
-                    var url = $(this).attr('href');
-                    var iconClass = $(this).find('i').attr('class');
-
-                    var action = (iconClass.includes('dw-padlock1')) ? 'lock' : 'unlock';
-                    var titleText = (action == 'lock') ? 'Lock' : 'Unlock';
-                    var confirmationText = (action == 'lock') ? 'This coupon will be locked!' : 'This coupon will be unlocked!';
-
-                    Swal.fire({
-                        title: 'Are you sure?',
-                        text: confirmationText,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, ' + titleText + ' it!',
-                        cancelButtonText: 'No, cancel!',
-                        customClass: {
-                            confirmButton: 'btn btn-success',
-                            cancelButton: 'btn btn-danger'
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: url,
-                                type: 'Post',
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                success: function (response) {
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'success',
-                                        title: 'coupon ' + titleText.toLowerCase() + 'ed successfully',
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    });
-                                    window.location.href = '{{ route('admin-coupon-index') }}';
-                                },
-                                error: function(xhr, status, error) {
-                                    Swal.fire(
-                                        'Error!',
-                                        'An error occurred while processing your request.',
-                                        'error'
-                                    );
-                                }
-                            });
-                        }
+            $.ajax({
+                url: $(this).attr('action'),
+                method: $(this).attr('method'),
+                data: formData,
+                success: function (response) {
+                    Swal.fire(
+                        'Success!',
+                        'Coupon created successfully.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = '{{ route('admin-coupon-index') }}';
                     });
-                });
-            }
+                },
+                error: function (xhr, status, error) {
+                    let errorMessage = 'An error occurred while processing your request.';
+                    if (xhr.status === 409) {
+                        errorMessage = xhr.responseJSON.error;
+                    }
+                    Swal.fire(
+                        'Error!',
+                        errorMessage,
+                        'error'
+                    );
+                }
+            });
         });
-    </script>
-    
-    {{-- show view coupon --}}
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '.openModalView', function(e) {
+
+        // Lock/Unlock coupon
+        function lockCoupon() {
+            $(document).on('click', '.lockCoupon', function(e) {
                 e.preventDefault();
-    
-                var couponId = $(this).data('coupon-id');
-                var url = '{{ route("admin-coupon-view", ":id") }}';
-                url = url.replace(':id', couponId);                
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    success: function(data) {
-                        console.log(data);
-                        $('#coupon-user-create').val(data.user_name ? data.user_name : 'N/A');
-                        $('#coupon-code').val(data.coupon.code);
-                        $('#coupon-limit').val(data.coupon.limit);
-                        $('#coupon-count-active').val(data.coupon.count_active);
-                        $('#coupon-discount').val(data.coupon.discount);
-                        $('#coupon-discount-money').val(data.coupon.discount_money);
-                        $('#coupon-downtime').val(moment.utc(data.coupon.downtime).local().format('MMMM D, YYYY h:mm A'));
-                        $('#coupon-description').val(data.coupon.description);
-                        $('#coupon-status').val(data.coupon.status);
-                        $('#couponModal').modal('show');
-                    },
-                    error: function() {
-                        alert('An error occurred, please try again later');
+                var url = $(this).data('url');
+                var iconClass = $(this).find('i').attr('class');
+
+                var action = (iconClass.includes('dw-padlock1')) ? 'lock' : 'unlock';
+                var titleText = (action == 'lock') ? 'Lock' : 'Unlock';
+                var confirmationText = (action == 'lock') ? 'This coupon will be locked!' : 'This coupon will be unlocked!';
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: confirmationText,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, ' + titleText + ' it!',
+                    cancelButtonText: 'No, cancel!',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Coupon ' + titleText.toLowerCase() + 'ed successfully',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                window.location.href = '{{ route('admin-coupon-index') }}';
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while processing your request.',
+                                    'error'
+                                );
+                            }
+                        });
                     }
                 });
             });
-        });
-    </script>
+        }
 
-    {{-- js edit coupon --}}
-<script>
-    $(document).ready(function() {
-        var currentCouponId;
+        lockCoupon();
+
+        // Show coupon details in modal
+        $(document).on('click', '.openModalView', function(e) {
+            e.preventDefault();
+
+            var couponId = $(this).data('coupon-id');
+            var url = $(this).data('url');
+            
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(data) {
+                    console.log(data);
+                    $('#coupon-user-create').val(data.user_name ? data.user_name : 'N/A');
+                    $('#coupon-code').val(data.coupon.code);
+                    $('#coupon-limit').val(data.coupon.limit);
+                    $('#coupon-count-active').val(data.coupon.count_active);
+                    $('#coupon-discount').val(data.coupon.discount);
+                    $('#coupon-discount-money').val(data.coupon.discount_money);
+                    $('#coupon-downtime').val(moment.utc(data.coupon.downtime).local().format('MMMM D, YYYY h:mm A'));
+                    $('#coupon-description').val(data.coupon.description);
+                    $('#coupon-status').val(data.coupon.status);
+                    $('#couponModal').modal('show');
+                },
+                error: function() {
+                    alert('An error occurred, please try again later');
+                }
+            });
+        });
+
+        // Edit coupon details in modal
         $(document).on('click', '.openModalEdit', function(e) {
             e.preventDefault();
-            currentCouponId = $(this).data('coupon-id');
-            var url = $(this).attr('href');
+            var couponId = $(this).data('coupon-id');
+            var url = $(this).data('url');
             console.log(url);
-            
+
             $.ajax({
                 url: url,
                 method: 'GET',
@@ -184,10 +178,11 @@
                 }
             });
         });
-        
+
+        // Update coupon details
         $('#editVoucherForm').submit(function(e) {
             e.preventDefault();
-            var couponId = currentCouponId;
+            var couponId = $(this).find('.openModalEdit').data('coupon-id');
             console.log(couponId);
             var form = $(this);
             var method = form.attr('method');
@@ -200,7 +195,7 @@
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
-                        title: 'coupon change successfully',
+                        title: 'Coupon updated successfully',
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -216,6 +211,5 @@
             });
         });
     });
-</script>
-
+    </script>
 @endsection

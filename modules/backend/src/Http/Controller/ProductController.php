@@ -89,7 +89,6 @@ class ProductController extends Controller
             $changes = [];
             $fields = ['name', 'description', 'price', 'stock', 'sale_percentage' => 'sale'];
             
-            // Check and record changes for regular fields
             foreach ($fields as $field => $input) {
                 if (is_int($field)) {
                     $field = $input;
@@ -101,7 +100,6 @@ class ProductController extends Controller
                 }
             }
         
-            // Check and record changes for category_id
             $newCategoryId = $request->input('type');
             if ($newCategoryId !== null && $product->category_id != $newCategoryId) {
                 $oldCategoryName = $product->category->name;
@@ -110,7 +108,6 @@ class ProductController extends Controller
                 $product->category_id = $newCategoryId;
             }
         
-            // Check and record changes for material_id
             $newMaterialId = $request->input('material');
             if ($newMaterialId !== null && $product->material_id != $newMaterialId) {
                 $oldMaterialName = $product->material->name;
@@ -119,7 +116,6 @@ class ProductController extends Controller
                 $product->material_id = $request->input('material');
             }
         
-            // Check and record changes for size
             $content = json_decode($product->content, true);
             $sizes = ['height', 'length', 'width'];
             foreach ($sizes as $size) {
@@ -132,7 +128,6 @@ class ProductController extends Controller
             $product->content = json_encode($content);
             $product->save();
         
-            // Log changes if any
             if (!empty($changes)) {
                 $log = new Log();
                 $log->user_create = Auth::user()->id;

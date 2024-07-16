@@ -56,21 +56,21 @@
                     @endif
                 </td>
                 <td  style="text-align: center">
-                    <a href="{{ route('admin-coupon-view', ['id' => $coupon->id]) }}" class="openModalEdit" data-coupon-id="{{ $coupon->id }}" style="color: #265ed7;">
+                    <a href="#" class="openModalEdit" data-url="{{ route('admin-coupon-view', ['id' => $coupon->id]) }}" data-coupon-id="{{ $coupon->id }}" style="color: #265ed7;">
                         <i class="icon-copy dw dw-edit2" style="color: inherit;"></i>
                     </a>
-                    <a href="{{ route('admin-coupon-view', ['id' => $coupon->id]) }}" class="openModalView" data-coupon-id="{{ $coupon->id }}" style="color: #fb9700;">
+                    <a href="#" class="openModalView" data-url="{{ route('admin-coupon-view', ['id' => $coupon->id]) }}" data-coupon-id="{{ $coupon->id }}" style="color: #fb9700;">
                         <i class="icon-copy dw dw-eye" style="color: inherit;"></i>
                     </a>
                     @if ($coupon->status == 'normal')
-                        <a href="{{route('admin-coupon-state', ['id' => $coupon->id])}}" id="lock-coupon" style="color: #ff0000;">
+                        <a href="#" class="lockCoupon" data-url="{{route('admin-coupon-state', ['id' => $coupon->id])}}" style="color: #ff0000;">
                             <i class="icon-copy dw dw-padlock1" style="color: inherit;"></i>
                         </a>
                     @else
-                        <a href="{{route('admin-coupon-state', ['id' => $coupon->id])}}" id="lock-coupon" style="color: #00ff3381;">
+                        <a href="#" class="lockCoupon" data-url="{{route('admin-coupon-state', ['id' => $coupon->id])}}" style="color: #00ff3381;">
                             <i class="icon-copy dw dw-open-padlock" style="color: inherit;"></i>
                         </a>
-                    @endif
+                    @endif                    
                 </td>
             </tr>
             @endforeach

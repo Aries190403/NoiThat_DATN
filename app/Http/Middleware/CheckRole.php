@@ -22,7 +22,7 @@ class CheckRole
         if (Auth::check()) {
             $user = Auth::user();
             foreach ($roles as $role) {
-                if ($user && $user->role === $role) {
+                if ($user && $user->role === $role && $user->locked === 'normal') {
                     return $next($request);
                 }
             }

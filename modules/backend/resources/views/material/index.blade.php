@@ -37,7 +37,7 @@
             $(document).on('click', '.openModalEdit', function(e) {
                 e.preventDefault();
                 var materialId = $(this).data('material-id');
-                var url = $(this).attr('href');
+                var url = $(this).data('url');
                 console.log(url, materialId);
                 
                 $.ajax({
