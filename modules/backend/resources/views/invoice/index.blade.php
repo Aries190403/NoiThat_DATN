@@ -163,4 +163,165 @@
             });
         });
     </script>
+
+    {{-- invoice slip --}}
+    <script>
+        $(document).ready(function(){
+            var invoiceId;
+            $(document).on('click', '.slipinvoice', function(e) {
+                e.preventDefault();
+                invoiceId = $(this).data('id');
+                $.ajax({
+                    url: '/admin/invoice/detail/' + invoiceId,
+                    type: 'GET',
+                    success: function(response){
+                        var invoiceDetails = response.data.details;
+                        var modalBody = $('#invoiceSlipModal .modal-body');
+                        modalBody.empty();
+    
+                        var table = `
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Select</th>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        `;
+    
+                        invoiceDetails.forEach(function(detail) {
+                        let productContent;
+                        try {
+                            productContent = JSON.parse(detail.product.content);
+                        } catch (e) {
+                            console.error("Error parsing JSON:", e);
+                            productContent = {};
+                        }
+                        var assetPath = "{{ asset('') }}";
+                        const imgSrc = productContent.imgThumbnail ? (assetPath + productContent.imgThumbnail) : (assetPath + 'backend/src/images/no-image.svg');
+
+                        table += `
+                            <tr>
+                                <td><input type="checkbox" class="product-checkbox" data-product-id="${detail.product_id}" /></td>
+                                <td><img src="${imgSrc}" class="img-fluid" alt="Product Image" style="width: 50px; height: 50px;"></td>
+                                <td>${detail.product_name}</td>
+                                <td>$${detail.price}</td>
+                                <td>
+                                    <select class="form-control product-quantity" data-product-id="${detail.product_id}">
+                                        ${Array.from({ length: detail.quantity }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
+                                    </select>
+                                </td>
+                            </tr>
+                        `;
+                    });
+    
+                        table += `
+                                </tbody>
+                            </table>
+                        `;
+    
+                        modalBody.append(table);
+    
+                        $('#invoiceSlipModal').modal('show');
+                    }
+                });
+            });
+    
+            $('#splitInvoiceButton').on('click', function() {
+                var selectedProducts = [];
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $('.product-checkbox:checked').each(function() {
+                    var productId = $(this).data('product-id');
+                    var quantity = $(`.product-quantity[data-product-id="${productId}"]`).val();
+                    selectedProducts.push({ product_id: productId, quantity: quantity });
+                });
+                console.log(csrfToken);
+                $.ajax({
+                    url: '/admin/invoice/split',
+                    type: 'post',
+                    data: {
+                        invoice_id: invoiceId,
+                        products: selectedProducts
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Split invoice successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(() => {
+                            $('#invoiceSlipModal').modal('hide');
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'An error occurred while processing your request.'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- cancel invoice --}}
+    <script>
+        $(document).ready(function(){
+            $(document).on('click', '.cancelInvoice', function(e) {
+                e.preventDefault();
+                var invoiceId = $(this).data('id');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, Cancel it!',
+                    cancelButtonText: 'No, Close!',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/admin/invoice/cancel/' + invoiceId,
+                            type: 'Post',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Cancel invoice successfully',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                location.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while processing your request.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
+    
 @endsection
