@@ -76,6 +76,10 @@ class ShopFrontendController extends Controller
 
     public function detail($id = '')
     {
+        $product = product::find($id);
+        if($product->status != 'normal' || !$product){
+            return response()->view('frontend::error.404', ['title' => 'error'], 403);
+        }
         $data = DB::table('products')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->leftJoin('pictures', 'products.id', '=', 'pictures.product_id')

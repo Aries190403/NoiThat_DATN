@@ -95,7 +95,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('admin-supplier-infor', ['id' => $supplier->id]) }}" class="openModalView" data-supplier-id="{{ $supplier->id }}" style="color: #fb9700;">
+                    <a href="#" class="openModalView" data-supplier-id="{{ $supplier->id }}" style="color: #fb9700;">
                         <i class="icon-copy dw dw-eye" style="color: inherit;"></i>
                     </a>
                     @if ($supplier->status == 'normal')

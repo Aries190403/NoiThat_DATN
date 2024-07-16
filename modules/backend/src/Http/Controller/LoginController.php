@@ -11,6 +11,9 @@ class LoginController extends Controller
 {
     public function index()
     {
+        if (auth()->check()) {
+            return redirect()->route('admin-dashboard');
+        }
         return view('backend::layout.login', [
             'title' => 'Login System'
         ]);

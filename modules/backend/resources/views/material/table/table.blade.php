@@ -51,7 +51,7 @@
                     @endif
                 </td>
                 <td  style="text-align: center">
-                    <a href="{{ route('admin-material-edit', ['id' => $material->id]) }}" class="openModalEdit" data-material-id="{{ $material->id }}" style="color: #265ed7;">
+                    <a href="#" class="openModalEdit" data-material-id="{{ $material->id }}" data-url="{{ route('admin-material-edit', ['id' => $material->id]) }}" style="color: #265ed7;">
                         <i class="icon-copy dw dw-edit2" style="color: inherit;"></i>
                     </a>
                     <a href="#" id="delete-category" data-id="{{ $material->id }}" style="color: #ff0000;">
