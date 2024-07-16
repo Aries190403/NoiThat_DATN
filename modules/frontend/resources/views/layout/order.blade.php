@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div> --}}
-            <div class="container" id="orders" style="background-color: white;">
+            <div class="container" id="orders" style="background-color: white; max-height: 450px; overflow-y:auto">
                 <table class="table">
                     <thead>
                         <tr>
@@ -116,80 +116,84 @@
                         </tr>
                     </thead>
                     <tbody id="invoice-list">
-                        @foreach ($Invoices as $Invoice)
-                            <tr>
-                                <td class="col-md-2" style="text-align: center">#mobel{{ $Invoice->id }}</td>
-                                <td class="col-md-2" style="text-align: center">{{ $Invoice->invoice_date }}</td>
-                                <td class="col-md-2"style="text-align: center">{{ $Invoice->status }}</td>
-                                <td class="col-md-2"style="text-align: center">$ {{ $Invoice->total }}</td>
-                                <td class="col-md-1"style="text-align: center">{{ $Invoice->pay->description }}</td>
-                                <td class="col-md-3"style="text-align: center">
-                                    <a href="/viewmore/{{ $Invoice->id }}" class="btn btn-info">View</a>
-                                    @if ($Invoice->status == 'Completed')
-                                        <a data-toggle="modal" data-target="#rateModal{{ $Invoice->id }}"
-                                            class="btn btn-danger">Rate</a>
-                                    @endif
-                                    @if (
-                                        ($Invoice->pay->description == 'Unpaid' && $Invoice->pay->name == 'VNPAY' && $Invoice->status == 'Pending') ||
-                                            $Invoice->status == 'Confirmed')
-                                        <a href="/repay/{{ $Invoice->id }}" class="btn btn-main">PAY</a>
-                                    @endif
-                                    @if ($Invoice->status == 'Pending' || $Invoice->status == 'Confirmed')
-                                        <a href="/cancel/{{ $Invoice->id }}" class="btn btn-warning">Cancel</a>
-                                    @endif
-                                    @if ($Invoice->status == 'Completed')
-                                        <a href="/return/{{ $Invoice->id }}" class="btn btn-warning">Return</a>
-                                    @endif
-                                </td>
-                            </tr>
-                            <div class="modal fade" id="rateModal{{ $Invoice->id }}" tabindex="-1" role="dialog"
-                                aria-labelledby="rateModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document" style="margin-top: 150px">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="rateModalLabel">Comment</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <!-- Địa chỉ nhận -->
+                        @if (isset($Invoices))
+                            @foreach ($Invoices as $Invoice)
+                                <tr>
+                                    <td class="col-md-2" style="text-align: center">#mobel{{ $Invoice->id }}</td>
+                                    <td class="col-md-2" style="text-align: center">{{ $Invoice->invoice_date }}</td>
+                                    <td class="col-md-2"style="text-align: center">{{ $Invoice->status }}</td>
+                                    <td class="col-md-2"style="text-align: center">$ {{ $Invoice->total }}</td>
+                                    <td class="col-md-1"style="text-align: center">{{ $Invoice->pay->description }}</td>
+                                    <td class="col-md-3"style="text-align: center">
+                                        <a href="/viewmore/{{ $Invoice->id }}" class="btn btn-info">View</a>
+                                        @if ($Invoice->status == 'Completed')
+                                            <a data-toggle="modal" data-target="#rateModal{{ $Invoice->id }}"
+                                                class="btn btn-danger">Rate</a>
+                                        @endif
+                                        @if (
+                                            $Invoice->pay->description == 'Unpaid' &&
+                                                $Invoice->pay->name == 'VNPAY' &&
+                                                ($Invoice->status == 'Pending' || $Invoice->status == 'Confirmed'))
+                                            <a href="/repay/{{ $Invoice->id }}" class="btn btn-main">PAY</a>
+                                        @endif
+                                        @if ($Invoice->status == 'Pending' || $Invoice->status == 'Confirmed')
+                                            <a href="/cancel/{{ $Invoice->id }}" class="btn btn-warning">Cancel</a>
+                                        @endif
+                                        @if ($Invoice->status == 'Completed')
+                                            <a href="/return/{{ $Invoice->id }}" class="btn btn-warning">Return</a>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="rateModal{{ $Invoice->id }}" tabindex="-1" role="dialog"
+                                    aria-labelledby="rateModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document" style="margin-top: 150px">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="rateModalLabel">Comment</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Địa chỉ nhận -->
 
 
-                                            <!-- Đánh giá sao -->
-                                            <form action="/rate/{{ $Invoice->id }}" method="POST">
-                                                @csrf
-                                                <div class="form-group">
-                                                    <label for="rating">Quanlity:</label>
-                                                    <div class="star-rating">
-                                                        <input type="radio" id="star5" name="rating" value="5"
-                                                            checked />
-                                                        <label for="star5" title="5 stars">☆</label>
-                                                        <input type="radio" id="star4" name="rating"
-                                                            value="4" />
-                                                        <label for="star4" title="4 stars">☆</label>
-                                                        <input type="radio" id="star3" name="rating"
-                                                            value="3" />
-                                                        <label for="star3" title="3 stars">☆</label>
-                                                        <input type="radio" id="star2" name="rating"
-                                                            value="2" />
-                                                        <label for="star2" title="2 stars">☆</label>
-                                                        <input type="radio" id="star1" name="rating"
-                                                            value="1" />
-                                                        <label for="star1" title="1 star">☆</label>
+                                                <!-- Đánh giá sao -->
+                                                <form action="/rate/{{ $Invoice->id }}" method="POST">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="rating">Quanlity:</label>
+                                                        <div class="star-rating">
+                                                            <input type="radio" id="star5" name="rating"
+                                                                value="5" checked />
+                                                            <label for="star5" title="5 stars">☆</label>
+                                                            <input type="radio" id="star4" name="rating"
+                                                                value="4" />
+                                                            <label for="star4" title="4 stars">☆</label>
+                                                            <input type="radio" id="star3" name="rating"
+                                                                value="3" />
+                                                            <label for="star3" title="3 stars">☆</label>
+                                                            <input type="radio" id="star2" name="rating"
+                                                                value="2" />
+                                                            <label for="star2" title="2 stars">☆</label>
+                                                            <input type="radio" id="star1" name="rating"
+                                                                value="1" />
+                                                            <label for="star1" title="1 star">☆</label>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="comment">Comment:</label>
-                                                    <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Send</button>
-                                            </form>
+                                                    <div class="form-group">
+                                                        <label for="comment">Comment:</label>
+                                                        <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Send</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </tbody>
                 </table>
                 <div id="invoice-list-0"></div>
