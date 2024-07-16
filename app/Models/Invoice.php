@@ -49,4 +49,9 @@ class Invoice extends Model
     {
         return $this->hasMany(InvoiceDetail::class, 'invoice_id');
     }
+
+    public function coupon()
+    {
+        return $this->belongsTo(coupon::class, 'coupon_id');
+    }
 }

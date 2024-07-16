@@ -15,6 +15,7 @@
             </li>
         </ul>
         @include('backend::invoice.modal.modal-detail')
+        @include('backend::invoice.modal.modal-slip')
         <div class="tab-content">
             @foreach (['home5' => 'Pending', 'profile5' => ['Confirmed', 'Shipping'], 'contact5' => ['Completed', 'Completed - Rated'], 'failed' => ['Failed', 'Refunding', 'Refuned', 'Returnding', 'Returned']] as $tab => $statuses)
             <div class="tab-pane fade @if($loop->first) active show @endif" id="{{ $tab }}" role="tabpanel">
@@ -73,8 +74,16 @@
                                 <td>{{ \Carbon\Carbon::parse($invoice->created_at)->format('F j, Y g:i A') }}</td>
                                 <td style="text-align: center">
                                     {{-- action --}}
-                                    <a href="#" class="openInvoiceModal" data-id="{{ $invoice->id }}" style="color: #fb9700;">
+                                    <a href="#" class="openInvoiceModal" data-id="{{ $invoice->id }}" style="color: #00fb2e;">
                                         <i class="icon-copy dw dw-eye" style="color: inherit;"></i>
+                                    </a>
+                                    @if ($invoice->status === 'Pending')
+                                        <a href="#" class="slipinvoice" data-id="{{ $invoice->id }}" style="color: #0800fb;">
+                                            <i class="icon-copy dw dw-layers" style="color: inherit;"></i>
+                                        </a>
+                                    @endif
+                                    <a href="#" class="cancelInvoice" data-id="{{ $invoice->id }}" style="color: #ff0000;">
+                                        <i class="icon-copy dw dw-cancel" style="color: inherit;"></i>
                                     </a>
                                 </td>
                             </tr>

@@ -98,6 +98,8 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::get('/', [InvoiceController::class, 'index'])->name('admin-invoice-index');
             Route::post('/update', [InvoiceController::class, 'update'])->name('admin-invoice-update');
             Route::get('/detail/{id}', [InvoiceController::class, 'detail'])->name('admin-invoice-detail');
+            Route::post('/split', [InvoiceController::class, 'splip'])->name('admin-invoice-splip');
+            Route::post('/cancel/{id}', [InvoiceController::class, 'cancel'])->name('admin-invoice-cancel');
         });
 
         Route::prefix('statistical')->group(function () {

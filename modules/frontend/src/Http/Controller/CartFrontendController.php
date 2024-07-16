@@ -207,7 +207,13 @@ class CartFrontendController extends Controller
         $discountmoney = 0;
         //checkcode
         // dd(session()->get('code'));
-        $code = coupon::where('code', session()->get('code'))->where('status', 'normal')->first();
+        $Aaa= session()->get('code');
+        if($Aaa != []){
+            $code = coupon::where('code', session()->get('code',[]))->where('status', 'normal')->first();
+        }
+        else{
+            $code = null;
+        }
         if (isset($code)) {
             $getdate = getdate();
             $currentDateTime = new DateTime();
@@ -299,9 +305,13 @@ class CartFrontendController extends Controller
         $Delivery = $request->input('Delivery');
         $paymentOption = $request->input('paymentOption');
 
-        $code = coupon::where('code', session()->get('code'))->get('id')->first();
-        if (isset($code)) $code = $code->id;
-        else $code = null;
+        $Aaa= session()->get('code');
+        $code = null;
+        $id_coupon = null;
+        if($Aaa != []){
+            $code = coupon::where('code', session()->get('code'))->get('id')->first();
+            $id_coupon = $code->id;
+        }
 
         DB::beginTransaction();
         try {
@@ -325,7 +335,7 @@ class CartFrontendController extends Controller
                 'status' => 'Pending',
                 'delivery' => $Delivery,
                 'user_id' => $user->id,
-                'coupon_id' => $code,
+                'coupon_id' => $id_coupon,
                 'pay_id' => $payId,
             ]);
 
@@ -341,12 +351,11 @@ class CartFrontendController extends Controller
                 if ($product->quantity > 0)
                     $product->decrement('stock', $product->quantity);
             }
-            if ($code) {
-                $coupon = Coupon::find($code);
-                if ($coupon) {
+            if ($id_coupon != null) {
+                $coupon = Coupon::find($id_coupon);
                     $coupon->increment('count_active');
-                }
             }
+
             DB::commit();
             // return response()->json(['message' => 'Invoice created successfully', 'invoice_id' => $invoice->id], 201);
             if ($paymentOption == 'VNPAY') {
