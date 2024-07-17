@@ -83,6 +83,7 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
             Route::post('/addImage', [SettingController::class, 'addImage'])->name('admin-setting-addImage');
             Route::post('/admin-setting-editImage', [SettingController::class, 'editImage'])->name('admin-setting-editImage');
             Route::post('/admin-setting-deleteImage', [SettingController::class, 'deleteImage'])->name('admin-setting-deleteImage');
+            Route::post('/update-lock-status', [SettingController::class, 'updateLockStatus'])->name('admin-setting-update-lock-status');
         });
 
         Route::prefix('supplier')->group(function () {
@@ -113,3 +114,4 @@ Route::middleware(['web'])->prefix('admin')->group(function () {
         });
     });
 });
+Route::get('/errorDevtools', [MainAdminController::class, 'blockDevTools']);

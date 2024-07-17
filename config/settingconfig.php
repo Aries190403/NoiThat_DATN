@@ -1,6 +1,5 @@
-<?php
-
-return array (
+<?php return array (
+  'lock' => 'false',
   'phone' => '0373584445',
   'email' => 'info@email.com',
   'address' => 'Hà Nội',

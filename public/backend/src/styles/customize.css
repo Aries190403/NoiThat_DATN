@@ -323,3 +323,30 @@ body {
         grid-template-columns: 1fr; /* Hiển thị 1 cột trên màn hình rất nhỏ */
     }
 }
+
+/* lock dev tools */
+.custom-switch .custom-control-input:checked + .custom-control-label .switch-text:before {
+    content: "ON";
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.custom-switch .custom-control-label .switch-text:before {
+    content: "OFF";
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.custom-switch .custom-control-label .switch-text {
+    padding-left: 35px;
+}
+
+.custom-control-input:checked ~ .custom-control-label .switch-text:before {
+    transform: translateX(18px);
+}
+
+.custom-control-input:focus ~ .custom-control-label .switch-text:before {
+    box-shadow: 0 0 0 1px #868e96, 0 0 0 3px rgba(40, 167, 69, 0.25);
+}
