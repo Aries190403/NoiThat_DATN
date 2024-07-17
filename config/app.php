@@ -197,7 +197,6 @@ return [
 
         Modules\Backend\Providers\BackendServiceProvider::class,
         Modules\Frontend\Providers\FrontendServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
 
     ],
 
