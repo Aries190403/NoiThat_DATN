@@ -70,6 +70,17 @@
                             <th scope="row">Map</th>
                             <td><a href="{{ $settings['map_link'] }}" target="_blank">{{ $settings['map_link'] }}</a></td>
                         </tr>
+                        <tr>
+                            <th scope="row">Dev tools</th>
+                            <td>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="lockSwitch" @if(config('settingconfig.lock') == 'true') checked @endif>
+                                    <label class="custom-control-label" for="lockSwitch">
+                                        <span class="switch-text">{{ config('settingconfig.lock') == 'true' ? 'Locked' : 'Unlocked' }}</span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

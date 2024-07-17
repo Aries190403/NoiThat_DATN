@@ -29,6 +29,7 @@
     <link rel="stylesheet" media="all" href="{{ asset('frontend/css/owl.carousel.css') }}" />
     <link rel="stylesheet" media="all" href="{{ asset('frontend/css/ion-range-slider.css') }}" />
     <link rel="stylesheet" media="all" href="{{ asset('frontend/css/theme.css') }}" />
+    @include('script')
 
     <!--Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&amp;subset=latin-ext" rel="stylesheet">

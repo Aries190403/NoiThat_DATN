@@ -14,4 +14,8 @@ class MainAdminController extends Controller
         $user = Auth::user();
         return view('backend::layout.home', compact('title','user'));
     }
+    public function blockDevTools()
+    {
+        return view('backend::error.blockDevtools');
+    }
 }

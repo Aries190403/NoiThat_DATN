@@ -312,5 +312,29 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#lockSwitch').change(function() {
+                var lockStatus = this.checked;
+
+                $.ajax({
+                    url: '{{ route("admin-setting-update-lock-status") }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        lock: lockStatus
+                    },
+                    success: function(response) {
+                        console.log('Lock status updated successfully');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error updating lock status:', error);
+                    }
+                });
+            });
+        });
+    </script>
     
 @endsection

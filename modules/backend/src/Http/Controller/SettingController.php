@@ -122,5 +122,20 @@ class SettingController extends Controller
         } else {
             return response()->json(['success' => false, 'message' => 'Index không hợp lệ.']);
         }
-    }    
+    }
+    
+    public function updateLockStatus(Request $request)
+    {
+        $newLockStatus = $request->input('lock', false);
+        $settings = config('settingconfig');
+
+        $settings['lock'] = $newLockStatus;
+
+        Config::set('settingconfig', $settings);
+
+        $configPath = config_path('settingconfig.php');
+        file_put_contents($configPath, '<?php return ' . var_export($settings, true) . ';');
+
+        return response()->json(['success' => true]);
+    }
 }
