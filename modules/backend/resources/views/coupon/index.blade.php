@@ -151,9 +151,11 @@
         });
 
         // Edit coupon details in modal
+        var id_coupon = null;
         $(document).on('click', '.openModalEdit', function(e) {
             e.preventDefault();
             var couponId = $(this).data('coupon-id');
+            id_coupon = couponId
             var url = $(this).data('url');
             console.log(url);
 
@@ -182,13 +184,11 @@
         // Update coupon details
         $('#editVoucherForm').submit(function(e) {
             e.preventDefault();
-            var couponId = $(this).find('.openModalEdit').data('coupon-id');
-            console.log(couponId);
             var form = $(this);
             var method = form.attr('method');
             var formData = form.serialize();
             $.ajax({
-                url: "{{ route('admin-coupon-update', ['id' => ':couponId']) }}".replace(':couponId', couponId),
+                url: "{{ route('admin-coupon-update', ['id' => ':couponId']) }}".replace(':couponId', id_coupon),
                 type: method,
                 data: formData,
                 success: function (response) {

@@ -33,7 +33,7 @@ class CouponController extends Controller
         $coupon->code = $request->input('code');
         $coupon->limit = $request->input('limit');
         $coupon->discount = $request->input('discount') ?? 0;
-        $coupon->discount_money = $request->input('discount_money') ?? 0;
+        $coupon->discount_money = $request->input('discount_money') ?? 999999;
         $coupon->count_active = 0;
         $coupon->description = $request->input('description');
         $coupon->status = DataType::NORMAL_DATA_TYPE;
@@ -83,7 +83,8 @@ class CouponController extends Controller
             $coupon = coupon::findOrFail($id);
             $coupon->limit = $request->input('limit');
             $coupon->discount = $request->input('discount');
-            $coupon->discount_money = $request->input('discount_money');
+            $coupon->discount_money = $request->input('discount_money') <= 0 ? 999999 : $request->input('discount_money');
+
 
             $date = $request->input('date');
             $time = $request->input('time');

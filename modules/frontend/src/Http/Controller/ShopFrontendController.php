@@ -19,6 +19,7 @@ class ShopFrontendController extends Controller
         $data = DB::table('products')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->leftJoin('pictures', 'products.id', '=', 'pictures.product_id')
+            ->where('pictures.status', 'normal')
             ->leftJoin('materials', 'products.material_id', '=', 'materials.id')
             ->select(
                 //Product
@@ -83,6 +84,7 @@ class ShopFrontendController extends Controller
         $data = DB::table('products')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->leftJoin('pictures', 'products.id', '=', 'pictures.product_id')
+            ->where('pictures.status', 'normal')
             ->leftJoin('materials', 'products.material_id', '=', 'materials.id')
             ->where('products.id', $id)
             ->select(

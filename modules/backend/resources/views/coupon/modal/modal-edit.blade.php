@@ -29,7 +29,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="discount_money" style="font-weight: bold;">Max money</label>
-                            <input type="number" step="0.01" class="form-control" name="discount_money" id="voucherDiscountMoney" placeholder="Enter Max money" min="0" />
+                            <input type="number" step="0.01" class="form-control" name="discount_money" id="voucherDiscountMoney" placeholder="Enter Max money" min="0" max="99999" />
                         </div>
                         <div class="col-md-6" style="margin-top: 15px;">
                             <label for="down_date" style="font-weight: bold;">Down Date</label>
