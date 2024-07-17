@@ -69,7 +69,7 @@
                     {{$product->category->name ?? 'N/A'}}
                 </td>
                 <td style="text-align: center">
-                    {{$product->sale ?? 'N/A'}}
+                    {{$product->sale_percentage ?? 'N/A'}}
                 </td>
                 <td style="text-align: center">
                     @if ($product->status == 'normal')

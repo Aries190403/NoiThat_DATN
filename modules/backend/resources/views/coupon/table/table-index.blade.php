@@ -41,7 +41,11 @@
                 <td style="text-align: left">{{$coupon->code}}</td>
                 <td>{{$coupon->limit}}</td>
                 <td>{{$coupon->discount}}</td>
-                <td>{{$coupon->discount_money}} $</td>
+                @if ($coupon->discount_money >= 999999)
+                    <td>Unlimited</td>
+                @else
+                    <td>{{$coupon->discount_money}} $</td>
+                @endif
                 <td>{{ \Carbon\Carbon::parse($coupon->downtime)->format('F j, Y g:i A') }}</td>
                 <td  style="text-align: center">
                     @if ($coupon->status == 'normal')
