@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Sofa",
+        "class": "f-icon-sofa"
+    },
+    {
+        "name": "Armchairs",
+        "class": "f-icon-armchair"
+    },
+    {
+        "name": "Chair",
+        "class": "f-icon-chair"
+    },
+    {
+        "name": "Dining tables",
+        "class": "f-icon-dining-table"
+    },
+    {
+        "name": "Media storage",
+        "class": "f-icon-media-cabinet"
+    },
+    {
+        "name": "Tables",
+        "class": "f-icon-table"
+    },
+    {
+        "name": "Bookcase",
+        "class": "f-icon-bookcase"
+    },
+    {
+        "name": "Bedroom",
+        "class": "f-icon-bedroom"
+    },
+    {
+        "name": "Nightstand",
+        "class": "f-icon-nightstand"
+    },
+    {
+        "name": "Children room",
+        "class": "f-icon-children-room"
+    },
+    {
+        "name": "Kitchen",
+        "class": "f-icon-kitchen"
+    },
+    {
+        "name": "Bathroom",
+        "class": "f-icon-bathroom"
+    },
+    {
+        "name": "Wardrobe",
+        "class": "f-icon-wardrobe"
+    },
+    {
+        "name": "Shoe cabinet",
+        "class": "f-icon-shoe-cabinet"
+    },
+    {
+        "name": "Office",
+        "class": "f-icon-office"
+    },
+    {
+        "name": "Bar sets",
+        "class": "f-icon-bar-set"
+    },
+    {
+        "name": "Lightning",
+        "class": "f-icon-lightning"
+    },
+    {
+        "name": "Carpet",
+        "class": "f-icon-carpet"
+    }
+]

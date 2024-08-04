@@ -1,0 +1,352 @@
+.btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+
+.btn-save {
+    background-color: #4CAF50; /* Màu nền */
+    border: none; /* Loại bỏ viền */
+    color: white; /* Màu chữ */
+    padding: 10px 20px; /* Khoảng cách bên trong */
+    text-align: center; /* Căn giữa văn bản */
+    text-decoration: none; /* Loại bỏ gạch chân */
+    display: inline-block; /* Hiển thị dưới dạng khối nội tuyến */
+    font-size: 16px; /* Kích thước chữ */
+    margin: 4px 2px; /* Khoảng cách ngoài */
+    cursor: pointer; /* Thay đổi con trỏ chuột khi hover */
+    border-radius: 8px; /* Bo góc */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
+    display: none; /* Ẩn nút */
+}
+
+.btn-save:hover {
+    background-color: #45a049; /* Màu nền khi hover */
+}
+
+.btn-save .ti-save {
+    margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+}
+
+.f-icon {
+    font-size: 100px;
+    vertical-align: middle;
+}
+
+.icon-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.icon-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.icon-cell:hover {
+    background-color: #f0f0f0;
+}
+
+.icon-cell.selected {
+    background-color: #7b0000;
+    color: white;
+}
+
+.icon-cell.selected .f-icon {
+    color: white;
+}
+
+#selected-icon-display .f-icon {
+    font-size: 100px;
+}
+
+#icon-grid {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.select-icon-container {
+    display: flex;
+    align-items: center;
+}
+
+#show-icon-grid {
+    background-color: rgb(241, 54, 85);
+    border-color: rgb(241, 54, 85);
+}
+
+.dropzone .dz-preview .dz-image img {
+    width: 100%;
+}
+.image-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.image-list .image-item {
+    display: inline-block;
+    position: relative;
+    margin: 10px; /* Add margin to space out the images */
+}
+.image-list img {
+    width: 100px;
+    height: auto;
+}
+.image-list .image-item .delete-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    text-decoration: none; /* Ensure the link has no underline */
+}
+.product-card {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.product-card:hover {
+    border-color: #ff0000;
+}
+
+.product-image {
+    position: relative;
+}
+
+.product-image img {
+    max-width: 100%;
+}
+
+.product-details {
+    padding: 10px 0;
+}
+
+.product-details span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.selected {
+    border-color: #007bff;
+}
+.custom-file-input ~ .custom-file-label::after {
+    content: "Browse";
+}
+.thumbnail-preview-container img {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+}
+.custom-file-label::after {
+    display: none;
+}
+/* CSS cho các nút chỉnh sửa và xóa */
+.position-relative {
+    position: relative;
+}
+
+.editImageLink,
+.deleteImageLink {
+    position: absolute;
+    font-size: 1.2em;
+    z-index: 10;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.editImageLink {
+    top: 10px;
+    right: 10px;
+    color: #007bff; /* Màu icon cho chỉnh sửa */
+}
+
+.deleteImageLink {
+    top: 10px;
+    right: 40px;
+    color: #dc3545; /* Màu icon cho xóa */
+}
+
+.editImageLink:hover {
+    color: #0056b3; /* Màu icon khi hover cho chỉnh sửa */
+}
+
+.deleteImageLink:hover {
+    color: #c82333; /* Màu icon khi hover cho xóa */
+}
+
+.card {
+    position: relative;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.btn.active {
+    background-color: rgb(0, 218, 247) !important;
+    border-color: rgb(0, 218, 247) !important;
+}
+
+.modal-lg {
+    max-width: 80%;
+}
+
+.modal-body {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #f2f2f2; /* Màu xám */
+}
+
+body {
+    padding-top: 50px;
+}
+.statistics-container {
+    max-width: 800px;
+}
+.statistics-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    color: #fff;
+}
+.statistics-card .card-body {
+    display: flex;
+    align-items: center;
+}
+.statistics-card .card-body i {
+    font-size: 2rem;
+    margin-right: 15px;
+}
+.total-revenue {
+    background-color: #28a745;
+}
+.total-orders {
+    background-color: #007bff;
+}
+.total-vouchers {
+    background-color: #ffc107;
+}
+.total-discount {
+    background-color: #dc3545;
+}
+
+/* js nhập nhiều sản phẩm */
+.selected-card {
+    background-color: lightblue;
+}
+
+/* css home */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Hiển thị 4 cột trên màn hình lớn */
+    gap: 20px;
+    padding: 20px;
+}
+
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff; /* Change text color to white for better contrast */
+}
+
+.feature-1 { background-color: #4CAF50; } /* Green */
+.feature-2 { background-color: #2196F3; } /* Blue */
+.feature-3 { background-color: #FF9800; } /* Orange */
+.feature-4 { background-color: #f44336; } /* Red */
+.feature-5 { background-color: #9C27B0; } /* Purple */
+.feature-6 { background-color: #3F51B5; } /* Indigo */
+.feature-7 { background-color: #FF5722; } /* Deep Orange */
+.feature-8 { background-color: #009688; } /* Teal */
+.feature-9 { background-color: #FFC107; } /* Amber */
+.feature-10 { background-color: #00BCD4; } /* Cyan */
+.feature-11 { background-color: #8BC34A; } /* Light Green */
+.feature-12 { background-color: #795548; } /* Brown */
+
+.grid-item a {
+    text-decoration: none;
+    color: #fff; /* Change link color to white */
+}
+
+.grid-item i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Điều chỉnh layout cho màn hình nhỏ hơn */
+@media (max-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr); /* Hiển thị 3 cột trên màn hình trung bình */
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr); /* Hiển thị 2 cột trên màn hình nhỏ */
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Hiển thị 1 cột trên màn hình rất nhỏ */
+    }
+}
+
+/* lock dev tools */
+.custom-switch .custom-control-input:checked + .custom-control-label .switch-text:before {
+    content: "ON";
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.custom-switch .custom-control-label .switch-text:before {
+    content: "OFF";
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.custom-switch .custom-control-label .switch-text {
+    padding-left: 35px;
+}
+
+.custom-control-input:checked ~ .custom-control-label .switch-text:before {
+    transform: translateX(18px);
+}
+
+.custom-control-input:focus ~ .custom-control-label .switch-text:before {
+    box-shadow: 0 0 0 1px #868e96, 0 0 0 3px rgba(40, 167, 69, 0.25);
+}
