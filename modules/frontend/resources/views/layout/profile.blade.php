@@ -36,17 +36,20 @@
                             {{-- <input type="hidden" name="_token" value="YOUR_CSRF_TOKEN"> --}}
                             {{-- <a href="#" class="edit-avatar" id="uploadImageLink"><i class="icon-copy dw dw-pencil-1"
                                     style="color: red"></i>sss</a> --}}
-                            <a id="uploadImageLink" style="margin: 15px" class="btn btn-default">Update Image</a>
+                            {{--<a id="uploadImageLink" style="margin: 15px" class="btn btn-default">Update Image</a>--}}
                             {{-- <a href="#" id="uploadImageLink">Upload Image</a> --}}
                             <input type="file" id="imageInput" name="image" style="display: none;">
                         </form>
-                        {{-- <a id="uploadImageLink" style="margin: 15px" class="btn btn-default">Update Image</a> --}}
-                        <a href="/editpassword" style="margin: 15px" class="btn btn-default">Change Password</a>
+                        <!-- <a id="uploadImageLink" style="margin: 15px" class="btn btn-default">Update Image</a> -->
+                        <a id="#" style="margin: 15px" class="btn btn-default">Update Image</a>
+                        <!-- <a href="/editpassword" style="margin: 15px" class="btn btn-default">Change Password</a> -->
+                        <a href="#" style="margin: 15px" class="btn btn-default">Change Password</a>
                     </div>
                 </div>
                 <div class="col-md-7" style="    margin-top: 28px;">
                     <div class="row">
-                        <form action="/profile" method="post">
+                    {{--<form action="/profile" method="post">--}}
+                        <form action="#" method="post">
                             @csrf
 
                             <div class="row">
@@ -144,8 +147,8 @@
                                 </div>
 
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-info btn-block">Update
-                                        account</button>
+                                    <lable disabled type="submit" class="btn btn-info btn-block">Update
+                                        account</lable>
                                 </div>
                             </div>
                         </form>

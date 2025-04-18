@@ -89,6 +89,8 @@ class RegisterController extends Controller
             'password' => bcrypt($request->input('password')), // Hash password trước khi lưu vào database
             'phone' => $request->input('phone'),
             'address_id' => $addressId,
+            'locked' => 'normal',
+            "status" => 'active'
         ];
 
         // Lưu user vào database

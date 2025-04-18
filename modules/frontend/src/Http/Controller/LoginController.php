@@ -32,6 +32,7 @@ class LoginController extends Controller
 
                 $request->session()->regenerateToken();
                 return back()->with('no', 'User have been locked !');
+                dd(1);
             }
             return redirect('/')->with('ok', 'Login success !');
         }

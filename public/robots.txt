@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://noithat.aries.id.vn/sitemap.xml

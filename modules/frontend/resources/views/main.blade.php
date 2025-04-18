@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <title>@yield('title', 'Nội Thất Aries')</title>
     @include('frontend::elements.head')
     <style>
         .jq-toast-wrap {

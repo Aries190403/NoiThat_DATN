@@ -7,11 +7,11 @@
         <div class="owl-slider">
 
             <!-- === slide item === -->
-
+            <!--
             <div class="item" style="background-image:url({{ asset('frontend/assets/images/gallery-2.jpg)') }}">
                 <div class="box">
                     <div class="container">
-                        <h2 class="title animated h1" data-animation="fadeInDown">Mobel shop</h2>
+                        <h2 class="title animated h1" data-animation="fadeInDown">Aries shop</h2>
                         <div class="animated" data-animation="fadeInUp">
                             Modern & powerfull template. <br /> Clean design & reponsive
                             layout. Google fonts integration
@@ -23,10 +23,11 @@
                     </div>
                 </div>
             </div>
+            -->
 
             @if ($globalSettings['slideshow_images'] != [])
                 @foreach ($globalSettings['slideshow_images'] as $slide)
-                    <div class="item" style="background-image:url({{ asset($slide['image']) }})">
+                    <div class="item" style="background-image:url({{ asset($slide['image']) }});loadding:'lazy';">
                         <div class="box">
                             <div class="container">
                                 <h2 class="title animated h1" data-animation="fadeInDown">{{ $slide['title'] }}
@@ -37,7 +38,7 @@
                                 </div>
                                 <div class="animated" data-animation="fadeInUp">
                                     <a href="/shop" target="_blank" class="btn btn-main"><i class="icon icon-cart"></i>
-                                        Buy
+                                        Shop
                                         now</a>
                                 </div>
                             </div>
@@ -238,9 +239,14 @@
                                         // Lấy đường dẫn hình ảnh từ mảng
                                         $imgThumbnail =
                                             $contentArray['imgThumbnail'] ?? 'frontend/assets/images/product-1.png';
+                                        // Đường dẫn thực tế trên server
+                                        $imagePath = public_path($imgThumbnail);
+
+                                        // Kiểm tra hình có tồn tại không
+                                        $imgSrc = file_exists($imagePath) ? asset($imgThumbnail) : asset('frontend/assets/images/product-2.png');
                                     @endphp
-                                    <a href="/productdetail/{{ $dt->product_id }}">
-                                        <img src="{{ asset($imgThumbnail) }}" alt="" width="360" />
+                                    <a href="/productdetail/{{ $dt->product_slug }}">
+                                        <img src="{{ asset($imgSrc) }}" alt="{{ $dt->product_name }}" width="360" height="auto" loadding="lazy" />
                                     </a>
                                 </div>
                                 <div class="text">
@@ -373,7 +379,7 @@
                                 </div>
                                 <div class="popup-cell">
                                     <div class="popup-buttons">
-                                        <a href="/productdetail/{{ $dt->product_id }}"><span
+                                        <a href="/productdetail/{{ $dt->product_slug }}"><span
                                                 class="icon icon-eye"></span> <span class="hidden-xs">View more</span></a>
                                         <a href="/buynow/{{ $dt->product_id }}"><span class="icon icon-cart"></span>
                                             <span class="hidden-xs">Buy Now</span></a>
@@ -857,7 +863,7 @@
                         <a href="{{ $globalSettings['facebook_link'] ?? '' }}">
                             <h2 class="h2 title">Follow us <i class="fa fa-facebook fa-2x"></i> Facebook </h2>
                             <div class="text">
-                                <p>Mobel shop</p>
+                                <p>Aries shop</p>
                             </div>
                         </a>
                     </div>
@@ -890,11 +896,87 @@
         </div> <!--/gallery-->
 
     </section>
+     <script>
+         $('.categoryHome').on('click', function() {
+            //   Hành động khi click vào phần tử
+            //   alert("kkk");
+             window.location.href = '/shop';
+         });
+     </script>
+
+    <!-- Demo warning popup -->
+    <div id="demoPopup" class="popup-overlay" style="display: none;">
+        <div class="popup-content-home">
+            <h2>Notice</h2>
+            <p>This is a demo website. All content and features are for demonstration purposes only.</p>
+            <p>
+                You can use the demo account below to explore login and wishlist features:
+            </p>
+            <p style="margin-top: 10px; line-height: 1.6;">
+                <span><strong>Email:</strong> tvh@gmail.com</span>
+                <span><strong>Password:</strong> 123456</span>
+            </p>
+            <button onclick="closePopup()">I Understand</button>
+        </div>
+    </div>
+
+
+    <style>
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .popup-content-home {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-content-home h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #cc9600;
+        }
+
+        .popup-content-home p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .popup-content-home button {
+            padding: 10px 20px;
+            background: #cc9600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .popup-content-home button:hover {
+            background: black;
+        }
+    </style>
+
     <script>
-        $('.categoryHome').on('click', function() {
-            // Hành động khi click vào phần tử
-            // alert("kkk");
-            window.location.href = '/shop';
+        function closePopup() {
+            document.getElementById("demoPopup").style.display = "none";
+            localStorage.setItem("demoPopupSeen", "true");
+        }
+
+        window.addEventListener("load", function () {
+            if (!localStorage.getItem("demoPopupSeen")) {
+                document.getElementById("demoPopup").style.display = "flex";
+            }
         });
     </script>
 @endsection

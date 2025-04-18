@@ -26,6 +26,7 @@ class ShopFrontendController extends Controller
                 'products.id as product_id',
                 'products.category_id',
                 'products.name as product_name',
+                'products.slug as product_slug',
                 'products.price as product_price',
                 'products.stock as total_stock',
                 'products.sale_percentage',
@@ -75,9 +76,10 @@ class ShopFrontendController extends Controller
         return view('frontend::layout.shop', ['data' => $data]);
     }
 
-    public function detail($id = '')
+    public function detail($slug = '')
     {
-        $product = product::find($id);
+
+        $product = Product::where('slug', $slug)->first();
         if($product->status != 'normal' || !$product){
             return response()->view('frontend::error.404', ['title' => 'error'], 403);
         }
@@ -86,7 +88,7 @@ class ShopFrontendController extends Controller
             ->leftJoin('pictures', 'products.id', '=', 'pictures.product_id')
             ->where('pictures.status', 'normal')
             ->leftJoin('materials', 'products.material_id', '=', 'materials.id')
-            ->where('products.id', $id)
+            ->where('products.id', $product->id)
             ->select(
                 //Product
                 'products.id as product_id',
@@ -138,7 +140,7 @@ class ShopFrontendController extends Controller
         $rates = DB::table('rates')
             ->select('rates.*', 'users.name as user_name')
             ->join('users', 'rates.user_id', '=', 'users.id')
-            ->where('rates.product_id', $id)
+            ->where('rates.product_id', $product->id)
             ->where('rates.status', 1)
             ->orderByDesc('rates.id')
             ->get();
@@ -159,6 +161,7 @@ class ShopFrontendController extends Controller
                 'products.id as product_id',
                 'products.category_id',
                 'products.name as product_name',
+                'products.slug as product_slug',
                 'products.price as product_price',
                 'products.stock as total_stock',
                 'products.sale_percentage',

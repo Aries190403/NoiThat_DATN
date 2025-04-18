@@ -16,7 +16,7 @@
                             <a href="{{ $globalSettings['map_link'] ?? '#' }}" class="btn btn-clean"><span
                                     class="icon icon-map-marker"></span> Get directions</a>
                             <div class="call-us h4"><span
-                                    class="icon icon-phone-handset"></span>{{ $globalSettings['phone'] ?? '333.278.06622' }}
+                                    class="icon icon-phone-handset"></span> {{ preg_replace('/^(\d{3})(\d{3})(\d{4})$/', '$1.$2.$3', $globalSettings['phone']) ?? ' 000.000.0000' }}
                             </div>
                         </div>
                     </div>
@@ -75,6 +75,7 @@
                     </div>
                 </div> --}}
             </div>
+            <div style="text-align: center;">© Copyright 2025 by Noi That Aries | Developed by Tran Van Hen. All rights reserved.</div>
         </footer>
 
 

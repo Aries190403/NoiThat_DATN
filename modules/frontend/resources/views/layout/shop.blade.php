@@ -1,6 +1,10 @@
 @extends('frontend::main')
 @section('content')
-    <section class="main-header" style="background-image:url({{ asset('frontend/assets/images/gallery-3.jpg)') }}">
+    @php
+        $slideshowImages = $globalSettings['slideshow_images'] ?? [];
+        $backgroundImage = count($slideshowImages) > 0 ? asset($slideshowImages[0]['image']) : asset('frontend/assets/images/gallery-3.jpg');
+    @endphp
+   <section class="main-header" style="background-image: url('{{ $backgroundImage }}')">
         <header>
             <div class="container">
                 <h1 class="h2 title">Shop</h1>
@@ -189,9 +193,14 @@
                                                     $imgThumbnail =
                                                         $contentArray['imgThumbnail'] ??
                                                         'frontend/assets/images/product-1.png';
+                                                    // Đường dẫn thực tế trên server
+                                                    $imagePath = public_path($imgThumbnail);
+
+                                                    // Kiểm tra hình có tồn tại không
+                                                    $imgSrc = file_exists($imagePath) ? asset($imgThumbnail) : asset('frontend/assets/images/product-2.png');
                                                 @endphp
-                                                <a href="/productdetail/{{ $dt->product_id }}">
-                                                    <img src="{{ asset($imgThumbnail) }}" alt="" width="360" />
+                                                <a href="/productdetail/{{ $dt->product_slug }}">
+                                                    <img src="{{ asset($imgSrc) }}" alt="{{ $dt->product_name }}" width="360" height="auto" loadding="lazy"/>
                                                 </a>
                                             </div>
                                             <div class="text">
@@ -333,7 +342,7 @@
                                             </div>
                                             <div class="popup-cell">
                                                 <div class="popup-buttons">
-                                                    <a href="/productdetail/{{ $dt->product_id }}"><span
+                                                    <a href="/productdetail/{{ $dt->product_slug }}"><span
                                                             class="icon icon-eye"></span> <span class="hidden-xs">View
                                                             more</span></a>
                                                     <a href="/buynow/{{ $dt->product_id }}"><span
@@ -573,8 +582,8 @@
                 }
                 <div class="image">
 
-                    <a href="/productdetail/${product.product_id}">
-                        <img id="product-image-${index}" alt="" width="360" />
+                    <a href="/productdetail/${product.product_slug}">
+                        <img id="product-image-${index}" alt="" width="360" height"auto"/>
                     </a>
                 </div>
                 <div class="text">
@@ -676,8 +685,8 @@
             }
             <div class="image">
 
-                <a href="/productdetail/${product.product_id}">
-                    <img id="product-image-${index}" alt="" width="360" />
+                <a href="/productdetail/${product.product_slug}">
+                    <img id="product-image-${index}" alt="" width="360" height=auto />
                 </a>
             </div>
             <div class="text">

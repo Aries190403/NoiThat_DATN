@@ -62,7 +62,7 @@
                     <!-- Setup your logo here-->
 
                     <a href="/" class="logo"><img src="{{ asset('frontend/assets/images/logo.png') }}"
-                            alt="" /></a>
+                            alt="" width="130px" height="50px" /></a>
 
                     <!-- Mobile toggle menu -->
 
@@ -455,7 +455,7 @@
                         </div> <!--/search-result-items-->
                     </div> <!--/search-results--> --}}
                 </div>
-
+                <script src="https://noithat.aries.id.vn/frontend/js/jquery.min.js"></script>
                 <script>
                     $(document).ready(function() {
                         let timeout = null;
@@ -518,6 +518,77 @@
                             });
                         }
                     });
+
+                    //Cart
+
+                    // $('.categoryHeader').on('click', function() {
+                    //         //         // Hành động khi click vào phần tử
+                    //         //         // alert(window.location.href);
+                    //         //         if (!window.location.href.includes('/shop')) window.location.href = '/shop';
+                    // });
+                    //$(document).ready(function() {
+                            //         function updateCart() {
+                            //             var total = 0;
+                            //             var vatRate = 0; // Example VAT rate (10%)
+
+                            //             $('.cartItem').each(function(index) {
+                            //                 // console.log("Item index:", index);
+
+                            //                 var quantity = parseInt($(this).find('.form-quantity').val());
+                            //                 var price = parseFloat($(this).find('.form-quantity').data('price'));
+                            //                 var salePercentage = parseFloat($(this).find('.form-quantity').data('sale'));
+
+                            //                 var finalPrice = price; // Start with base price
+
+                            //                 if (salePercentage > 0) {
+                            //                     finalPrice = price - (price * (salePercentage / 100));
+                            //                 }
+
+                            //                 var subtotal = finalPrice * quantity;
+                            //                 total += subtotal;
+
+                            //                 // Update displayed price
+                            //                 $(this).find('.price .final').text('$' + finalPrice);
+                            //             });
+
+                            //             // Update VAT
+                            //             var vat = total * vatRate;
+                            //             $('#vat').text('$' + vat.toFixed(2));
+
+                            //             // Update Total
+                            //             var totalPrice = total + vat;
+                            //             $('#total-price').text('$' + totalPrice.toFixed(2));
+                            //         }
+
+                            //         // Initial calculation on page load
+                            //         updateCart();
+
+                            //         // Event listener for quantity change
+                            //         $('.form-quantity').on('input', function() {
+                            //             updateCart();
+                            //         });
+                            //     });
+                 
+                            //     $(document).ready(function() {
+                            //         $('.form-quantity').on('change', function() {
+                            //             const quantity = $(this).val();
+                            //             const cartItemId = $(this).data('id');
+                            //             $.ajax({
+                            //                 url: `/cart/update-quantity/${cartItemId}/${quantity}`,
+                            //                 type: 'post',
+                            //                 dataType: 'json',
+                            //                 data: {
+                            //                     _token: '{{ csrf_token() }}'
+                            //                 },
+                            //                 success: function(data) {
+                            //                     console.log("success");
+                            //                 },
+                            //                 error: function(error) {
+                            //                     console.error('Error:', error);
+                            //                 }
+                            //             });
+                            //         });
+                            //     });
                 </script>
 
                 <!-- ==========  Login wrapper ========== -->
@@ -555,7 +626,7 @@
                     @guest
                         <!-- User is not authenticated, show login form -->
                         <form action="/login" method="POST">
-                            @csrf
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="h4">Sign in</div>
                             <div class="form-group">
                                 <input type="email" name="email" class="form-control" id="exampleInputEmail1"
@@ -675,80 +746,6 @@
                                     <p>Your cart is empty.</p>
                                 @endif
                             </div>
-                            <script>
-                                $(document).ready(function() {
-                                    function updateCart() {
-                                        var total = 0;
-                                        var vatRate = 0; // Example VAT rate (10%)
-
-                                        $('.cartItem').each(function(index) {
-                                            // console.log("Item index:", index);
-
-                                            var quantity = parseInt($(this).find('.form-quantity').val());
-                                            var price = parseFloat($(this).find('.form-quantity').data('price'));
-                                            var salePercentage = parseFloat($(this).find('.form-quantity').data('sale'));
-
-                                            var finalPrice = price; // Start with base price
-
-                                            if (salePercentage > 0) {
-                                                finalPrice = price - (price * (salePercentage / 100));
-                                            }
-
-                                            var subtotal = finalPrice * quantity;
-                                            total += subtotal;
-
-                                            // Update displayed price
-                                            $(this).find('.price .final').text('$' + finalPrice);
-                                        });
-
-                                        // Update VAT
-                                        var vat = total * vatRate;
-                                        $('#vat').text('$' + vat.toFixed(2));
-
-                                        // Update Total
-                                        var totalPrice = total + vat;
-                                        $('#total-price').text('$' + totalPrice.toFixed(2));
-                                    }
-
-                                    // Initial calculation on page load
-                                    updateCart();
-
-                                    // Event listener for quantity change
-                                    $('.form-quantity').on('input', function() {
-                                        updateCart();
-                                    });
-                                });
-                            </script>
-                            <script>
-                                $(document).ready(function() {
-                                    $('.form-quantity').on('change', function() {
-                                        const quantity = $(this).val();
-                                        const cartItemId = $(this).data('id');
-                                        $.ajax({
-                                            url: `/cart/update-quantity/${cartItemId}/${quantity}`,
-                                            type: 'post',
-                                            dataType: 'json',
-                                            data: {
-                                                _token: '{{ csrf_token() }}'
-                                            },
-                                            success: function(data) {
-                                                console.log("success");
-                                            },
-                                            error: function(error) {
-                                                console.error('Error:', error);
-                                            }
-                                        });
-                                    });
-                                });
-                            </script>
-
-                            <script>
-                                $('.categoryHeader').on('click', function() {
-                                    // Hành động khi click vào phần tử
-                                    // alert(window.location.href);
-                                    if (!window.location.href.includes('/shop')) window.location.href = '/shop';
-                                });
-                            </script>
                         </div>
                     </div> <!--/cart-wrapper-->
                 </div> <!--/container-->

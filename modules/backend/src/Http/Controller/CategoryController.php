@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $icons = json_decode(File::get($path), true);
         $types = config('backendconfig.types');
         $products = product::where('status', '!=', DataType::DELETED_DATA_TYPE)->get();
-        return view('backend::category.index', ['title' => $title, 'categories' => $categories, 'icons' => $icons, 'types' => $types, 'products' => $products]);
+        return view('backend::Category.index', ['title' => $title, 'categories' => $categories, 'icons' => $icons, 'types' => $types, 'products' => $products]);
     }
 
     public function Create(Request $request)

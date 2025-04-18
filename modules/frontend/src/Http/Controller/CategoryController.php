@@ -20,6 +20,7 @@ class CategoryController extends Controller
                 'products.id as product_id',
                 'products.category_id',
                 'products.name as product_name',
+                'products.slug as product_slug',
                 'products.price as product_price',
                 'products.stock as total_stock',
                 'products.sale_percentage',

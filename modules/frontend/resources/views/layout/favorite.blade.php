@@ -55,13 +55,13 @@
                                             $imgThumbnail =
                                                 $contentArray['imgThumbnail'] ?? 'frontend/assets/images/product-1.png';
                                         @endphp
-                                        <a href="/productdetail/{{ $dt->id }}">
+                                        <a href="/productdetail/{{ $dt->slug }}">
                                             <img src="{{ asset($imgThumbnail) }}" alt="" width="360" />
                                         </a>
                                     </div>
                                     <div class="text">
                                         <h2 class="title h4"><a
-                                                href="/productdetail/{{ $dt->id }}">{{ $dt->name }}</a>
+                                                href="/productdetail/{{ $dt->slug }}">{{ $dt->name }}</a>
                                         </h2>
                                         <sup>$ {{ $dt->price }}</sup>
                                         <span class="description clearfix">{{ $dt->description }}</span>

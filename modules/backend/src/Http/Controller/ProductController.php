@@ -8,7 +8,7 @@ use App\Models\log;
 use App\Models\material;
 use App\Models\picture;
 use App\Models\product;
-use App\Models\supplier;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +27,7 @@ class ProductController extends Controller
         $types = Category::where('status', DataType::NORMAL_DATA_TYPE)->where('type', 'Product_Types')->get();
         $Products = product::where('status', '!=', DataType::DELETED_DATA_TYPE)->get();
         $materials = material::where('status', DataType::NORMAL_DATA_TYPE)->get();
-        $suppliers = supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
+        $suppliers = Supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
         return view('backend::product.index', ['title' => $title, 'products' => $Products, 'types' => $types, 'materials' => $materials, 'suppliers' => $suppliers]);
     }
 
@@ -35,6 +35,7 @@ class ProductController extends Controller
     {
         $product = new Product();
         $product->name = $request->input('name');
+        $product->slug = Str::slug($request->input('name'), '-');
         $product->category_id = $request->input('type');
         $product->price = $request->input('price');
         $product->material_id = $request->input('material');
@@ -69,7 +70,7 @@ class ProductController extends Controller
         }
         $materials = material::where('status', DataType::NORMAL_DATA_TYPE)->get();
         $images = picture::where('product_id', $id)->where('status', DataType::NORMAL_DATA_TYPE)->get();
-        $suppliers = supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
+        $suppliers = Supplier::where('status', DataType::NORMAL_DATA_TYPE)->get();
 
         $logs = log::where('product_id', $id)->get();
 
@@ -79,7 +80,7 @@ class ProductController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
+    {   
         try {
             $product = Product::find($id);
             if (!$product || $product->status === DataType::DELETED_DATA_TYPE) {
@@ -97,6 +98,14 @@ class ProductController extends Controller
                 if ($newValue !== null && $product->$field != $newValue) {
                     $changes[] = ucfirst($field) . " changed from " . $product->$field . " to " . $newValue;
                     $product->$field = $newValue;
+
+                    if ($field === 'name') {
+                        $newSlug = Str::slug($newValue);
+                        if ($product->slug !== $newSlug) {
+                            $product->slug = $newSlug;
+                            $changes[] = "Slug updated to " . $newSlug;
+                        }
+                    }
                 }
             }
         
@@ -109,11 +118,13 @@ class ProductController extends Controller
             }
         
             $newMaterialId = $request->input('material');
-            if ($newMaterialId !== null && $product->material_id != $newMaterialId) {
-                $oldMaterialName = $product->material->name;
-                $newMaterialName = Material::find($newMaterialId)->name;
+            $oldMaterialName = optional($product->material)->name ?? 'N/A';
+            $newMaterial = Material::find($newMaterialId);
+            $newMaterialName = optional($newMaterial)->name ?? 'N/A';
+
+            if ($newMaterial && $product->material_id != $newMaterialId) {
                 $changes[] = "Material changed from " . $oldMaterialName . " to " . $newMaterialName;
-                $product->material_id = $request->input('material');
+                $product->material_id = $newMaterialId;
             }
         
             $content = json_decode($product->content, true);

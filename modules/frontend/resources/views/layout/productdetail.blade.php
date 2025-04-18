@@ -1,3 +1,6 @@
+@section('title', $data->product_name . ' - Nội Thất Aries')
+@section('meta_description', 'Chi tiết sản phẩm ' . $data->product_name . '. Mua ngay với giá ' . number_format($data->product_price) . '$ tại Nội Thất Aries.')
+@section('meta_keywords', $data->product_name . ', sản phẩm, ' . $data->materials_type)
 @extends('frontend::main')
 @section('content')
     <!-- ========================  Main header ======================== -->
@@ -139,7 +142,7 @@
                                 <!-- === info-box === -->
 
                                 <div class="info-box">
-                                    <span><strong>Choose size</strong></span>
+                                    <span><strong>Size</strong></span>
                                     @php
                                         $rawString = $data->product_content;
 
@@ -154,14 +157,14 @@
 
                                         if ($size) {
                                             // Chuyển đổi định dạng
-                                            $formattedArray[] = "{$size['height']}x{$size['length']}x{$size['width']}";
+                                            $formattedArray[] = "{$size['height']} x {$size['length']} x {$size['width']}";
                                         }
                                     @endphp
 
                                     <div class="product-colors clearfix">
                                         @foreach ($formattedArray as $formattedDimension)
                                             <span
-                                                class="color-btn color-btn-biege size12345">{{ $formattedDimension }}</span>
+                                                class="size12345">{{ $formattedDimension }}(cm)</span>
                                         @endforeach
                                     </div>
                                 </div>
@@ -190,7 +193,7 @@
                                 $contentArray = json_decode($data->product_content, true);
 
                                 // Lấy đường dẫn hình ảnh từ mảng
-                                $imgThumbnail = $contentArray['imgThumbnail'] ?? 'frontend/assets/images/product-1.png';
+                                $imgThumbnail = $contentArray['imgThumbnail'] ?? 'frontend/assets/images/product-2.png';
                             @endphp
                             <a href="{{ asset($imgThumbnail) }}"><img src="{{ asset($imgThumbnail) }}" alt=""
                                     height="500" /></a>
@@ -217,7 +220,7 @@
                 <div class="row">
                     <!-- === nav-tabs === -->
 
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
                                 <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
@@ -265,6 +268,7 @@
                                 <!-- ============ ratings ============ -->
 
                                 <div class="content">
+                                    @if (isset($rates) && $rates->count() > 0)
                                     <h3>Rating</h3>
 
                                     <div class="row">
@@ -279,7 +283,6 @@
 
                                                 <div class="comment-wrapper">
 
-                                                    @if (isset($rates) && $rates->count() > 0)
                                                         @foreach ($rates as $rate)
                                                             <div class="comment-block">
                                                                 <div class="comment-user">
@@ -313,9 +316,7 @@
                                                                 </div>
                                                             </div>
                                                         @endforeach
-                                                    @else
-                                                        <p>No reviews available.</p>
-                                                    @endif
+                                                    
                                                     {{-- <div class="comment-block">
                                                         <div class="comment-user">
                                                             <div><img src="assets/images/user-2.jpg" alt="Alternate Text"
@@ -446,6 +447,14 @@
                                         </div>
 
                                     </div> <!--/row-->
+                                    @else
+                                        <div class="col-md-8">
+                                           
+                                            <p>
+                                                No priview.
+                                            </p>
+                                        </div>             
+                                    @endif
                                 </div> <!--/content-->
                             </div> <!--/tab-pane-->
                         </div> <!--/tab-content-->

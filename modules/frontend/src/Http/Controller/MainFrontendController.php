@@ -24,6 +24,7 @@ class MainFrontendController extends Controller
                 'products.id as product_id',
                 'products.category_id',
                 'products.name as product_name',
+                'products.slug as product_slug',
                 'products.price as product_price',
                 'products.stock as total_stock',
                 'products.sale_percentage',
@@ -68,7 +69,12 @@ class MainFrontendController extends Controller
             )
             ->where('products.status', 'normal')
             ->orderBy('products.id', 'DESC')
-            ->paginate(6);
+            ->get()
+            ->chunk(7)
+            ->map(function ($group) {
+                return $group->first();
+            })
+            ->take(6); 
         if (Auth::check()) {
             $userId = Auth::user()->id;
             $cart = cart::where('user_id', $userId)->get();
