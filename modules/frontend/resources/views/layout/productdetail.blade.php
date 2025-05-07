@@ -451,7 +451,7 @@
                                         <div class="col-md-8">
                                            
                                             <p>
-                                                No priview.
+                                                No preview.
                                             </p>
                                         </div>             
                                     @endif

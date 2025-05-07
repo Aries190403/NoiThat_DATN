@@ -6,7 +6,7 @@
 <!-- Mobile Web-app fullscreen -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="google-site-verification" content="fIoW1Vdk57ygJE27OMFF5uwjBmcgNfR208U84RGxQiU" />
+<meta name="google-site-verification" content="Itgl_K34aykcRse50lCQ_J3IwQjMiJ7bzkxeA-bgv78" />
 
 <!-- SEO Meta tags -->
 <meta name="keywords" content="nội thất, Nội Thất Aries, nội thất aries, aries, Aries, Nội Thất">
@@ -95,6 +95,16 @@
         }
     ]
     }
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1BX4GGEMW0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-1BX4GGEMW0');
 </script>
 
 
