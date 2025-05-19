@@ -252,7 +252,13 @@
                                 <div class="text">
                                     <h2 class="title h4"><a
                                             href="#productid{{ $dt->product_id }}">{{ $dt->product_name }}</a></h2>
-                                    <sup>$ {{ $dt->product_price }}</sup>
+                                    @if (isset($dt->sale_percentage))
+                                        <sub>$ {{ $dt->product_price }}</sub>
+                                        <br>
+                                        <sup>$ {{ $dt->product_price - $dt->product_price * ($dt->sale_percentage * 0.01) }}</sup>
+                                    @else
+                                        <sup>$ {{ $dt->product_price }}</sup>
+                                    @endif
                                     <span class="description clearfix">{{ $dt->product_description }}</span>
                                 </div>
                             </div>

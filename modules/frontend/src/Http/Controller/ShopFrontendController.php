@@ -80,8 +80,8 @@ class ShopFrontendController extends Controller
     {
 
         $product = Product::where('slug', $slug)->first();
-        if($product->status != 'normal' || !$product){
-            return response()->view('frontend::error.404', ['title' => 'error'], 403);
+        if(!$product || $product->status != 'normal'){
+            return response()->view('frontend::error.404', ['title' => 'error'], 404);
         }
         $data = DB::table('products')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')

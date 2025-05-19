@@ -208,7 +208,7 @@
                                                         href="#productid{{ $dt->product_id }}">{{ $dt->product_name }}</a>
                                                 </h2>
                                                 @if (isset($dt->sale_percentage))
-                                                    <sub>$ {{ $dt->product_price }}</sub>
+                                                    <sub>$ {{ $dt->product_price }}</sub><br>
                                                     <sup>$
                                                         {{ $dt->product_price - $dt->product_price * ($dt->sale_percentage * 0.01) }}</sup>
                                                 @else
@@ -260,9 +260,9 @@
 
                                                     <div class="col-sm-6">
                                                         <!-- <div class="info-box">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <strong>Maifacturer</strong>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span>Brand name</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
+                                                            <strong>Maifacturer</strong>
+                                                            <span>Brand name</span>
+                                                        </div> -->
                                                         <div class="info-box">
                                                             <strong>Materials</strong>
                                                             <span>{{ $dt->materials_type }}</span>
@@ -394,9 +394,9 @@
 
                                                     <div class="col-sm-6">
                                                         <!-- <div class="info-box">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <strong>Maifacturer</strong>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <span>Brand name</span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div> -->
+                                                            <strong>Maifacturer</strong>
+                                                            <span>Brand name</span>
+                                                        </div> -->
                                                         <div class="info-box">
                                                             <strong>Materials</strong>
                                                             <span>{{ $dt->materials_type }}</span>
@@ -559,44 +559,44 @@
 
                 // Construct product item HTML
                 productItem.innerHTML = `
-        <article>
-            <div class="info">
-                ${ product.favorites ?
-                    `<span class="add-favorite">
-                                                                                                                                                                                                                                                                                                    <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
-                                                                                                                                                                                                                                                                                                        <i class="icon icon-heart" style="background-color: #e71d36;"></i>
-                                                                                                                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                                                                                                                </span>` :
-                    `<span class="add-favorite">
-                                                                                                                                                                                                                                                                                                    <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
-                                                                                                                                                                                                                                                                                                        <i class="icon icon-heart"></i>
-                                                                                                                                                                                                                                                                                                    </a>
-                                                                                                                                                                                                                                                                                                </span>`
-                }
-            </div>
-            <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
-            <div class="figure-grid">
-                ${ product.sale_percentage ?
-                    `<span class="label label-info">-${product.sale_percentage}%</span>` :
-                    ''
-                }
-                <div class="image">
+                    <article>
+                        <div class="info">
+                            ${ product.favorites ?
+                                `<span class="add-favorite">
+                                    <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
+                                        <i class="icon icon-heart" style="background-color: #e71d36;"></i>
+                                    </a>
+                                </span>` :
+                                `<span class="add-favorite">
+                                    <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
+                                        <i class="icon icon-heart"></i>
+                                    </a>
+                                </span>`
+                            }
+                        </div>
+                        <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
+                        <div class="figure-grid">
+                            ${ product.sale_percentage ?
+                                `<span class="label label-info">-${product.sale_percentage}%</span>` :
+                                ''
+                            }
+                            <div class="image">
 
-                    <a href="/productdetail/${product.product_slug}">
-                        <img id="product-image-${index}" alt="" width="360" height"auto"/>
-                    </a>
-                </div>
-                <div class="text">
-                    <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
-                    ${ product.sale_percentage ?
-                        `<sub>$ ${product.product_price}</sub>
-                                                                                                                                                                                                                                                                                                    <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
-                        `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
-                    }
-                    <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
-                </div>
-            </div>
-        </article>`;
+                                <a href="/productdetail/${product.product_slug}">
+                                    <img id="product-image-${index}" alt="" width="360" height"auto"/>
+                                </a>
+                            </div>
+                            <div class="text">
+                                <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
+                                ${ product.sale_percentage ?
+                                    `<sub>$ ${product.product_price}</sub><br>
+                                    <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
+                                    `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
+                                }
+                                <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
+                            </div>
+                        </div>
+                    </article>`;
 
                 // Append elements to the container
                 productListContainer.appendChild(productItem);
@@ -662,44 +662,44 @@
                 let imgSrc = baseAssetPath + img;
                 // Construct product item HTML
                 productItem.innerHTML = `
-    <article>
-        <div class="info">
-            ${ product.favorites ?
-                `<span class="add-favorite">
-                                                                                                                                                                                                                                                                            <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
-                                                                                                                                                                                                                                                                                <i class="icon icon-heart" style="background-color: #e71d36;"></i>
-                                                                                                                                                                                                                                                                            </a>
-                                                                                                                                                                                                                                                                        </span>` :
-                `<span class="add-favorite">
-                                                                                                                                                                                                                                                                            <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
-                                                                                                                                                                                                                                                                                <i class="icon icon-heart"></i>
-                                                                                                                                                                                                                                                                            </a>
-                                                                                                                                                                                                                                                                        </span>`
-            }
-        </div>
-        <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
-        <div class="figure-grid">
-            ${ product.sale_percentage ?
-                `<span class="label label-info">-${product.sale_percentage}%</span>` :
-                ''
-            }
-            <div class="image">
+                    <article>
+                        <div class="info">
+                            ${ product.favorites ?
+                                `<span class="add-favorite">
+                                    <a href="/removefavorite/${product.product_id}" data-title="Remove to favorites list" style="background-color: #e71d36;">
+                                        <i class="icon icon-heart" style="background-color: #e71d36;"></i>
+                                    </a>
+                                </span>` :
+                                `<span class="add-favorite">
+                                    <a href="/addfavorite/${product.product_id}" data-title="Add to favorites" data-title-added="Added to favorites list">
+                                        <i class="icon icon-heart"></i>
+                                    </a>
+                                </span>`
+                            }
+                        </div>
+                        <a href="/add/${product.product_id}" class="btn btn-add mfp-open"><i class="icon icon-cart"></i></a>
+                        <div class="figure-grid">
+                            ${ product.sale_percentage ?
+                                `<span class="label label-info">-${product.sale_percentage}%</span>` :
+                                ''
+                            }
+                            <div class="image">
 
-                <a href="/productdetail/${product.product_slug}">
-                    <img id="product-image-${index}" alt="" width="360" height=auto />
-                </a>
-            </div>
-            <div class="text">
-                <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
-                ${ product.sale_percentage ?
-                    `<sub>$ ${product.product_price}</sub>
-                                                                                                                                                                                                                                                                            <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
-                    `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
-                }
-                <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
-            </div>
-        </div>
-    </article>`;
+                                <a href="/productdetail/${product.product_slug}">
+                                    <img id="product-image-${index}" alt="" width="360" height=auto />
+                                </a>
+                            </div>
+                            <div class="text">
+                                <h2 class="title h4"><a href="#productid${product.product_id}">${product.product_name}</a></h2>
+                                ${ product.sale_percentage ?
+                                    `<sub>$ ${product.product_price}</sub><br>
+                                    <sup>$ ${product.product_price - (product.product_price * (product.sale_percentage * 0.01))}</sup>` :
+                                    `<sub style="text-decoration: none;">$ ${product.product_price}</sub>`
+                                }
+                                <span class="description clearfix">${product.product_description ? product.product_description : ''}</span>
+                            </div>
+                        </div>
+                    </article>`;
 
                 // Append elements to the container
                 productListContainer.appendChild(productItem);
